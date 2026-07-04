@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────────────────────
+   SmartCart AI — Material Design 3 Inspired Design Tokens
+   Primary: Green  |  Secondary: Orange  |  Tertiary: Teal
+   ─────────────────────────────────────────────────────────── */
+
+/* ── Tailwind v4 Theme Extension ────────────────────────── */
+@theme inline {
+  /* Fonts */
+  --font-sans: 'Inter', var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* ── Primary (Green) ── */
+  --color-primary: #1B7A3D;
+  --color-primary-light: #43A047;
+  --color-primary-dark: #145A2C;
+  --color-primary-container: #D4F5DE;
+  --color-on-primary: #FFFFFF;
+  --color-on-primary-container: #0A3D1E;
+
+  /* ── Secondary (Orange) ── */
+  --color-secondary: #F57C00;
+  --color-secondary-light: #FFB74D;
+  --color-secondary-dark: #E65100;
+  --color-secondary-container: #FFE0B2;
+  --color-on-secondary: #FFFFFF;
+  --color-on-secondary-container: #3E2723;
+
+  /* ── Tertiary (Teal) ── */
+  --color-tertiary: #00897B;
+  --color-tertiary-container: #B2DFDB;
+  --color-on-tertiary: #FFFFFF;
+
+  /* ── Surfaces ── */
+  --color-background: #FAFDF7;
+  --color-surface: #FFFFFF;
+  --color-surface-dim: #F2F5EF;
+  --color-surface-container: #F5F8F2;
+  --color-surface-container-high: #EAEDE5;
+  --color-surface-container-highest: #E0E3DC;
+  --color-on-surface: #1A1C19;
+  --color-on-surface-variant: #6B7169;
+
+  /* ── Outlines ── */
+  --color-outline: #C1C7BF;
+  --color-outline-variant: #E0E4DD;
+
+  /* ── Error ── */
+  --color-error: #BA1A1A;
+  --color-error-container: #FFDAD6;
+  --color-on-error: #FFFFFF;
+  --color-on-error-container: #410002;
+
+  /* ── Shadows ── */
+  --shadow-elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-elevation-2: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-elevation-3: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.06);
+  --shadow-elevation-4: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+
+  /* ── Border Radius (MD3 tokens) ── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+}
+
+/* ── Base Styles ────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar Styling ────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-outline);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-on-surface-variant);
+}
+
+/* ── Utility Classes ──────────────────────────────────── */
+
+/* MD3-style card */
+.card-elevated {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevation-1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-elevation-2);
+  transform: translateY(-1px);
+}
+
+.card-filled {
+  background-color: var(--color-surface-container);
+  border-radius: var(--radius-md);
+}
+
+.card-outlined {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+}
+
+/* MD3-style button */
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-filled:hover {
+  box-shadow: var(--shadow-elevation-1);
+  filter: brightness(1.05);
+}
+
+.btn-filled:active {
+  transform: scale(0.97);
+}
+
+.btn-tonal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-tonal:hover {
+  box-shadow: var(--shadow-elevation-1);
+}
+
+.btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 14px;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-outline);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-outlined:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* ── MD3 Chip ──────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  background-color: var(--color-surface-container);
+}
+
+.chip-selected {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  border-color: var(--color-primary-container);
+}
+
+/* ── Gradient Backgrounds ─────────────────────────────── */
+
+.gradient-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-container) 0%,
+    var(--color-background) 50%,
+    var(--color-secondary-container) 100%
+  );
+}
+
+/* ── Animations ─────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container) 25%,
+    var(--color-surface-container-high) 50%,
+    var(--color-surface-container) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ── Badge ───────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.badge-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-on-secondary);
+}
+
+.badge-error {
+  background-color: var(--color-error);
+  color: var(--color-on-error);
+}
+
+/* ── Scrollbar Hide (for carousels) ─────────────────────── */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Line Clamp Utilities ───────────────────────────────── */
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
