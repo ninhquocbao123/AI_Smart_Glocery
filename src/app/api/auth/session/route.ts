@@ -1,9 +1,10 @@
+import { isAdminUser } from "@/lib/server/roles";
 import { currentUser, deleteSession } from "@/lib/session";
 export async function GET() {
   try {
     const user = await currentUser();
     return Response.json({
-      user: user ? { ...user.toObject(), id: String(user._id) } : null,
+      user: user ? { ...user.toObject(), id: String(user._id), isAdmin: isAdminUser(user) } : null,
     });
   } catch {
     return Response.json(

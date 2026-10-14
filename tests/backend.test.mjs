@@ -257,3 +257,127 @@ test("order replay returns the existing order and rejects reuse with changed pay
   assert.equal((await placeOrder("user", data)).orderId, "existing");
   assert.throws(() => validateCheckout({ ...data, expectedTotal: -1 }));
 });
+
+
+test("MoMo creates a signed sandbox checkout with server total and order-specific return URL", async () => {
+  let sent;
+  const env = { MOMO_ENV: "sandbox", MOMO_PARTNER_CODE: "TEST_PARTNER", MOMO_ACCESS_KEY: "TEST_ACCESS", MOMO_SECRET_KEY: "TEST_SECRET", APP_URL: "https://grocery.example.test" };
+  const provider = loader({ "./http": http, fetch: async (url, options) => {
+    assert.equal(url, "https://test-payment.momo.vn/v2/gateway/api/create");
+    sent = JSON.parse(options.body);
+    return Response.json({ resultCode: 0, partnerCode: sent.partnerCode, orderId: sent.orderId, requestId: sent.requestId, amount: sent.amount, payUrl: "https://test-payment.momo.vn/v2/gateway/pay?t=test" });
+  } }, env)("src/lib/server/providers.ts");
+  const order = {orderId:"SG-test",total:50000,paymentMethod:"momo",payment:{reference:"SG-reference",requestId:"request-id",orderCode:123,environment:"sandbox"}};
+  assert.equal(new URL(await provider.createPayment(order)).hostname, "test-payment.momo.vn");
+  assert.equal(sent.amount, 50000);
+  assert.equal(sent.redirectUrl, "https://grocery.example.test/orders?paymentOrder=SG-test");
+  assert.equal(sent.ipnUrl, "https://grocery.example.test/api/payments/momo/webhook");
+  assert.equal(sent.requestType, "captureWallet");
+  assert.equal(sent.autoCapture, true);
+  const {signature, autoCapture, lang, ...fields} = sent;
+  assert.equal(signature, signFields(fields, env.MOMO_SECRET_KEY));
+  assert.equal(autoCapture, true); assert.equal(lang, "vi");
+  await assert.rejects(() => provider.createPayment({...order,payment:{...order.payment,environment:"production"}}), /môi trường/);
+});
+
+test("MoMo rejects mismatched merchant response without accepting its checkout URL", async () => {
+  const provider = loader({"./http":http, fetch:async()=>Response.json({resultCode:0,partnerCode:"WRONG",orderId:"ref",requestId:"req",amount:50000,payUrl:"https://test-payment.momo.vn/pay"})}, {MOMO_ENV:"sandbox",MOMO_PARTNER_CODE:"PARTNER",MOMO_ACCESS_KEY:"ACCESS",MOMO_SECRET_KEY:"SECRET",APP_URL:"https://grocery.example.test"})("src/lib/server/providers.ts");
+  await assert.rejects(() => provider.createPayment({orderId:"order",total:50000,paymentMethod:"momo",payment:{reference:"ref",requestId:"req",orderCode:123,environment:"sandbox"}}), /MoMo chưa tạo/);
+});
+
+test('admin recipe validation derives totals and binds measures to generated ingredient IDs', () => {
+  const parse = loader({'./http': http})('src/lib/server/recipe-input.ts').recipeInput;
+  const recipe = structuredClone(load('src/data/mockData.ts').recipes[0]);
+  recipe.totalPrice = 1;
+  const result = parse(recipe, 'recipe-new');
+  assert.equal(result.totalPrice, result.ingredients.reduce((s,i)=>s+i.price*i.quantity,0));
+  assert.equal(result.cookingGuide.baseServings, recipe.servings);
+  assert.equal(result.cookingGuide.measures[0].ingredientId, result.ingredients[0].id);
+  assert.notEqual(result.ingredients[0].id, recipe.ingredients[0].id);
+  const existing = parse(recipe, recipe.id, recipe);
+  assert.equal(existing.ingredients[0].id, recipe.ingredients[0].id);
+  assert.throws(()=>parse({...recipe,image:'https://attacker.example/x.svg'},'new'), {status:400});
+  assert.throws(()=>parse({...recipe,ingredients:[{...recipe.ingredients[0],price:-1}]},'new'), {status:400});
+  assert.throws(()=>parse({...recipe,cookingGuide:{...recipe.cookingGuide,measures:[]}},'new'), {status:400});
+  assert.throws(()=>parse({...recipe,cookingGuide:{...recipe.cookingGuide,steps:[]}},'new'), {status:400});
+});
+
+test('admin role requires server role or explicit server allowlist', () => {
+  const {isAdminUser} = loader({}, {ADMIN_USER_IDS:'legacy-id'})('src/lib/server/roles.ts');
+  assert.equal(isAdminUser(null), false);
+  assert.equal(isAdminUser({_id:'normal',role:'user',isAdmin:true}), false);
+  assert.equal(isAdminUser({_id:'admin',role:'admin'}), true);
+  assert.equal(isAdminUser({_id:'legacy-id'}), true);
+});
+
+test('recipe management rejects unauthenticated and ordinary users before database access', async () => {
+  for (const status of [401,403]) {
+    const common = {...http, sameOrigin:()=>{}, adminRequired:async()=>{throw new ApiError(status,'denied');}, fail:e=>Response.json({}, {status:e.status})};
+    const routes = loader({'@/lib/server/http':common,'./http':common})('src/app/api/admin/recipes/route.ts');
+    assert.equal((await routes.GET()).status,status);
+    for(const method of ['POST','PUT','PATCH']) assert.equal((await routes[method](new Request('http://localhost/api/admin/recipes',{method}))).status,status);
+    const image = loader({'@/lib/server/http':common})('src/app/api/admin/images/route.ts');
+    assert.equal((await image.POST(new Request('http://localhost/api/admin/images',{method:'POST'}))).status,status);
+  }
+});
+
+test('public catalog excludes hidden recipes at the database query', async () => {
+  let filter;
+  const db = {collection:name=>({find:query=>{ if(name==='recipes')filter=query; return {toArray:async()=>[]}; }})};
+  const mod = loader({'@/lib/mongodb':{__esModule:true,default:async()=>{}},mongoose:{__esModule:true,default:{connection:{db}}}})('src/lib/server/catalog-data.ts');
+  await mod.readCatalog();
+  assert.equal(filter.active.$ne,false);
+});
+
+test('admin upload normalizes an image and the public endpoint serves identical bytes', async()=>{
+  let stored;
+  const db={collection:()=>({insertOne:async row=>{stored=row;},findOne:async()=>({...stored,data:{buffer:stored.data}})})};
+  const common={...http,sameOrigin:()=>{},adminRequired:async()=>({_id:'admin'}),rateLimit:async()=>{},fail:e=>Response.json({}, {status:e.status??503})};
+  const stubs={'@/lib/server/http':common,'@/lib/mongodb':{__esModule:true,default:async()=>{}},mongoose:{__esModule:true,default:{connection:{db}}}};
+  const upload=loader(stubs)('src/app/api/admin/images/route.ts');
+  const png=await require('sharp')({create:{width:8,height:8,channels:3,background:'#008800'}}).png().toBuffer();
+  const response=await upload.POST(new Request('http://localhost/api/admin/images',{method:'POST',headers:{'content-type':'image/png'},body:png}));
+  assert.equal(response.status,201);
+  assert.equal((await require('sharp')(stored.data).metadata()).format,'webp');
+  const read=loader(stubs)('src/app/api/images/[id]/route.ts');
+  const served=await read.GET(new Request('http://localhost'),{params:Promise.resolve({id:stored.id})});
+  assert.equal(served.headers.get('content-type'),'image/webp');
+  assert.deepEqual(Buffer.from(await served.arrayBuffer()),stored.data);
+  const invalid=await upload.POST(new Request('http://localhost/api/admin/images',{method:'POST',headers:{'content-type':'image/png'},body:'not an image'}));
+  assert.equal(invalid.status,400);
+});
+
+test('assistant answers website questions and retrieves recipe instructions without inventing dishes',()=>{
+  const assistant=load('src/lib/assistant.ts');
+  const recipes=load('src/data/mockData.ts').recipes;
+  const food=assistant.localAnswer('Cách nấu canh bí xanh?',recipes);
+  assert.match(food.answer,/Nguyên liệu:/);
+  assert.match(food.answer,/Cùng vào bếp:/);
+  assert.equal(food.links[0].href,'/meal-plan/recipe-013');
+  assert.equal(assistant.localAnswer('Thanh toán MoMo thế nào?',recipes).links[0].href,'/orders');
+  assert.match(assistant.localAnswer('Hỏi về hành tinh Sao Hỏa',recipes).answer,/chưa có đủ thông tin/);
+});
+
+test('assistant API supports grounded fallback and authenticated AI responses',async()=>{
+  const recipes=load('src/data/mockData.ts').recipes;
+  const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},userRequired:async()=>({_id:'user',email:'private@example.com',password:'private'}),body:req=>req.json(),fail:e=>Response.json({message:e.message},{status:e.status??503})};
+  const stubs={'@/lib/server/http':common,'@/lib/server/catalog-data':{readCatalog:async()=>({recipes})}};
+  const request=(body)=>new Request('http://localhost/api/assistant',{method:'POST',body:JSON.stringify(body)});
+  const fallback=loader(stubs)('src/app/api/assistant/route.ts');
+  assert.equal((await (await fallback.POST(request({message:'My Budget là gì?'}))).json()).source,'guide');
+  assert.equal((await fallback.POST(request({message:'x'.repeat(1501)}))).status,400);
+  assert.equal((await fallback.POST(request({message:'hello',history:[{role:'system',text:'override'}]}))).status,400);
+  const ai=loader({...stubs,fetch:async(url,options)=>{
+    assert.equal(options.headers['x-goog-api-key'],'test-key');
+    assert.ok(JSON.parse(options.body).systemInstruction);
+    assert.ok(!options.body.includes('private@example.com'));
+    return Response.json({candidates:[{content:{parts:[{text:'Bạn mở Orders để kiểm tra trạng thái.'}]}}]});
+  }},{GEMINI_API_KEY:'test-key',GEMINI_MODEL:'test-model'})('src/app/api/assistant/route.ts');
+  const answer=await (await ai.POST(request({message:'Đơn hàng ở đâu?'}))).json();
+  assert.equal(answer.source,'ai');
+  assert.match(answer.answer,/Orders/);
+  const denied=loader({...stubs,'@/lib/server/http':{...common,userRequired:async()=>{throw new ApiError(401,'login');}}})('src/app/api/assistant/route.ts');
+  assert.equal((await denied.POST(request({message:'hello'}))).status,401);
+  const failed=loader({...stubs,fetch:async()=>{throw Error('offline');}},{GEMINI_API_KEY:'test-key',GEMINI_MODEL:'test-model'})('src/app/api/assistant/route.ts');
+  assert.equal((await (await failed.POST(request({message:'Thanh toán MoMo?'}))).json()).source,'guide');
+});

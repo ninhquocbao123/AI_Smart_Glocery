@@ -97,8 +97,24 @@ export default function CheckoutPage() {
       });
       const d = await r.json();
       if (!r.ok) throw Error(d.message);
-      // Keep the order accessible even when the provider is unavailable; do not submit the cart twice.
+      // Save the order first; provider failure must never cause a second order.
       clearCart();
+      if (payment === "momo" || payment === "bank") {
+        try {
+          const response = await fetch("/api/payments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderId: d.order.orderId, action: "create" }),
+          });
+          const result = await response.json();
+          if (!response.ok || !result.checkoutUrl) throw Error("Payment unavailable");
+          window.location.assign(result.checkoutUrl);
+          return;
+        } catch {
+          router.push("/orders?payment=unavailable");
+          return;
+        }
+      }
       router.push("/orders");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Không thể tạo đơn.");
@@ -122,8 +138,8 @@ export default function CheckoutPage() {
       <h1 className="text-3xl font-extrabold">Xác nhận đơn hàng</h1>
       <p className="p-4 bg-secondary-container/40 rounded-xl text-sm">
         {settings?.mode === "live"
-          ? "Kiểm tra người bán và khu vực giao hàng trước khi đặt. Thanh toán trực tuyến tại trang Đơn hàng sau khi tạo đơn."
-          : "Đang ở chế độ demo: giá tham khảo, không thu tiền và không gửi đơn tới siêu thị."}{" "}
+          ? "Kiểm tra người bán và khu vực giao hàng trước khi đặt. Khi chọn thanh toán trực tuyến, bạn sẽ được chuyển đến cổng thanh toán sau khi tạo đơn."
+          : "Đơn thử nghiệm không thu tiền và không gửi đến cửa hàng."}{" "}
         <Link href="/stores" className="underline">
           Xem cửa hàng và nguồn dữ liệu
         </Link>
@@ -229,6 +245,7 @@ export default function CheckoutPage() {
             </option>
           </select>
         </label>
+        {payment === "momo" && <p className="rounded-xl bg-pink-50 p-4 text-sm text-pink-900">{settings?.momoEnvironment === "sandbox" ? "MoMo thử nghiệm: dùng ứng dụng/tài khoản test theo hướng dẫn MoMo, không dùng tiền thật." : "Bạn sẽ xác nhận thanh toán trên trang MoMo. Đơn chỉ được đánh dấu đã thanh toán sau khi backend xác minh giao dịch."}</p>}
       </section>
       {(error || quoteError) && (
         <p role="alert" className="text-error">
@@ -248,8 +265,8 @@ export default function CheckoutPage() {
         className="btn-filled w-full"
       >
         {busy
-          ? "Đang tạo đơn…"
-          : (settings?.mode === "live" ? "Đặt hàng" : "Đặt đơn demo") +
+          ? "Đang xử lý đơn và thanh toán…"
+          : (payment === "momo" ? "Tiếp tục với MoMo" : settings?.mode === "live" ? "Đặt hàng" : "Đặt đơn thử nghiệm") +
             (quote ? " · " + formatVND(quote.total) : "")}
       </button>
     </form>

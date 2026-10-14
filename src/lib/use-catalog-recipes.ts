@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { recipes as initialRecipes, type Recipe } from "@/data/mockData";
+import { type Recipe } from "@/data/mockData";
 
-export function useCatalogRecipes() {
-  const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
+export function useCatalogState() {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   useEffect(() => {
     const controller = new AbortController();
     fetch("/api/recipes", { signal: controller.signal, cache: "no-store" })
@@ -12,8 +14,11 @@ export function useCatalogRecipes() {
         const data = await response.json();
         if (Array.isArray(data.recipes)) setRecipes(data.recipes);
       })
-      .catch(() => { /* Bundled demo catalog remains available offline. */ });
+      .catch(() => { if (!controller.signal.aborted) setError(true); })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   }, []);
-  return recipes;
+  return { recipes, loading, error };
 }
+
+export function useCatalogRecipes() { return useCatalogState().recipes; }

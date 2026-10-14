@@ -12,6 +12,7 @@ export interface IIngredient {
 }
 
 export interface IRecipe extends Document {
+  active?: boolean;
   cookingGuide?: import('@/data/mockData').Recipe['cookingGuide'];
   id: string; // using string id to match mockData for now
   title: string;
@@ -42,6 +43,7 @@ const IngredientSchema = new Schema<IIngredient>({
 const RecipeSchema = new Schema<IRecipe>(
   {
     id: { type: String, required: true, unique: true },
+    active: { type: Boolean, default: true },
     title: { type: String, required: true },
     cuisine: { type: String, default: "Việt Nam" },
     description: { type: String, required: true },

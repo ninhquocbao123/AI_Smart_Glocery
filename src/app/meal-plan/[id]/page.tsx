@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check, ChefHat, Clock, Flame, RotateCcw, ShoppingBasket, Users, Utensils } from "lucide-react";
-import { useCatalogRecipes } from "@/lib/use-catalog-recipes";
+import { useCatalogState } from "@/lib/use-catalog-recipes";
 import { recipeCost } from "@/lib/recommendations";
 import { formatVND } from "@/lib/priceUtils";
 import { useAppContext } from "@/context/AppContext";
@@ -13,9 +13,11 @@ import type { Recipe } from "@/data/mockData";
 const amount = (quantity: number, factor: number) => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(quantity * factor);
 
 export default function DetailPage() {
-  const recipes = useCatalogRecipes();
+  const { recipes, loading, error } = useCatalogState();
   const { id } = useParams();
   const recipe = recipes.find(r => r.id === id);
+  if (loading) return <p role="status" className="p-12 text-center">Đang tải công thức…</p>;
+  if (error) return <p role="alert" className="p-12 text-center">Chưa tải được công thức. Vui lòng tải lại trang.</p>;
   if (!recipe) return <div className="card-outlined p-12 text-center"><h1 className="text-xl font-bold">Không tìm thấy món ăn</h1><Link href="/meal-plan" className="btn-filled mt-4">Xem món Việt</Link></div>;
   return <RecipeDetail key={recipe.id} recipe={recipe} />;
 }

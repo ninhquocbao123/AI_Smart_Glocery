@@ -18,6 +18,7 @@ export interface Ingredient {
 }
 
 export interface Recipe {
+  active?: boolean;
   cookingGuide?: {
     baseServings: number;
     measures: { ingredientId: string; name: string; quantity: number; unit: string }[];

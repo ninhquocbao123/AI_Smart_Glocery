@@ -12,6 +12,7 @@ try{
  if(process.argv.includes('--apply')){
   const exports={};vm.runInNewContext(ts.transpileModule(fs.readFileSync('src/data/mockData.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{exports});
   for(const r of exports.recipes){
+   if(await db.collection('recipes').findOne({id:r.id,updatedBy:{$exists:true}}))continue;
    await db.collection('recipes').updateOne({id:r.id},{$setOnInsert:{...r,createdAt:new Date(),dataSource:'demo'},$set:{updatedAt:new Date()}},{upsert:true});
    const current=await db.collection('recipes').findOne({id:r.id});
    const ingredients=r.cookingGuide ? r.ingredients : (current.ingredients??[]).map(i=>({...i,image:fs.existsSync('public/images/catalog/'+i.id+'.svg')?'/images/catalog/'+i.id+'.svg':r.image}));

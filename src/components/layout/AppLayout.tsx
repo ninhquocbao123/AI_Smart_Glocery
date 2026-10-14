@@ -54,6 +54,7 @@ function TopNavbar() {
 
       {/* Nav links */}
       <nav className="flex items-center gap-8">
+        {state.user?.isAdmin && <Link href="/admin" className="text-primary font-bold">Quản trị</Link>}
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -179,11 +180,11 @@ function Footer() {
   return (
     <footer className="hidden md:flex border-t border-outline-variant/30 bg-[#EFEFEF] py-8 px-8 mt-12 items-center justify-between text-sm">
       <div className="text-[#0D7A25] font-semibold">
-        AI Smart Grocery · Demo EXE202
+        AI Smart Grocery
       </div>
       <div className="flex items-center gap-6 text-on-surface-variant font-medium">
         <Link href="/meal-plan">Món Việt</Link>
-        <Link href="/deals">Ưu đãi demo</Link>
+        <Link href="/deals">Ưu đãi</Link>
         <Link href="/profile">Tài khoản</Link>
       </div>
     </footer>

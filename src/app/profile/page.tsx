@@ -81,6 +81,7 @@ export default function ProfilePage() {
       </div>
       <div className="grid lg:grid-cols-[280px_1fr] gap-6">
         <aside className="space-y-4">
+          {user?.isAdmin && <Link href="/admin" className="block rounded-xl bg-primary p-3 text-center font-bold text-white">Quản trị món ăn</Link>}
           <div className="card-outlined p-6 text-center">
             <div className="w-24 h-24 bg-primary-container text-primary rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
               {user?.name

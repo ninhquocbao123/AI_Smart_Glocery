@@ -9,7 +9,7 @@ export async function GET(req: Request) {
 
     await dbConnect();
 
-    const query: { totalPrice?: { $lte: number } } = {};
+    const query: { active: { $ne: boolean }; totalPrice?: { $lte: number } } = { active: { $ne: false } };
 
     // Filter by budget if provided
     if (budgetStr) {

@@ -78,7 +78,7 @@ export default function CartPage() {
               <span className="text-primary">{formatVND(cartTotal)}</span>
             </div>
             <p className="text-sm text-on-surface-variant">
-              Giá tham khảo từ danh mục demo. Tổng cuối cùng thay đổi theo cửa
+              Giá nguyên liệu tham khảo. Tổng cuối cùng thay đổi theo cửa
               hàng và phí giao hàng ở bước tiếp theo.
             </p>
             <Link href="/checkout" className="btn-filled w-full">

@@ -31,6 +31,7 @@ export interface WeeklyPlan {
 }
 
 export interface UserProfile {
+  isAdmin?: boolean;
   id?: string;
   address?: string;
   diet?: string;

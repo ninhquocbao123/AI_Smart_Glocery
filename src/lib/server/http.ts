@@ -1,3 +1,4 @@
+import { isAdminUser } from "./roles";
 import { createHash } from "node:crypto";
 import mongoose, { Schema } from "mongoose";
 import dbConnect from "@/lib/mongodb";
@@ -64,11 +65,7 @@ export async function userRequired() {
 }
 export async function adminRequired() {
   const user = await userRequired();
-  // IDs provisioned by the operator; no public endpoint can grant this role.
-  const ids = (process.env.ADMIN_USER_IDS ?? "")
-    .split(",")
-    .map((x) => x.trim());
-  if (!ids.includes(String(user._id)))
+  if (!isAdminUser(user))
     throw new ApiError(403, "Chỉ quản trị viên được thực hiện.");
   return user;
 }

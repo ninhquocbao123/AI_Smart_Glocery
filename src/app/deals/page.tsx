@@ -46,7 +46,7 @@ export default function DealsPage() {
   return (
     <div className="space-y-8 pb-12">
       <p className="text-xs text-on-surface-variant">Ảnh món ăn và sản phẩm mang tính minh họa, gồm ảnh chụp và ảnh tạo bằng AI. <a href="/images/food/credits.html" className="underline">Nguồn ảnh</a></p>
-      <p className="rounded-xl bg-secondary-container/40 p-4 text-sm">{demo?"Ưu đãi minh họa cho bản demo, chưa đồng bộ giá và tồn kho thực tế từ siêu thị.":"Ưu đãi do nhóm cập nhật qua backend, chưa có API trực tiếp từ siêu thị."}</p>
+      <p className="rounded-xl bg-secondary-container/40 p-4 text-sm">Giá tham khảo, cập nhật bởi nhóm quản trị.</p>
       {error&&<p role="alert" className="text-error">{error}</p>}
       <input aria-label="Tìm thực phẩm giảm giá" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tìm nguyên liệu bạn đang thiếu…" className="w-full border border-outline-variant rounded-xl p-3"/>
       {notice && <p role="status" className="text-primary">{notice}</p>}
@@ -145,7 +145,7 @@ export default function DealsPage() {
 
               <div className="mt-4 pt-4 border-t border-outline-variant/50 flex items-center gap-2 text-[11px] font-medium text-error">
                 <Clock className="w-3.5 h-3.5" />
-                {demo ? "Thời hạn minh họa" : "Hiệu lực"}: {deal.expiresIn}
+                {demo ? "Kiểm tra ưu đãi tại cửa hàng" : `Hiệu lực: ${deal.expiresIn}`}
               </div>
             </div>
           </motion.div>

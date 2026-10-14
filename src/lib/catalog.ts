@@ -20,7 +20,7 @@ export function catalogIngredient(id: string, recipeId: string): Ingredient | un
 
 // Always quote the current catalog, including when reordering an old snapshot.
 export function cartItemPrice(item: CartItem, store: Store): number {
-  const ingredient = catalogIngredient(item.ingredient.id, item.recipeId);
+  const ingredient = catalogIngredient(item.ingredient.id, item.recipeId) ?? item.ingredient;
   if (!ingredient) return 0;
   return getPriceAtStore(ingredient, store) / ingredient.quantity * item.quantity;
 }

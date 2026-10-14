@@ -1,3 +1,4 @@
+import { isAdminUser } from "@/lib/server/roles";
 import { currentUser } from "@/lib/session";
 export async function PATCH(req: Request) {
   try {
@@ -36,7 +37,7 @@ export async function PATCH(req: Request) {
     });
     await user.save();
     return Response.json({
-      user: { ...user.toObject(), id: String(user._id) },
+      user: { ...user.toObject(), id: String(user._id), isAdmin: isAdminUser(user) },
     });
   } catch {
     return Response.json(

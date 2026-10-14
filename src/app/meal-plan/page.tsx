@@ -64,7 +64,7 @@ export default function RecipesPage() {
         </button>
       </div>
       <p className="text-sm text-on-surface-variant">
-        {list.length} món ăn · Giá nguyên liệu tham khảo cho bản demo
+        {list.length} món ăn · Giá nguyên liệu tham khảo
       </p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {list.map((recipe, index) => (

@@ -1,3 +1,4 @@
+import { isAdminUser } from "@/lib/server/roles";
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
         message: "Đăng nhập thành công.",
         user: {
           id: user._id.toString(),
+          isAdmin: isAdminUser(user),
           name: user.name,
           email: user.email,
           phone: user.phone,

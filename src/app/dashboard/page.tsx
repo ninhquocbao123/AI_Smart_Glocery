@@ -44,7 +44,7 @@ export default function DashboardPage() {
         recipes={recipes.filter((r) => r.prepTime + r.cookTime <= 30)}
       />
       <p className="text-xs text-on-surface-variant text-center">
-        Dự án demo EXE202 · Giá thực phẩm tham khảo, chưa kết nối siêu thị.
+        Lên thực đơn phù hợp với ngân sách của bạn.
       </p>
     </div>
   );

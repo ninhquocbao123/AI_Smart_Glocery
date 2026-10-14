@@ -13,9 +13,30 @@ export default function OrdersPage() {
     [busy, setBusy] = useState("");
   const { addMultipleToCart } = useAppContext();
   const router = useRouter();
+  const [paymentNotice, setPaymentNotice] = useState("");
   useEffect(() => {
     let active = true;
-    fetch("/api/orders")
+    async function reconcileReturn() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("payment") === "unavailable") {
+        if (active) setPaymentNotice("Đơn đã được lưu nhưng chưa mở được cổng thanh toán. Dùng nút kiểm tra trạng thái hoặc thanh toán trong đơn bên dưới; không cần tạo lại đơn.");
+      }
+      const orderId = params.get("paymentOrder");
+      if (!orderId || orderId.length > 100) return;
+      if (active) setPaymentNotice("Đang xác minh giao dịch với cổng thanh toán…");
+      try {
+        const response = await fetch("/api/payments", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId, action: "check" }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw Error(data.message || "Chưa xác minh được thanh toán.");
+        if (active) setPaymentNotice(data.paid ? "Cổng thanh toán đã xác nhận giao dịch thành công." : "Chưa nhận được xác nhận thanh toán. Nếu đã trả tiền, hãy dùng nút kiểm tra trạng thái trong đơn; không thanh toán lại ngay.");
+      } catch (e) {
+        if (active) setPaymentNotice(e instanceof Error ? e.message : "Chưa xác minh được thanh toán.");
+      }
+    }
+    reconcileReturn().then(() => fetch("/api/orders"))
       .then(async (r) => {
         const d = await r.json();
         if (!r.ok) throw Error(d.message);
@@ -72,8 +93,9 @@ export default function OrdersPage() {
           Theo dõi nguyên liệu từ lúc đặt đến bữa cơm nhà.
         </p>
       </div>
+      {paymentNotice && <p role="status" className="rounded-xl border border-outline-variant bg-surface p-4 text-sm">{paymentNotice}</p>}
       <p className="rounded-xl bg-secondary-container/40 p-4 text-sm">
-        Đơn có nhãn Demo không thu tiền. Với đơn trực tuyến, trạng thái thanh toán được xác nhận từ cổng thanh toán. Việc quay lại trang này chưa có nghĩa là đã trả tiền.
+        Theo dõi trạng thái thanh toán trên từng đơn hàng.
       </p>
       <div className="flex gap-2 overflow-x-auto pb-2">
         {(
@@ -120,7 +142,7 @@ export default function OrdersPage() {
               <div>
                 <h2 className="font-bold">{o.orderId}</h2>
                 {o.paymentEnvironment === "sandbox" && <p className="text-sm font-semibold">MoMo thử nghiệm · Không phải tiền thật</p>}
-                <p className="text-sm">{o.mode === "live" ? (o.paymentStatus === "paid" ? "Đã thanh toán" : o.paymentStatus === "review" ? "Cần đối soát thanh toán" : "Chưa xác nhận thanh toán") : "Demo · Không thu tiền"}</p>
+                <p className="text-sm">{o.mode === "live" ? (o.paymentStatus === "paid" ? "Đã thanh toán" : o.paymentStatus === "review" ? "Cần đối soát thanh toán" : "Chưa xác nhận thanh toán") : "Không thu tiền"}</p>
                 <p className="text-sm text-on-surface-variant">
                   {orderDate(o.createdAt)}{" "}
                   · {o.store}
@@ -166,8 +188,8 @@ export default function OrdersPage() {
             {!reorderItems(o) && <p className="text-sm text-on-surface-variant">Đơn cũ thiếu mã nguyên liệu hợp lệ để mua lại. Bạn vẫn xem được lịch sử; hãy chọn nguyên liệu mới tại <Link href="/meal-plan" className="text-primary underline">Smart Cart</Link>.</p>}
             <div className="flex flex-wrap gap-3">
               {o.mode === "demo" && o.status === "unpaid" && o.paymentEnvironment !== "sandbox" && <button disabled={!!busy} className="btn-filled" onClick={()=>update(o,"demoPay")}>Mô phỏng thanh toán thành công</button>}
-              {o.mode === "demo" && o.status === "confirmed" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoShip")}>Demo: bắt đầu giao hàng</button>}
-              {o.mode === "demo" && o.status === "delivering" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoReceive")}>Demo: hoàn thành đơn</button>}
+              {o.mode === "demo" && o.status === "confirmed" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoShip")}>Thử nghiệm giao hàng</button>}
+              {o.mode === "demo" && o.status === "delivering" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoReceive")}>Thử nghiệm hoàn thành đơn</button>}
               {["unpaid", "confirmed"].includes(o.status) && !o.paymentStarted && o.paymentStatus !== "paid" && <button disabled={!!busy} className="text-error" onClick={()=>update(o,"cancel")}>Hủy đơn chưa xử lý</button>}
               <button
                 className="btn-filled"

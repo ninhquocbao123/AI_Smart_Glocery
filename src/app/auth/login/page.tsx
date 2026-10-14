@@ -24,7 +24,8 @@ export default function LoginPage() {
       const response = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-      setUser(data.user); router.push("/dashboard");
+      setUser(data.user);
+      router.replace(data.user?.isAdmin === true ? "/admin" : "/dashboard");
     } catch (err) { setError(err instanceof Error ? err.message : "Không thể kết nối. Vui lòng thử lại."); }
     finally { setBusy(false); }
   };

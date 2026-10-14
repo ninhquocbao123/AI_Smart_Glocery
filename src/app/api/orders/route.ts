@@ -46,7 +46,7 @@ export async function PATCH(req: Request) {
     const data = await body(req);
     const id = stringValue(data.id, 1, 100);
     if (["demoPay", "demoShip", "demoReceive"].includes(String(data.action))) {
-      if(isLive())throw new ApiError(403,"Thao tác trình diễn chỉ có trong chế độ demo.");
+      if(isLive())throw new ApiError(403,"Thao tác này chỉ dành cho đơn thử nghiệm.");
       const action=String(data.action);
       const from=action==="demoPay"?["unpaid"]:action==="demoShip"?["confirmed"]:["delivering","delivered"];
       const to=action==="demoPay"?"confirmed":action==="demoShip"?"delivering":"completed";

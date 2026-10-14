@@ -59,7 +59,7 @@ export async function createPayment(order: PaymentOrder) {
   checkEnvironment(order);
   if (!paymentReady(order.paymentMethod))
     throw new ApiError(503, "Phương thức thanh toán chưa được cấu hình.");
-  const returnUrl = appUrl() + "/orders";
+  const returnUrl = appUrl() + "/orders?paymentOrder=" + encodeURIComponent(order.orderId);
   if (order.paymentMethod === "momo") {
     const fields = {
       accessKey: secret("MOMO_ACCESS_KEY"),
@@ -81,6 +81,7 @@ export async function createPayment(order: PaymentOrder) {
     });
     if (
       result.resultCode !== 0 ||
+      result.partnerCode !== fields.partnerCode ||
       result.orderId !== fields.orderId ||
       result.requestId !== fields.requestId ||
       Number(result.amount) !== order.total
