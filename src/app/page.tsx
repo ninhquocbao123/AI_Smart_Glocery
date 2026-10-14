@@ -1,202 +1,86 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
+  ChefHat,
+  Wallet,
   Sparkles,
-  CalendarDays,
-  TrendingUp,
-  Sun,
-  Moon,
-  Sunrise,
-  Sunset,
+  ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
-import BudgetCard from "@/components/dashboard/BudgetCard";
-import RecipeCarousel from "@/components/dashboard/RecipeCarousel";
-import AIChatAssistant from "@/components/dashboard/AIChatAssistant";
-import { recipes } from "@/data/mockData";
 
-// ─────────────────────────────────────────────────────────────
-// Time-of-day greeting
-// ─────────────────────────────────────────────────────────────
-
-function getGreeting(): {
-  text: string;
-  emoji: string;
-  icon: React.ComponentType<{ className?: string }>;
-} {
-  const hour = new Date().getHours();
-  if (hour < 6)
-    return { text: "Chào ban đêm", emoji: "🌙", icon: Moon };
-  if (hour < 12)
-    return { text: "Chào buổi sáng", emoji: "☀️", icon: Sunrise };
-  if (hour < 17)
-    return { text: "Chào buổi chiều", emoji: "🌤️", icon: Sun };
-  if (hour < 21)
-    return { text: "Chào buổi tối", emoji: "🌅", icon: Sunset };
-  return { text: "Chào ban đêm", emoji: "🌙", icon: Moon };
-}
-
-// ─────────────────────────────────────────────────────────────
-// Dashboard Page
-// ─────────────────────────────────────────────────────────────
-
-export default function DashboardPage() {
-  const greeting = getGreeting();
-  const GreetingIcon = greeting.icon;
-
-  // ── "Daily Meal Plan" — curated mix: breakfast-like, lunch, dinner ──
-  const dailyMealPlan = useMemo(() => {
-    // Pick a balanced selection: easy/quick for morning, medium for lunch, any for dinner
-    const breakfast = recipes.find((r) =>
-      r.tags.some((t) => ["breakfast", "dessert", "appetizer", "quick"].includes(t))
-    );
-    const lunch = recipes.find((r) =>
-      r.tags.some((t) => ["rice", "sandwich", "street-food", "noodles"].includes(t))
-    );
-    const dinner = recipes.find((r) =>
-      r.tags.some((t) => ["soup", "dinner", "braised"].includes(t))
-    );
-    const comfort = recipes.find((r) =>
-      r.tags.some((t) => ["comfort", "grilled"].includes(t)) &&
-      r.id !== breakfast?.id &&
-      r.id !== lunch?.id &&
-      r.id !== dinner?.id
-    );
-
-    // Build unique list maintaining order
-    const plan: typeof recipes = [];
-    const seen = new Set<string>();
-    [breakfast, lunch, dinner, comfort].forEach((r) => {
-      if (r && !seen.has(r.id)) {
-        seen.add(r.id);
-        plan.push(r);
-      }
-    });
-
-    // Fill up to 5 if we have space
-    for (const r of recipes) {
-      if (plan.length >= 5) break;
-      if (!seen.has(r.id)) {
-        seen.add(r.id);
-        plan.push(r);
-      }
-    }
-    return plan;
-  }, []);
-
-  // ── "Trending Budget Recipes" — sorted cheapest first ──
-  const trendingBudget = useMemo(
-    () => [...recipes].sort((a, b) => a.totalPrice - b.totalPrice),
-    []
-  );
-
+export default function LandingPage() {
   return (
-    <div className="space-y-8 sm:space-y-10">
-      {/* ═══════════════════════════════════════════════════════
-          HERO — Greeting Header
-          ═══════════════════════════════════════════════════════ */}
-      <motion.section
+    <div className="min-h-[85vh] flex flex-col justify-center items-center text-center px-4 space-y-12 pb-20">
+      {/* Hero Section */}
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="relative overflow-hidden gradient-hero rounded-3xl p-6 sm:p-8"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-3xl space-y-6"
       >
-        {/* Decorative floating shapes */}
-        <motion.div
-          animate={{
-            y: [0, -8, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          className="absolute top-4 right-8 w-16 h-16 rounded-2xl bg-secondary/10 hidden sm:block"
-        />
-        <motion.div
-          animate={{
-            y: [0, 6, 0],
-            rotate: [0, -3, 0],
-          }}
-          transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-4 right-24 w-10 h-10 rounded-xl bg-primary/10 hidden sm:block"
-        />
-
-        <div className="relative flex items-start gap-4">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.2 }}
-            className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center flex-shrink-0 shadow-lg"
-          >
-            <GreetingIcon className="w-7 h-7 text-white" />
-          </motion.div>
-          <div className="flex-1">
-            <motion.h1
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight"
-            >
-              {greeting.text}, bạn ơi! {greeting.emoji}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-on-surface-variant mt-1 text-sm sm:text-base"
-            >
-              Chào bạn, ngân sách đi chợ hôm nay của bạn là bao nhiêu? Hãy để AI tìm bữa ăn hoàn hảo cho bạn.
-            </motion.p>
-
-            {/* Animated tag line */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex items-center gap-2 mt-3"
-            >
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface/80 backdrop-blur-sm border border-outline-variant/50 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-secondary" />
-                <span className="text-xs font-semibold text-on-surface-variant">
-                  Lên kế hoạch đi chợ bằng AI
-                </span>
-              </div>
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface/80 backdrop-blur-sm border border-outline-variant/50 shadow-sm">
-                <span className="text-xs font-semibold text-on-surface-variant">
-                  🏪 So sánh giá 3 siêu thị
-                </span>
-              </div>
-            </motion.div>
-          </div>
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-bold text-sm mb-4">
+          <Sparkles className="w-4 h-4" />
+          Trợ lý AI thông minh cho bữa ăn sinh viên
         </div>
-      </motion.section>
+        <h1 className="text-4xl sm:text-6xl font-extrabold text-on-surface tracking-tight leading-tight">
+          Giải quyết bài toán <br className="hidden sm:block" />
+          <span className="text-primary">&quot;Ăn gì với 50k?&quot;</span>
+        </h1>
+        <p className="text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+          AI Smart Grocery giúp bạn lên thực đơn mỗi ngày, tận dụng nguyên liệu thừa,
+          và tối ưu hóa ngân sách đi chợ. Trải nghiệm giải pháp ăn ngon - bổ - rẻ ngay hôm nay!
+        </p>
+      </motion.div>
 
-      {/* ═══════════════════════════════════════════════════════
-          BUDGET INPUT CARD
-          ═══════════════════════════════════════════════════════ */}
-      <BudgetCard />
+      {/* CTA Buttons */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mx-auto"
+      >
+        <Link href="/auth/register" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-primary text-white font-extrabold text-lg shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all cursor-pointer">
+          Bắt đầu miễn phí <ArrowRight className="w-5 h-5" />
+        </Link>
+        <Link href="/auth/login" className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-surface border-2 border-outline-variant text-on-surface font-extrabold text-lg hover:bg-surface-container hover:border-primary/50 transition-all cursor-pointer">
+          Đăng nhập
+        </Link>
+      </motion.div>
 
-      {/* ═══════════════════════════════════════════════════════
-          DAILY MEAL PLAN — Horizontal Scroll
-          ═══════════════════════════════════════════════════════ */}
-      <RecipeCarousel
-        title="Thực đơn mỗi ngày"
-        subtitle="Lựa chọn cân bằng dinh dưỡng cho ngày hôm nay"
-        icon={<CalendarDays className="w-4 h-4 text-primary" />}
-        recipes={dailyMealPlan}
-      />
+      {/* Feature Highlights */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full mt-12"
+      >
+        <div className="bg-surface rounded-3xl p-8 border border-outline-variant text-left hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+            <ChefHat className="w-6 h-6 text-primary" />
+          </div>
+          <h3 className="text-xl font-bold text-on-surface mb-3">AI Lên Thực Đơn</h3>
+          <p className="text-sm text-on-surface-variant">Tự động gợi ý các món ăn phù hợp với khẩu vị, thời tiết và đặc biệt là ngân sách của bạn.</p>
+        </div>
 
-      {/* ═══════════════════════════════════════════════════════
-          TRENDING BUDGET RECIPES — Horizontal Scroll
-          ═══════════════════════════════════════════════════════ */}
-      <RecipeCarousel
-        title="Công thức tiết kiệm đang hot"
-        subtitle="Ưu tiên các món ăn hợp túi tiền nhất"
-        icon={<TrendingUp className="w-4 h-4 text-secondary" />}
-        recipes={trendingBudget}
-        variant="compact"
-      />
+        <div className="bg-surface rounded-3xl p-8 border border-outline-variant text-left hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6">
+            <Wallet className="w-6 h-6 text-secondary" />
+          </div>
+          <h3 className="text-xl font-bold text-on-surface mb-3">Quản Lý Ngân Sách</h3>
+          <p className="text-sm text-on-surface-variant">Theo dõi chi tiêu ăn uống mỗi ngày. Đảm bảo bạn không bao giờ tiêu lạm vào tiền phòng, tiền học.</p>
+        </div>
 
-      <AIChatAssistant />
+        <div className="bg-surface rounded-3xl p-8 border border-outline-variant text-left hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 rounded-2xl bg-success/10 flex items-center justify-center mb-6">
+            <CheckCircle2 className="w-6 h-6 text-success" />
+          </div>
+          <h3 className="text-xl font-bold text-on-surface mb-3">Tận Dụng Tủ Lạnh</h3>
+          <p className="text-sm text-on-surface-variant">Nhập nguyên liệu còn thừa, AI sẽ biến chúng thành những món ăn hấp dẫn tránh lãng phí.</p>
+        </div>
+      </motion.div>
     </div>
   );
 }

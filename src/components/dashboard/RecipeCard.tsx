@@ -49,14 +49,17 @@ const storeColors: Record<string, string> = {
 interface RecipeCardProps {
   recipe: Recipe;
   index: number;
-  variant?: "default" | "compact";
+  variant?: "default" | "compact" | "grid";
 }
+
+import { useRouter } from "next/navigation";
 
 export default function RecipeCard({
   recipe,
   index,
   variant = "default",
 }: RecipeCardProps) {
+  const router = useRouter();
   const difficulty = difficultyConfig[recipe.difficulty];
   const emoji = cuisineEmoji[recipe.cuisine] ?? "🍽️";
 
@@ -69,14 +72,17 @@ export default function RecipeCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      onClick={() => router.push(`/meal-plan/${recipe.id}`)}
       className={`
         group relative flex-shrink-0 overflow-hidden rounded-2xl
         bg-surface border border-outline-variant
         cursor-pointer select-none
         transition-shadow duration-300 hover:shadow-[var(--shadow-elevation-3)]
-        ${variant === "compact" ? "w-[260px]" : "w-[300px]"}
+        ${variant === "grid" ? "w-full min-w-0" : variant === "compact" ? "w-[260px]" : "w-[300px]"}
       `}
-      role="article"
+      tabIndex={0}
+      onKeyDown={(event) => { if (event.key === "Enter") router.push(`/meal-plan/${recipe.id}`); }}
+      role="link"
       aria-label={`Recipe: ${recipe.title}`}
     >
       {/* ── Recipe Image ── */}

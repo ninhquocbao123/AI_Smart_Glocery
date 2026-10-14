@@ -1,640 +1,98 @@
 "use client";
-
-import React, { useMemo, useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  ShoppingBasket,
-  Clock,
-  Users,
-  Flame,
-  ChefHat,
-  Star,
-  ShoppingCart,
-  Sparkles,
-  TrendingDown,
-  Store,
-  Package,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, ChefHat, Clock, Flame, RotateCcw, ShoppingBasket, Users, Utensils } from "lucide-react";
+import { useCatalogRecipes } from "@/lib/use-catalog-recipes";
+import { recipeCost } from "@/lib/recommendations";
+import { formatVND } from "@/lib/priceUtils";
 import { useAppContext } from "@/context/AppContext";
-import { recipes, type Ingredient, type Store as StoreType } from "@/data/mockData";
-import { formatVND, getPriceAtStore, getTotalAtStore } from "@/lib/priceUtils";
-import RecipeImage from "@/components/ui/RecipeImage";
+import type { Recipe } from "@/data/mockData";
 
-// ─────────────────────────────────────────────────────────────
-// Store config
-// ─────────────────────────────────────────────────────────────
+const amount = (quantity: number, factor: number) => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(quantity * factor);
 
-const storeConfig: Record<
-  StoreType,
-  { color: string; bg: string; border: string; icon: string }
-> = {
-  "Bach Hoa Xanh": {
-    color: "text-[#2E7D32]",
-    bg: "bg-[#4CAF50]/8",
-    border: "border-[#4CAF50]/20",
-    icon: "🟢",
-  },
-  Winmart: {
-    color: "text-[#E65100]",
-    bg: "bg-[#FF6F00]/8",
-    border: "border-[#FF6F00]/20",
-    icon: "🟠",
-  },
-  "Coop Food": {
-    color: "text-[#0D47A1]",
-    bg: "bg-[#1565C0]/8",
-    border: "border-[#1565C0]/20",
-    icon: "🔵",
-  },
-};
+export default function DetailPage() {
+  const recipes = useCatalogRecipes();
+  const { id } = useParams();
+  const recipe = recipes.find(r => r.id === id);
+  if (!recipe) return <div className="card-outlined p-12 text-center"><h1 className="text-xl font-bold">Không tìm thấy món ăn</h1><Link href="/meal-plan" className="btn-filled mt-4">Xem món Việt</Link></div>;
+  return <RecipeDetail key={recipe.id} recipe={recipe} />;
+}
 
-const allStores: StoreType[] = ["Bach Hoa Xanh", "Winmart", "Coop Food"];
-
-// ─────────────────────────────────────────────────────────────
-// Page Component
-// ─────────────────────────────────────────────────────────────
-
-export default function RecipeDetailPage() {
-  const params = useParams();
+function RecipeDetail({ recipe }: { recipe: Recipe }) {
   const router = useRouter();
-  const { state, isInPantry, addToCart } = useAppContext();
-
-  const recipeId = params.id as string;
-  const recipe = recipes.find((r) => r.id === recipeId);
-
-  const [selectedStore, setSelectedStore] = useState<StoreType | null>(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [addedSuccess, setAddedSuccess] = useState(false);
-
-  // ── Categorize ingredients ──
-  const { inPantry, needToBuy } = useMemo(() => {
-    if (!recipe) return { inPantry: [] as Ingredient[], needToBuy: [] as Ingredient[] };
-    const ip: Ingredient[] = [];
-    const ntb: Ingredient[] = [];
-    for (const ing of recipe.ingredients) {
-      if (isInPantry(ing.name)) {
-        ip.push(ing);
-      } else {
-        ntb.push(ing);
-      }
-    }
-    return { inPantry: ip, needToBuy: ntb };
-  }, [recipe, isInPantry]);
-
-  // ── Price comparison across stores ──
-  const storePrices = useMemo(() => {
-    return allStores.map((store) => ({
-      store,
-      total: getTotalAtStore(needToBuy, store),
-      items: needToBuy.map((ing) => ({
-        ingredient: ing,
-        price: getPriceAtStore(ing, store),
-      })),
-    }));
-  }, [needToBuy]);
-
-  const bestStore = useMemo(() => {
-    if (storePrices.length === 0) return null;
-    return storePrices.reduce((best, curr) =>
-      curr.total < best.total ? curr : best
-    );
-  }, [storePrices]);
-
-  // Currently displayed store data
-  const activeStoreData = useMemo(() => {
-    if (!selectedStore) return null;
-    return storePrices.find((s) => s.store === selectedStore) ?? null;
-  }, [selectedStore, storePrices]);
-
-  // Automatically select the cheapest store on mount/calculation
-  useEffect(() => {
-    if (bestStore && !selectedStore) {
-      setSelectedStore(bestStore.store);
-    }
-  }, [bestStore, selectedStore]);
-
-  // ── Add missing to cart ──
-  const handleAddToCart = useCallback(() => {
-    if (!recipe || !selectedStore || needToBuy.length === 0) return;
-    setIsAdding(true);
-
-    // Simulate a brief delay for UX polish
-    setTimeout(() => {
-      for (const ing of needToBuy) {
-        const storePriceTotal = getPriceAtStore(ing, selectedStore);
-        const unitPrice = Math.round(storePriceTotal / ing.quantity);
-        addToCart({
-          ingredient: {
-            ...ing,
-            price: unitPrice,
-            store: selectedStore,
-          },
-          recipeId: recipe.id,
-          recipeTitle: recipe.title,
-          quantity: ing.quantity,
-        });
-      }
-      setIsAdding(false);
-      setAddedSuccess(true);
-
-      // Navigate to grocery store after short success state
-      setTimeout(() => {
-        router.push("/grocery-store");
-      }, 800);
-    }, 500);
-  }, [recipe, needToBuy, selectedStore, addToCart, router]);
-
-  // ── 404 ──
-  if (!recipe) {
-    return (
-      <div className="space-y-6">
-        <Link
-          href="/meal-plan"
-          className="inline-flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-primary transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Quay lại danh sách gợi ý
-        </Link>
-        <div className="card-outlined p-12 text-center">
-          <ChefHat className="w-16 h-16 text-on-surface-variant mx-auto mb-4 opacity-30" />
-          <h2 className="text-lg font-bold text-on-surface mb-2">
-            Không tìm thấy công thức nấu ăn
-          </h2>
-          <p className="text-sm text-on-surface-variant">
-            Công thức nấu ăn bạn tìm kiếm không tồn tại.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const cuisineEmoji =
-    recipe.cuisine === "Vietnamese-French" ? "🇫🇷" : "🇻🇳";
-  const savingsVsBest = bestStore
-    ? Math.max(
-        ...storePrices.map((s) => s.total)
-      ) - bestStore.total
-    : 0;
-
+  const { state, addMultipleToCart } = useAppContext();
+  const [servings, setServings] = useState(state.servings || recipe.servings);
+  const [owned, setOwned] = useState<string[]>([]);
+  const [completed, setCompleted] = useState<number[]>([]);
+  const guide = recipe.cookingGuide;
+  const factor = servings / (guide?.baseServings || recipe.servings);
+  const steps = guide?.steps ?? recipe.instructions.map((detail, i) => ({ title: `Thực hiện bước ${i + 1}`, detail, duration: "", heat: "", cue: "" }));
+  const ingredients = recipe.ingredients.map(i => ({ ...i, quantity: Math.ceil(i.quantity * servings / recipe.servings) }));
+  const needed = ingredients.filter(i => !owned.includes(i.id));
+  const total = needed.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const toggleStep = (index: number) => setCompleted(p => p.includes(index) ? p.filter(i => i !== index) : [...p, index]);
   return (
-    <div className="space-y-6 pb-28">
-      {/* ── Back ── */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <Link
-          href="/meal-plan"
-          className="inline-flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-primary transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Quay lại danh sách gợi ý
-        </Link>
-      </motion.div>
-
-      {/* ═══════════════════════════════════════════════════════
-          HERO
-          ═══════════════════════════════════════════════════════ */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative overflow-hidden rounded-3xl"
-      >
-        {/* Hero image */}
-        <div className="relative">
-          <RecipeImage
-            recipeId={recipe.id}
-            src={recipe.image}
-            alt={recipe.title}
-            variant="hero"
-          />
-
-          {/* Difficulty + Price overlay */}
-          <div className="absolute top-4 left-4 flex gap-2 z-10">
-            <span
-              className={`px-3 py-1 rounded-lg text-xs font-bold backdrop-blur-sm ${
-                { "Dễ": "bg-primary/90 text-on-primary", "Trung bình": "bg-secondary/90 text-on-secondary", "Khó": "bg-error/80 text-on-error" }[recipe.difficulty]
-              }`}
-            >
-              {recipe.difficulty}
-            </span>
+    <article className="space-y-8 pb-12">
+      <Link href="/meal-plan" className="inline-flex items-center gap-2 text-sm font-semibold text-primary"><ArrowLeft size={17} /> Danh mục món Việt</Link>
+      <section className="overflow-hidden rounded-[2rem] border border-outline-variant bg-surface shadow-sm">
+        <figure className="relative aspect-[3/2] md:aspect-[16/9] max-h-[620px] bg-[#e8e4d9]">
+          <Image src={recipe.image} alt={`Thành phẩm ${recipe.title}`} fill sizes="(max-width: 1280px) 100vw, 1200px" className="object-contain" preload />
+          <span className="absolute top-4 left-4 md:top-6 md:left-6 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-primary shadow-sm"><ChefHat size={17} /> Bếp Việt mỗi ngày</span>
+          <a href={recipe.image} target="_blank" rel="noreferrer" className="absolute right-4 bottom-4 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-on-surface shadow-sm inline-flex items-center gap-2">Xem ảnh đầy đủ <ArrowUpRight size={16} /></a>
+        </figure>
+        <div className="p-6 md:p-9 space-y-6">
+          <div className="flex flex-col md:flex-row md:justify-between gap-5">
+            <div className="max-w-2xl"><p className="uppercase tracking-[0.18em] text-xs font-bold text-primary mb-3">Món cơm nhà · {recipe.difficulty}</p><h1 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">{recipe.title}</h1><p className="text-on-surface-variant mt-4 leading-relaxed">{recipe.description}</p></div>
+            <div className="md:text-right shrink-0"><p className="text-xs text-on-surface-variant mb-1">Dự kiến mua nguyên liệu</p><p className="text-2xl font-bold text-primary">{formatVND(recipeCost(recipe, servings))}</p><p className="text-xs text-on-surface-variant mt-2">Chưa gồm gia vị bổ sung và giao hàng</p></div>
           </div>
-          <div className="absolute top-4 right-4 z-10">
-            <div className="px-4 py-2 rounded-xl bg-surface/90 backdrop-blur-sm shadow-sm">
-              <span className="text-lg font-bold text-primary">
-                {formatVND(recipe.totalPrice)}
-              </span>
-            </div>
+          <div className="flex flex-wrap items-center gap-3 border-t border-outline-variant pt-5">
+            <span className="rounded-xl bg-surface-container px-4 py-3 inline-flex gap-2 items-center text-sm"><Clock size={17} /> Sơ chế {recipe.prepTime} phút</span>
+            <span className="rounded-xl bg-surface-container px-4 py-3 inline-flex gap-2 items-center text-sm"><Flame size={17} /> Nấu {recipe.cookTime} phút</span>
+            <label className="rounded-xl bg-primary-container/40 px-4 py-2 flex items-center gap-3 text-sm font-semibold"><Users size={17} /> Khẩu phần <input aria-label="Số người ăn" type="number" min={1} max={20} value={servings} onChange={e => { const n = Number(e.target.value); if (Number.isInteger(n) && n >= 1 && n <= 20) setServings(n); }} className="w-16 rounded-lg bg-surface border border-outline-variant p-2 text-center" /> người</label>
           </div>
+          {guide && <p className="text-sm text-on-surface-variant">Thời gian chờ: {guide.waiting}. Thời gian nấu tùy bếp và lượng thực phẩm; tăng khẩu phần nên chia mẻ khi cần.</p>}
+          <p className="text-xs text-on-surface-variant">Ảnh gợi ý cách trình bày, gồm ảnh chụp và ảnh AI minh họa. Màu sắc thành phẩm có thể khác theo nguyên liệu và cách nấu. <a href="/images/food/credits.html" className="underline">Nguồn ảnh</a></p>
         </div>
-
-        {/* Recipe info bar */}
-        <div className="px-6 pb-6 -mt-4 relative">
-          <div className="bg-surface rounded-2xl p-5 shadow-[var(--shadow-elevation-2)]">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-on-surface tracking-tight mb-2">
-              {recipe.title}
-            </h1>
-            <p className="text-sm text-on-surface-variant leading-relaxed mb-4">
-              {recipe.description}
-            </p>
-
-            {/* Meta chips */}
-            <div className="flex flex-wrap items-center gap-3 text-on-surface-variant">
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4" />
-                <span className="text-sm font-medium">
-                  {recipe.prepTime} phút chuẩn bị · {recipe.cookTime} phút nấu
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Users className="w-4 h-4" />
-                <span className="text-sm font-medium">
-                  {recipe.servings} phần ăn
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Flame className="w-4 h-4" />
-                <span className="text-sm font-medium">
-                  {recipe.ingredients.length} nguyên liệu
-                </span>
-              </div>
+      </section>
+      <div className="grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.5fr)] gap-6 items-start">
+        <aside className="space-y-5">
+          <section className="rounded-3xl border border-outline-variant bg-surface p-5 md:p-7">
+            <p className="text-xs font-bold tracking-widest text-primary mb-2">01 · CHUẨN BỊ</p><h2 className="text-2xl font-bold">Nguyên liệu</h2>
+            <p className="text-sm leading-relaxed text-on-surface-variant mt-3">Lượng dùng cho <strong>{servings} người</strong>. Đánh dấu nguyên liệu đã có để bỏ khỏi giỏ mua.</p>
+            <div className="mt-4 divide-y divide-outline-variant">
+              {ingredients.map(i => { const measure = guide?.measures.find(m => m.ingredientId === i.id); return (
+                <label key={i.id} className={`flex gap-3 items-start py-4 cursor-pointer ${owned.includes(i.id) ? "opacity-60" : ""}`}>
+                  <input type="checkbox" className="mt-1 h-4 w-4 accent-green-700" checked={owned.includes(i.id)} onChange={() => setOwned(p => p.includes(i.id) ? p.filter(x => x !== i.id) : [...p, i.id])} />
+                  <span className="min-w-0 flex-1"><span className="font-semibold">{i.name}</span><span className="block mt-1 text-sm text-primary font-semibold">Dùng {measure ? `${amount(measure.quantity, factor)} ${measure.unit}` : `${i.quantity} ${i.unit}`}</span><span className="block text-xs mt-1 text-on-surface-variant">Mua: {i.quantity} {i.unit} · {formatVND(i.price * i.quantity)}</span></span>
+                </label>
+              ); })}
             </div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* ═══════════════════════════════════════════════════════
-          SMART INGREDIENT LIST
-          ═══════════════════════════════════════════════════════ */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="space-y-4"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-primary-container/70 flex items-center justify-center">
-            <Package className="w-4 h-4 text-primary" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-on-surface">
-              Danh sách nguyên liệu thông minh
-            </h2>
-            <p className="text-xs text-on-surface-variant">
-              {inPantry.length} có sẵn trong tủ lạnh · {needToBuy.length} cần mua
-            </p>
-          </div>
-        </div>
-
-        {/* ── In Pantry (green) ── */}
-        {inPantry.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="text-xs font-semibold text-primary uppercase tracking-wider flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              Đã có sẵn trong tủ lạnh
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {inPantry.map((ing, i) => (
-                <motion.div
-                  key={ing.id}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04 }}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-container/30 border border-primary-container/50"
-                >
-                  <div className="relative flex-shrink-0">
-                    <div className="w-10 h-10 rounded-xl overflow-hidden bg-surface border border-outline-variant">
-                      {ing.image ? (
-                        <img src={ing.image} alt={ing.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-primary/10 flex items-center justify-center text-sm">🥦</div>
-                      )}
-                    </div>
-                    <CheckCircle2 className="w-4 h-4 text-primary absolute -bottom-1 -right-1 bg-surface rounded-full shadow-sm" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-sm font-medium text-on-surface">
-                      {ing.name}
-                    </span>
-                    <span className="text-xs text-on-surface-variant ml-2">
-                      {ing.quantity} {ing.unit}
-                    </span>
-                  </div>
-                  <span className="text-xs font-medium text-primary">
-                    Có sẵn!
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Need to Buy ── */}
-        {needToBuy.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="text-xs font-semibold text-secondary uppercase tracking-wider flex items-center gap-1.5">
-              <ShoppingBasket className="w-3.5 h-3.5" />
-              Cần mua ({needToBuy.length})
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {needToBuy.map((ing, i) => {
-                const price =
-                  activeStoreData
-                    ? activeStoreData.items.find(
-                        (item) => item.ingredient.id === ing.id
-                      )?.price ?? ing.price * ing.quantity
-                    : ing.price * ing.quantity;
-                const sc = storeConfig[ing.store];
-                return (
-                  <motion.div
-                    key={ing.id}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04 + 0.1 }}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-secondary-container/20 border border-secondary-container/40"
-                  >
-                    <div className="relative flex-shrink-0">
-                      <div className="w-10 h-10 rounded-xl overflow-hidden bg-surface border border-outline-variant">
-                        {ing.image ? (
-                          <img src={ing.image} alt={ing.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full bg-secondary/10 flex items-center justify-center text-sm">🛒</div>
-                        )}
-                      </div>
-                      <ShoppingBasket className="w-4 h-4 text-secondary absolute -bottom-1 -right-1 bg-surface rounded-full shadow-sm" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-on-surface truncate">
-                          {ing.name}
-                        </span>
-                        <span
-                          className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${sc.bg} ${sc.color}`}
-                        >
-                          {ing.store}
-                        </span>
-                      </div>
-                      <span className="text-xs text-on-surface-variant">
-                        {ing.quantity} {ing.unit}
-                      </span>
-                    </div>
-                    <span className="text-sm font-bold text-on-surface whitespace-nowrap">
-                      {formatVND(price)}
-                    </span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </motion.section>
-
-      {/* ═══════════════════════════════════════════════════════
-          PRICE OPTIMIZER
-          ═══════════════════════════════════════════════════════ */}
-      {needToBuy.length > 0 && (
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="space-y-4"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-secondary-container/70 flex items-center justify-center">
-              <TrendingDown className="w-4 h-4 text-secondary" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-on-surface">
-                Tối ưu hóa giá cả
-              </h2>
-              <p className="text-xs text-on-surface-variant">
-                So sánh giá giữa các siêu thị cho nguyên liệu còn thiếu
-              </p>
-            </div>
-          </div>
-
-          {/* Store tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {storePrices.map(({ store, total }) => {
-              const sc = storeConfig[store];
-              const isCheapest = bestStore?.store === store;
-              const isActive = selectedStore === store;
-
-              return (
-                <button
-                  key={store}
-                  onClick={() => setSelectedStore(store)}
-                  className={`
-                    flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold
-                    transition-all duration-200 cursor-pointer border
-                    ${
-                      isActive
-                        ? `${sc.bg} ${sc.color} ${sc.border} shadow-md`
-                        : "bg-surface-container text-on-surface-variant border-outline-variant hover:bg-surface-container-high"
-                    }
-                  `}
-                >
-                  <span>{sc.icon}</span>
-                  <span className="whitespace-nowrap">{store}</span>
-                  <span
-                    className={`text-xs px-2 py-0.5 rounded-full ${
-                      isCheapest
-                        ? "bg-primary/10 text-primary"
-                        : "bg-surface-container-high text-on-surface-variant"
-                    }`}
-                  >
-                    {formatVND(total)}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Price comparison cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {storePrices.map(({ store, total }) => {
-              const sc = storeConfig[store];
-              const isCheapest = bestStore?.store === store;
-              const isActive = selectedStore === store;
-              const diff = bestStore ? total - bestStore.total : 0;
-
-              return (
-                <motion.div
-                  key={store}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => setSelectedStore(store)}
-                  className={`
-                    relative p-4 rounded-2xl cursor-pointer transition-all duration-200
-                    border-2
-                    ${
-                      isActive
-                        ? `${sc.bg} ${sc.border} shadow-md`
-                        : "bg-surface border-outline-variant hover:border-outline"
-                    }
-                  `}
-                >
-                  {isCheapest && (
-                    <div className="absolute -top-2 right-3 px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-bold">
-                      RẺ NHẤT
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">{sc.icon}</span>
-                    <span className={`text-sm font-bold ${sc.color}`}>
-                      {store}
-                    </span>
-                  </div>
-                  <p className="text-xl font-extrabold text-on-surface">
-                    {formatVND(total)}
-                  </p>
-                  {diff > 0 && (
-                    <p className="text-xs text-error font-medium mt-1">
-                      +{formatVND(diff)} chênh lệch
-                    </p>
-                  )}
-                  {isCheapest && diff === 0 && (
-                    <p className="text-xs text-primary font-medium mt-1">
-                      Bạn tiết kiệm {formatVND(savingsVsBest)}!
-                    </p>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.section>
-      )}
-
-      {/* ═══════════════════════════════════════════════════════
-          COOKING INSTRUCTIONS
-          ═══════════════════════════════════════════════════════ */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="space-y-4"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-tertiary-container/70 flex items-center justify-center">
-            <ChefHat className="w-4 h-4 text-tertiary" />
-          </div>
-          <h2 className="text-lg font-bold text-on-surface">
-            Các bước thực hiện
-          </h2>
-        </div>
-
-        <div className="space-y-3">
-          {recipe.instructions.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.45 + i * 0.06 }}
-              className="flex gap-4 items-start"
-            >
-              <div className="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-sm font-bold text-tertiary">
-                  {i + 1}
-                </span>
-              </div>
-              <p className="text-sm text-on-surface leading-relaxed pt-1">
-                {step}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
-
-      {/* ═══════════════════════════════════════════════════════
-          STICKY BOTTOM BAR
-          ═══════════════════════════════════════════════════════ */}
-      {needToBuy.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 md:left-[260px] z-40 mb-16 md:mb-0">
-          <div className="bg-surface/95 backdrop-blur-xl border-t border-outline-variant px-4 sm:px-6 py-3">
-            <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-              {/* Summary */}
-              <div className="min-w-0">
-                <p className="text-sm font-bold text-on-surface truncate">
-                  {needToBuy.length} nguyên liệu cần mua
-                </p>
-                <p className="text-xs text-on-surface-variant">
-                  Tổng cộng:{" "}
-                  <span className="font-semibold text-primary">
-                    {formatVND(activeStoreData?.total ?? 0)}
-                  </span>
-                  {bestStore && selectedStore === bestStore.store && (
-                    <span className="ml-1 text-primary">
-                      tại {bestStore.store}
-                    </span>
-                  )}
-                </p>
-              </div>
-
-              {/* Add to Cart button */}
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={handleAddToCart}
-                disabled={isAdding || addedSuccess}
-                className={`
-                  flex items-center gap-2 px-6 py-3 rounded-2xl
-                  text-sm font-bold whitespace-nowrap
-                  transition-all duration-300 cursor-pointer
-                  ${
-                    addedSuccess
-                      ? "bg-primary text-on-primary"
-                      : isAdding
-                      ? "bg-surface-container-high text-outline cursor-wait"
-                      : "gradient-primary text-on-primary shadow-lg hover:shadow-xl"
-                  }
-                `}
-              >
-                <AnimatePresence mode="wait">
-                  {addedSuccess ? (
-                    <motion.span
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center gap-2"
-                    >
-                      <CheckCircle2 className="w-5 h-5" />
-                      Đã thêm! Đang chuyển hướng…
-                    </motion.span>
-                  ) : isAdding ? (
-                    <motion.span
-                      key="loading"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex items-center gap-2"
-                    >
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                      >
-                        <Sparkles className="w-4 h-4" />
-                      </motion.div>
-                      Đang thêm…
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="default"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex items-center gap-2"
-                    >
-                      <ShoppingCart className="w-5 h-5" />
-                      Thêm vào giỏ hàng
-                      <ArrowRight className="w-4 h-4" />
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+            {guide && guide.pantry.length > 0 && <div className="mt-5 rounded-2xl bg-surface-container/70 p-4"><h3 className="font-bold">Chuẩn bị thêm tại bếp</h3><p className="text-xs leading-relaxed text-on-surface-variant mt-1 mb-3">Các lượng dưới đây dùng cho {servings} người, chưa cộng vào giỏ và giá dự kiến. Kiểm tra đủ trước khi bắt đầu.</p><ul className="space-y-2">{guide.pantry.map(i => <li key={i.name} className="flex justify-between gap-3 text-sm"><span>{i.name}</span><strong className="shrink-0">{amount(i.quantity, factor)} {i.unit}</strong></li>)}</ul></div>}
+            <p className="text-xs leading-relaxed text-on-surface-variant mt-4">Lượng dùng và quy cách mua có thể khác nhau. Với trứng lẻ, đánh tan rồi lấy phần cần dùng; gia vị nên nêm từ ít đến vừa miệng. 1 thìa cà phê = 5 ml, 1 thìa canh = 15 ml.</p>
+            <div className="border-t border-outline-variant mt-5 pt-5 flex items-center justify-between gap-3"><span className="font-semibold">Cần mua</span><strong className="text-xl text-primary">{formatVND(total)}</strong></div>
+            <button disabled={!needed.length} className="btn-filled w-full mt-4" onClick={() => { addMultipleToCart(needed.map(i => ({ ingredient: i, quantity: i.quantity, recipeId: recipe.id, recipeTitle: recipe.title }))); router.push("/grocery-store"); }}><ShoppingBasket size={18} />{needed.length ? "Thêm nguyên liệu vào giỏ" : "Bạn đã có đủ nguyên liệu"}</button>
+          </section>
+          {guide && <section className="rounded-3xl border border-outline-variant bg-surface p-5 md:p-7"><h3 className="font-bold flex items-center gap-2"><Utensils size={18} /> Dụng cụ cần có</h3><ul className="mt-3 space-y-2 text-sm text-on-surface-variant">{guide.equipment.map(item => <li key={item}>• {item}</li>)}</ul></section>}
+        </aside>
+        <section className="rounded-3xl border border-outline-variant bg-surface p-5 md:p-7">
+          <p className="text-xs font-bold tracking-widest text-primary mb-2">02 · THỰC HIỆN</p>
+          <div className="flex items-center justify-between gap-3"><h2 className="text-2xl font-bold">Cùng vào bếp</h2><button onClick={() => setCompleted([])} disabled={!completed.length} className="inline-flex items-center gap-1 text-sm text-primary disabled:opacity-40 p-2" aria-label="Đặt lại các bước đã hoàn thành"><RotateCcw size={15} /> Làm lại</button></div>
+          <p className="mt-3 text-sm text-on-surface-variant" aria-live="polite">{completed.length === steps.length ? "Hoàn thành! Món ăn đã sẵn sàng để thưởng thức." : `Đã xong ${completed.length}/${steps.length} bước · Đánh dấu sau mỗi bước để theo dõi.`}</p>
+          <div role="progressbar" aria-label="Tiến độ nấu ăn" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={completed.length} className="h-2 bg-surface-container rounded-full mt-4 overflow-hidden"><div className="h-full bg-primary transition-all duration-300" style={{ width: `${completed.length / Math.max(1, steps.length) * 100}%` }} /></div>
+          <ol className="mt-7 space-y-5">
+            {steps.map((step, index) => <li key={index} className={`rounded-2xl border p-4 md:p-5 transition-colors ${completed.includes(index) ? "border-primary/30 bg-primary-container/15" : "border-outline-variant"}`}>
+              <div className="flex items-start gap-3"><span className={`w-9 h-9 rounded-full shrink-0 flex items-center justify-center font-bold ${completed.includes(index) ? "bg-primary text-white" : "bg-primary-container text-primary"}`}>{completed.includes(index) ? <Check size={19} /> : String(index + 1).padStart(2, "0")}</span><div><h3 className="text-lg font-bold leading-snug">{step.title}</h3><div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-xs text-on-surface-variant">{step.duration && <span className="inline-flex items-center gap-1"><Clock size={13} />{step.duration}</span>}{step.heat && <span className="inline-flex items-center gap-1"><Flame size={13} />{step.heat}</span>}</div></div></div>
+              <p className="mt-4 leading-7 text-sm md:text-base text-on-surface">{step.detail}</p>
+              {step.cue && <div className="mt-4 rounded-xl bg-primary-container/25 p-3 text-sm leading-relaxed"><strong className="text-primary">Dấu hiệu đạt: </strong>{step.cue}</div>}
+              <label className="inline-flex items-center gap-2 mt-4 py-1 text-sm font-semibold cursor-pointer"><input type="checkbox" className="h-4 w-4 accent-green-700" checked={completed.includes(index)} onChange={() => toggleStep(index)} />{completed.includes(index) ? "Đã hoàn thành" : `Hoàn thành bước ${index + 1}`}</label>
+            </li>)}
+          </ol>
+          {guide && <div className="mt-6 rounded-2xl bg-primary-container/35 p-5"><h3 className="font-bold text-primary flex gap-2 items-center"><ChefHat size={20} /> Thành phẩm & cách bày món</h3><p className="mt-3 leading-relaxed">{guide.finish}</p><a href={recipe.image} target="_blank" rel="noreferrer" className="inline-flex gap-1 items-center text-sm font-semibold text-primary mt-3">Đối chiếu ảnh thành phẩm <ArrowUpRight size={15} /></a></div>}
+          <p className="text-xs leading-relaxed text-on-surface-variant mt-5">Thời gian chỉ là ước lượng; kiểm tra độ chín thực tế, đặc biệt với thịt và trứng. <a className="underline" href="https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart" target="_blank" rel="noreferrer">Tham khảo nhiệt độ chín an toàn</a>.</p>
+        </section>
+      </div>
+    </article>
   );
 }

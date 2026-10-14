@@ -21,6 +21,8 @@ const fallbackGradients: Record<string, string> = {
 };
 
 const fallbackEmojis: Record<string, string> = {
+  "recipe-011": "🍅", "recipe-012": "🍳", "recipe-013": "🥣",
+  "recipe-014": "🥬", "recipe-015": "🍲", "recipe-016": "🥚",
   "recipe-001": "🍜",
   "recipe-002": "🍛",
   "recipe-003": "🥢",

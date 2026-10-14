@@ -9,6 +9,7 @@ import {
   Sparkles,
   TrendingUp,
   CircleDollarSign,
+  Users,
 } from "lucide-react";
 import { useAppContext } from "@/context/AppContext";
 
@@ -31,10 +32,10 @@ function parseVNDInput(raw: string): number {
 // ─────────────────────────────────────────────────────────────
 
 const budgetPresets = [
+  { label: "50K", value: 50000 },
+  { label: "100K", value: 100000 },
+  { label: "150K", value: 150000 },
   { label: "200K", value: 200000 },
-  { label: "300K", value: 300000 },
-  { label: "500K", value: 500000 },
-  { label: "1M", value: 1000000 },
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -43,8 +44,9 @@ const budgetPresets = [
 
 export default function BudgetCard() {
   const router = useRouter();
-  const { setBudget, state } = useAppContext();
+  const { setBudget, setServings, state } = useAppContext();
   const [inputValue, setInputValue] = useState<number>(state.userBudget);
+  const [servingsValue, setServingsValue] = useState<number>(state.servings);
   const [isFocused, setIsFocused] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -73,12 +75,13 @@ export default function BudgetCard() {
 
     setIsSubmitting(true);
     setBudget(inputValue);
+    setServings(servingsValue);
 
     // Small delay for the animation before navigating
     setTimeout(() => {
-      router.push("/meal-plan");
+      router.push("/ai-suggestions");
     }, 600);
-  }, [inputValue, setBudget, router]);
+  }, [inputValue, servingsValue, setBudget, setServings, router]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -91,195 +94,113 @@ export default function BudgetCard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="w-full max-w-3xl mx-auto"
     >
-      {/* Outer glow effect */}
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-[28px] blur-sm opacity-60" />
+      <div className="bg-surface rounded-[32px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant/30 text-center relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/[0.02] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
-      {/* Main card */}
-      <div
-        className={`
-          relative overflow-hidden rounded-3xl
-          bg-surface border transition-all duration-300
-          ${isFocused ? "border-primary/40 shadow-[0_0_0_3px_rgba(27,122,61,0.1)]" : "border-outline-variant"}
-        `}
-        style={{ boxShadow: "var(--shadow-elevation-2)" }}
-      >
-        {/* Decorative background shapes */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/[0.03] rounded-full -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-secondary/[0.04] rounded-full translate-y-1/3 -translate-x-1/4" />
+        <h2 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight mb-4 leading-tight">
+          Ăn gì với 50k?<br/>
+          <span className="text-2xl md:text-4xl text-on-surface">Gợi ý món ngon, tính tiền, lên danh sách đi chợ.</span>
+        </h2>
+        <p className="text-on-surface-variant text-base md:text-lg mb-8 max-w-lg mx-auto">
+          Lựa chọn số người ăn và ngân sách của bạn hôm nay.
+        </p>
 
-        <div className="relative p-6 sm:p-8">
-          {/* Card header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-11 h-11 rounded-2xl bg-primary-container flex items-center justify-center">
-              <Wallet className="w-5 h-5 text-on-primary-container" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-on-surface">
-                Nhập ngân sách của bạn
-              </h2>
-              <p className="text-xs text-on-surface-variant">
-                Chúng tôi sẽ gợi ý thực đơn tối ưu trong ngân sách của bạn
-              </p>
-            </div>
-          </div>
-
-          {/* VND Input Field */}
-          <div className="mb-5">
-            <label
-              htmlFor="budget-input"
-              className="block text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2"
+        {/* Servings Selector */}
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <span className="text-sm font-medium text-on-surface-variant flex items-center gap-2">
+            <Users className="w-4 h-4" /> Số người ăn:
+          </span>
+          <div className="flex items-center bg-surface-container border border-outline-variant/50 rounded-full p-1">
+            <button
+              onClick={() => setServingsValue((prev) => Math.max(1, prev - 1))}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface"
             >
-              Ngân sách mỗi ngày
-            </label>
-            <div
-              className={`
-                relative flex items-center gap-2 rounded-2xl border-2 px-5 py-4
-                transition-all duration-200 bg-surface-container/50
-                ${isFocused ? "border-primary bg-surface" : "border-outline-variant hover:border-outline"}
-              `}
+              -
+            </button>
+            <input
+              type="number"
+              min="1"
+              max="20"
+              aria-label="Số người ăn"
+              value={servingsValue}
+              onChange={(e) => setServingsValue(Math.min(20, Math.max(1, parseInt(e.target.value) || 1)))}
+              className="w-12 text-center bg-transparent outline-none font-bold text-on-surface appearance-none"
+            />
+            <button
+              onClick={() => setServingsValue((prev) => Math.min(20, prev + 1))}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface"
             >
-              <span className="text-on-surface-variant font-semibold text-lg select-none">
-                ₫
-              </span>
-              <input
-                ref={inputRef}
-                id="budget-input"
-                type="text"
-                inputMode="numeric"
-                value={formatVNDDisplay(inputValue)}
-                onChange={handleInputChange}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                onKeyDown={handleKeyDown}
-                placeholder="0"
-                aria-label="Nhập ngân sách đi chợ của bạn bằng Việt Nam Đồng"
-                className="
-                  flex-1 bg-transparent outline-none
-                  text-3xl sm:text-4xl font-extrabold text-on-surface
-                  placeholder:text-outline placeholder:font-normal
-                  tracking-tight
-                "
-              />
-              <span className="text-sm font-medium text-on-surface-variant select-none">
-                VND
-              </span>
-            </div>
+              +
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-6">
+          {/* Input field */}
+          <div className="relative flex items-center bg-surface-container/30 border border-outline-variant/50 rounded-full px-6 py-4 w-full transition-all focus-within:border-primary focus-within:bg-surface focus-within:ring-4 focus-within:ring-primary/10">
+            <span className="text-on-surface-variant font-medium mr-2">₫</span>
+            <input
+              ref={inputRef}
+              type="text"
+              inputMode="numeric"
+              value={isFocused ? (inputValue === 0 ? "" : inputValue.toString()) : formatVNDDisplay(inputValue)}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              className="flex-1 bg-transparent outline-none text-2xl font-bold text-on-surface text-center placeholder:text-outline"
+              placeholder="50,000"
+            />
+            <span className="text-on-surface-variant font-medium ml-2">VND</span>
           </div>
 
-          {/* Quick presets */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span className="text-xs text-on-surface-variant font-medium self-center mr-1">
-              Nhanh:
-            </span>
-            {budgetPresets.map((preset) => (
-              <motion.button
-                key={preset.value}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handlePresetClick(preset.value)}
-                className={`
-                  px-4 py-2 rounded-xl text-sm font-semibold
-                  transition-all duration-200 cursor-pointer
-                  ${
-                    inputValue === preset.value
-                      ? "bg-primary text-on-primary shadow-sm"
-                      : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
-                  }
-                `}
-                aria-label={`Set budget to ${preset.label} VND`}
-              >
-                {preset.label}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Smart insight */}
-          <AnimatePresence mode="wait">
-            {inputValue > 0 && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mb-6"
-              >
-                <div className="flex items-start gap-3 p-4 rounded-2xl bg-primary-container/40 border border-primary-container">
-                  <TrendingUp className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-on-primary-container">
-                      {inputValue >= 500000
-                        ? "🎉 Ngân sách tuyệt vời! Bạn có thể lên thực đơn cao cấp cho cả tuần."
-                        : inputValue >= 200000
-                        ? "👍 Ngân sách tốt! Thích hợp cho 3-5 bữa ăn dinh dưỡng với nguyên liệu tươi ngon."
-                        : inputValue >= 100000
-                        ? "💡 Chúng tôi sẽ tối ưu chi phí — nhiều công thức nấu ăn tiết kiệm đang chờ bạn!"
-                        : "🌱 Mỗi đồng đều quý giá! Hãy để AI tìm các lựa chọn tiết kiệm nhất cho bạn."}
-                    </p>
-                    <p className="text-xs text-on-surface-variant mt-1">
-                      <CircleDollarSign className="w-3 h-3 inline mr-1" />
-                      AI sẽ so sánh giá tại Bách Hóa Xanh, Winmart & Coop Food
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Plan My Meals button */}
-          <motion.button
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
+          {/* Search/Submit Button */}
+          <button
             onClick={handlePlanMeals}
             disabled={inputValue <= 0 || isSubmitting}
             className={`
-              w-full flex items-center justify-center gap-3
-              py-4 px-6 rounded-2xl
-              text-base font-bold tracking-wide
-              transition-all duration-300 cursor-pointer
+              w-full sm:w-auto px-8 py-4 rounded-full font-bold text-base whitespace-nowrap
+              transition-all shadow-md
               ${
                 inputValue > 0 && !isSubmitting
-                  ? "gradient-primary text-on-primary shadow-lg hover:shadow-xl"
+                  ? "bg-secondary text-on-secondary hover:shadow-lg hover:-translate-y-0.5"
                   : "bg-surface-container-high text-outline cursor-not-allowed"
               }
             `}
-            aria-label="Plan my meals with the set budget"
           >
-            <AnimatePresence mode="wait">
-              {isSubmitting ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="flex items-center gap-3"
-                >
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                  >
-                    <Sparkles className="w-5 h-5" />
-                  </motion.div>
-                  <span>AI đang lên thực đơn cho bạn…</span>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="default"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="flex items-center gap-3"
-                >
+            {isSubmitting ? (
+              <span className="flex items-center gap-2">
+                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
                   <Sparkles className="w-5 h-5" />
-                  <span>Lên thực đơn</span>
-                  <ArrowRight className="w-5 h-5" />
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+                Đang xử lý
+              </span>
+            ) : (
+              "Tìm thực đơn"
+            )}
+          </button>
+        </div>
+
+        {/* Quick Presets */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <span className="text-sm font-medium text-on-surface-variant mr-1">
+            Gợi ý nhanh:
+          </span>
+          {budgetPresets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => handlePresetClick(preset.value)}
+              className="px-4 py-2 rounded-xl text-sm font-bold bg-surface-container hover:bg-primary/10 hover:text-primary transition-colors border border-outline-variant/50 text-on-surface"
+            >
+              {preset.label}
+            </button>
+          ))}
         </div>
       </div>
     </motion.div>
