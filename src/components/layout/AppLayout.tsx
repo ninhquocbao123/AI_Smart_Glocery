@@ -3,22 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Home,
   CalendarDays,
   ShoppingCart,
   User,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
   Wallet,
   Tag,
   ClipboardList,
 } from "lucide-react";
 import { useAppContext } from "@/context/AppContext";
 
-import { Bell } from "lucide-react";
+
+import AdminShell from '@/components/admin/AdminShell';
 import AIChatAssistant from "@/components/dashboard/AIChatAssistant";
 
 // ─────────────────────────────────────────────────────────────
@@ -197,11 +195,19 @@ function Footer() {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { state, authReady } = useAppContext();
+  const { state, authReady, setUser } = useAppContext();
+  const [logoutError, setLogoutError] = useState("");
   const router = useRouter();
   const isAuthOrLanding = pathname === "/" || pathname?.startsWith("/auth");
 
   useEffect(() => { if (authReady && !state.user && !isAuthOrLanding) router.replace("/auth/login"); }, [authReady, state.user, isAuthOrLanding, router]);
+  useEffect(() => {
+    if (authReady && state.user?.isAdmin && !pathname.startsWith('/admin')) router.replace('/admin');
+  }, [authReady, state.user?.isAdmin, pathname, router]);
+  if (authReady && state.user?.isAdmin) {
+    if (!pathname.startsWith('/admin')) return <p className="p-12 text-center">Đang mở trang quản trị…</p>;
+    return <AdminShell name={state.user.name} error={logoutError} onLogout={async()=>{try{const r=await fetch('/api/auth/session',{method:'DELETE'});if(!r.ok)throw Error();setUser(null);router.replace('/auth/login');}catch{setLogoutError('Chưa đăng xuất được. Vui lòng thử lại.');}}}>{children}</AdminShell>;
+  }
   if (!isAuthOrLanding && (!authReady || !state.user)) return <div className="p-12 text-center" role="status">Đang tải tài khoản…</div>;
 
   if (isAuthOrLanding) {

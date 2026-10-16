@@ -78,7 +78,7 @@ export default function BudgetPage() {
         />
       </div>
       <p className="text-sm text-on-surface-variant">
-        Thống kê theo tháng đặt hàng, gồm phí giao. Đơn thật chỉ tính khi đã xác nhận thu tiền; đơn thử nghiệm tính khi đã giao/hoàn thành. Giao dịch MoMo thử nghiệm không được tính.{" "}
+        Số liệu theo tháng đặt hàng, đã gồm phí giao, chỉ tính đơn đã thu tiền.{" "}
         <Link className="text-primary underline" href="/profile">
           Đổi ngân sách mục tiêu
         </Link>

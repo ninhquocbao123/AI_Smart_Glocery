@@ -19,7 +19,7 @@ export default function LandingPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-3xl space-y-6"
+        className="w-full max-w-5xl space-y-6"
       >
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-bold text-sm mb-4">
           <Sparkles className="w-4 h-4" />
@@ -27,11 +27,11 @@ export default function LandingPage() {
         </div>
         <h1 className="text-4xl sm:text-6xl font-extrabold text-on-surface tracking-tight leading-tight">
           Giải quyết bài toán <br className="hidden sm:block" />
-          <span className="text-primary">&quot;Ăn gì với 50k?&quot;</span>
+          <span className="text-primary">BỮA NGON ĐỂ &quot;AI&quot; LO</span>
         </h1>
-        <p className="text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-          AI Smart Grocery giúp bạn lên thực đơn mỗi ngày, tận dụng nguyên liệu thừa,
-          và tối ưu hóa ngân sách đi chợ. Trải nghiệm giải pháp ăn ngon - bổ - rẻ ngay hôm nay!
+        <p className="text-lg text-on-surface-variant max-w-5xl mx-auto leading-relaxed">
+          <span className="lg:block">AI Smart Grocery giúp bạn lên thực đơn mỗi ngày, tận dụng nguyên liệu thừa,</span>{" "}
+          <span className="lg:block">và tối ưu hóa ngân sách đi chợ. Trải nghiệm giải pháp ăn ngon - bổ - rẻ ngay hôm nay!</span>
         </p>
       </motion.div>
 

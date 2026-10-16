@@ -8,7 +8,9 @@ export async function POST(req: Request) {
   try {
     sameOrigin(req);
     const data = await body(req);
-    const { name, password } = data;
+    const { name, password, confirmPassword } = data;
+    const phone = typeof data.phone === "string" ? data.phone.replace(/[\s().-]/g, "") : "";
+    const address = typeof data.address === "string" ? data.address.trim() : "";
     const email =
       typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
 
@@ -30,6 +32,9 @@ export async function POST(req: Request) {
       );
     }
 
+    if (confirmPassword !== password) return NextResponse.json({ message: "Mật khẩu xác nhận không khớp." }, { status: 400 });
+    if (!/^(?:0\d{9}|\+84\d{9})$/.test(phone) || address.length < 10 || address.length > 300) return NextResponse.json({ message: "Nhập số điện thoại Việt Nam hợp lệ và địa chỉ từ 10–300 ký tự." }, { status: 400 });
+
     await dbConnect();
     await rateLimit("register:" + (req.headers.get("x-vercel-forwarded-for") ?? req.headers.get("x-forwarded-for") ?? "local"), 5, 3600000);
 
@@ -46,6 +51,7 @@ export async function POST(req: Request) {
     const newUser = new User({
       name: name.trim(),
       email,
+      phone, address,
       password: hashedPassword,
     });
 

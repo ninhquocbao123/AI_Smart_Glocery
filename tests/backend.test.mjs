@@ -381,3 +381,63 @@ test('assistant API supports grounded fallback and authenticated AI responses',a
   const failed=loader({...stubs,fetch:async()=>{throw Error('offline');}},{GEMINI_API_KEY:'test-key',GEMINI_MODEL:'test-model'})('src/app/api/assistant/route.ts');
   assert.equal((await (await failed.POST(request({message:'Thanh toán MoMo?'}))).json()).source,'guide');
 });
+
+test('inline bank QR is persisted once, reused and scoped to its order owner',async()=>{
+  let creates=0;
+  const record={_id:'record',orderId:'order-qr',userId:'owner',mode:'live',status:'unpaid',paymentStatus:'pending',paymentMethod:'bank',total:22000,payment:{provider:'bank',orderCode:123,reference:'ref'}};
+  const model={
+    findOne:async filter=>filter.userId===record.userId&&filter.orderId===record.orderId?record:null,
+    findOneAndUpdate:async()=>{record.payment.startedAt=new Date();return record;},
+    updateOne:async(_filter,update)=>{for(const [key,value]of Object.entries(update.$set))record.payment[key.slice(8)]=value;},
+    findById:async()=>record,
+  };
+  const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},userRequired:async()=>({_id:'owner'}),body:req=>req.json(),fail:e=>Response.json({}, {status:e.status??503})};
+  const stubs={'@/models/Order':{__esModule:true,default:model},'@/lib/server/http':common,'@/lib/server/config':{paymentReady:()=>true},'@/lib/server/order-service':{settlePayment:async()=>({...record,paymentStatus:'review'})},'@/lib/server/providers':{createBankPayment:async()=>{creates++;return{checkoutUrl:'https://pay.payos.vn/web/test',qrCode:'verified-provider-payload',accountName:'TEST MERCHANT',accountNumber:'123456',bankBin:'970407',description:'SG123',expiresAt:2000000000};},queryPayment:async()=>({paid:true,amount:999,transactionId:'transaction'})}};
+  const route=loader(stubs)('src/app/api/payments/route.ts');
+  const req=action=>new Request('http://localhost/api/payments',{method:'POST',body:JSON.stringify({orderId:'order-qr',action})});
+  for(let n=0;n<2;n++){
+    const response=await route.POST(req('create'));assert.equal(response.status,200);
+    const data=await response.json();assert.equal(data.total,22000);assert.match(data.bank.qrImage,/^data:image\/png;base64,/);assert.equal(data.bank.description,'SG123');
+  }
+  assert.equal(creates,1);
+  const review=await(await route.POST(req('check'))).json();assert.equal(review.paid,false);assert.equal(review.order.paymentStatus,'review');
+  const denied=loader({...stubs,'@/lib/server/http':{...common,userRequired:async()=>({_id:'another-user'})}})('src/app/api/payments/route.ts');
+  assert.equal((await denied.POST(req('create'))).status,409);
+  assert.equal((await route.POST(req('invalid'))).status,400);
+  record.status='cancelled';assert.equal((await(await route.POST(req('create'))).json()).terminal,true);
+  assert.equal(creates,1);
+});
+
+test('payment report periods follow Vietnam midnight including month and leap-day boundaries',()=>{
+ const {paymentPeriod}=loader({'./http':http})('src/lib/server/payment-period.ts');
+ const range=paymentPeriod('2026-10-01');
+ assert.equal(range.dayStart.toISOString(),'2026-09-30T17:00:00.000Z');
+ assert.equal(range.dayEnd.toISOString(),'2026-10-01T17:00:00.000Z');
+ assert.equal(range.monthEnd.toISOString(),'2026-10-31T17:00:00.000Z');
+ assert.throws(()=>paymentPeriod('2026-02-29'),{status:400});
+ assert.equal(paymentPeriod('2028-02-29').monthEnd.toISOString(),'2028-02-29T17:00:00.000Z');
+});
+test('admin payment history excludes unpaid and sandbox rows, aggregates before pagination and rejects ordinary users',async()=>{
+ let pipeline;
+ const common={...http,adminRequired:async()=>({_id:'admin'}),fail:e=>Response.json({}, {status:e.status??503})};
+ const stubs={'@/lib/server/http':common,'./http':http,'@/models/Order':{__esModule:true,default:{aggregate:async p=>{pipeline=p;return[{day:[],month:[],count:[],orders:[]}];}}}};
+ const route=loader(stubs)('src/app/api/admin/payments/route.ts');
+ const r=await route.GET(new Request('http://localhost/api/admin/payments?date=2026-10-01&period=month&page=2'));
+ assert.equal(r.status,200);assert.equal(pipeline[0].$match.paymentStatus,'paid');assert.equal(pipeline[0].$match.mode,'live');assert.equal(pipeline[0].$match['payment.environment'].$ne,'sandbox');
+ assert.equal(pipeline[1].$facet.orders[1].$skip,25);assert.equal(pipeline[1].$facet.month[0].$group.total.$sum,'$total');
+ const denied=loader({...stubs,'@/lib/server/http':{...common,adminRequired:async()=>{throw new ApiError(403,'denied');}}})('src/app/api/admin/payments/route.ts');
+ assert.equal((await denied.GET(new Request('http://localhost/api/admin/payments'))).status,403);
+});
+test('registration requires confirmed password and contact details, persists no confirmation or elevated role',async()=>{
+ let saved;
+ class User {constructor(data){Object.assign(this,data);saved=data;} async save(){} static async findOne(){return null;}}
+ const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},body:req=>req.json(),fail:e=>Response.json({}, {status:e.status??503})};
+ const route=loader({'next/server':{NextResponse:Response},'@/lib/mongodb':{__esModule:true,default:async()=>{}},'@/models/User':{__esModule:true,default:User},bcryptjs:{__esModule:true,default:{hash:async()=> 'hashed-password'}},'@/lib/server/http':common})('src/app/api/auth/register/route.ts');
+ const data={name:'Test Person',email:'test@example.com',password:'password123',confirmPassword:'password123',phone:'0901234567',address:'123 đường Nguyễn Trãi',role:'admin'};
+ const req=d=>new Request('http://localhost/api/auth/register',{method:'POST',body:JSON.stringify(d)});
+ assert.equal((await route.POST(req({...data,confirmPassword:'wrong'}))).status,400);
+ assert.equal((await route.POST(req({...data,phone:''}))).status,400);
+ assert.equal((await route.POST(req({...data,address:''}))).status,400);
+ assert.equal((await route.POST(req(data))).status,201);
+ assert.equal(saved.phone,data.phone);assert.equal(saved.address,data.address);assert.equal(saved.password,'hashed-password');assert.equal(saved.confirmPassword,undefined);assert.equal(saved.role,undefined);
+});

@@ -104,8 +104,7 @@ export default function BudgetCard() {
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/[0.02] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
         <h2 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight mb-4 leading-tight">
-          Ăn gì với 50k?<br/>
-          <span className="text-2xl md:text-4xl text-on-surface">Gợi ý món ngon, tính tiền, lên danh sách đi chợ.</span>
+          BỮA NGON ĐỂ &quot;AI&quot; LO
         </h2>
         <p className="text-on-surface-variant text-base md:text-lg mb-8 max-w-lg mx-auto">
           Lựa chọn số người ăn và ngân sách của bạn hôm nay.
@@ -130,7 +129,7 @@ export default function BudgetCard() {
               aria-label="Số người ăn"
               value={servingsValue}
               onChange={(e) => setServingsValue(Math.min(20, Math.max(1, parseInt(e.target.value) || 1)))}
-              className="w-12 text-center bg-transparent outline-none font-bold text-on-surface appearance-none"
+              className="w-12 text-center bg-transparent outline-none font-bold text-on-surface [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0"
             />
             <button
               onClick={() => setServingsValue((prev) => Math.min(20, prev + 1))}

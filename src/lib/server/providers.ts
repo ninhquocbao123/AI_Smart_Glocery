@@ -92,19 +92,35 @@ export async function createPayment(order: PaymentOrder) {
       );
     return trustedCheckoutUrl(result.payUrl, "momo");
   }
+  return (await createBankPayment(order)).checkoutUrl;
+}
+export async function createBankPayment(order: PaymentOrder) {
+  checkEnvironment(order);
+  if (order.paymentMethod !== "bank" || !paymentReady("bank"))
+    throw new ApiError(409, "Thanh toán ngân hàng chưa sẵn sàng.");
+  const returnUrl = appUrl() + "/payment/" + encodeURIComponent(order.orderId);
+  const expiresAt = Math.floor(Date.now() / 1000) + 1800;
   const result = await payosClient().paymentRequests.create({
     orderCode: order.payment.orderCode,
     amount: order.total,
     description: "SG" + String(order.payment.orderCode).slice(-7),
     returnUrl,
     cancelUrl: returnUrl,
+    expiredAt: expiresAt,
   });
   if (
     result.orderCode !== order.payment.orderCode ||
     result.amount !== order.total
   )
     throw new ApiError(502, "Thông tin thanh toán ngân hàng không khớp.");
-  return trustedCheckoutUrl(result.checkoutUrl, "bank");
+  if (!result.qrCode || !result.accountNumber || !result.accountName || result.currency !== "VND")
+    throw new ApiError(502, "payOS chưa trả đủ thông tin mã QR.");
+  return {
+    checkoutUrl: trustedCheckoutUrl(result.checkoutUrl, "bank"),
+    qrCode: result.qrCode, accountNumber: result.accountNumber,
+    accountName: result.accountName, bankBin: result.bin,
+    description: result.description, expiresAt,
+  };
 }
 export async function queryPayment(order: PaymentOrder) {
   checkEnvironment(order);
@@ -136,6 +152,7 @@ export async function queryPayment(order: PaymentOrder) {
     throw new ApiError(502, "Kết quả đối soát không khớp.");
   return {
     paid: data.status === "PAID" && data.amountPaid >= data.amount,
+    status: data.status,
     amount: data.amount,
     transactionId: data.id,
   };

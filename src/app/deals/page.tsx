@@ -45,8 +45,6 @@ export default function DealsPage() {
 
   return (
     <div className="space-y-8 pb-12">
-      <p className="text-xs text-on-surface-variant">Ảnh món ăn và sản phẩm mang tính minh họa, gồm ảnh chụp và ảnh tạo bằng AI. <a href="/images/food/credits.html" className="underline">Nguồn ảnh</a></p>
-      <p className="rounded-xl bg-secondary-container/40 p-4 text-sm">Giá tham khảo, cập nhật bởi nhóm quản trị.</p>
       {error&&<p role="alert" className="text-error">{error}</p>}
       <input aria-label="Tìm thực phẩm giảm giá" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tìm nguyên liệu bạn đang thiếu…" className="w-full border border-outline-variant rounded-xl p-3"/>
       {notice && <p role="status" className="text-primary">{notice}</p>}

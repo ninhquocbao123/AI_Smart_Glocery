@@ -73,6 +73,7 @@ export default function OrdersPage() {
     }
   }
   async function pay(order: GroceryOrder, action = "create") {
+    if (order.paymentMethod === "bank" && action === "create") { router.push("/payment/" + encodeURIComponent(order.orderId)); return; }
     setBusy(order.orderId); setError("");
     try {
       const r = await fetch("/api/payments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: order.orderId, action }) });
@@ -142,7 +143,7 @@ export default function OrdersPage() {
               <div>
                 <h2 className="font-bold">{o.orderId}</h2>
                 {o.paymentEnvironment === "sandbox" && <p className="text-sm font-semibold">MoMo thử nghiệm · Không phải tiền thật</p>}
-                <p className="text-sm">{o.mode === "live" ? (o.paymentStatus === "paid" ? "Đã thanh toán" : o.paymentStatus === "review" ? "Cần đối soát thanh toán" : "Chưa xác nhận thanh toán") : "Không thu tiền"}</p>
+                <p className="text-sm">{o.mode === "live" ? (o.paymentStatus === "paid" ? "Đã mua · Đã thanh toán" : o.paymentStatus === "review" ? "Cần đối soát thanh toán" : "Chưa xác nhận thanh toán") : "Không thu tiền"}</p>
                 <p className="text-sm text-on-surface-variant">
                   {orderDate(o.createdAt)}{" "}
                   · {o.store}
@@ -187,9 +188,6 @@ export default function OrdersPage() {
             </details>
             {!reorderItems(o) && <p className="text-sm text-on-surface-variant">Đơn cũ thiếu mã nguyên liệu hợp lệ để mua lại. Bạn vẫn xem được lịch sử; hãy chọn nguyên liệu mới tại <Link href="/meal-plan" className="text-primary underline">Smart Cart</Link>.</p>}
             <div className="flex flex-wrap gap-3">
-              {o.mode === "demo" && o.status === "unpaid" && o.paymentEnvironment !== "sandbox" && <button disabled={!!busy} className="btn-filled" onClick={()=>update(o,"demoPay")}>Mô phỏng thanh toán thành công</button>}
-              {o.mode === "demo" && o.status === "confirmed" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoShip")}>Thử nghiệm giao hàng</button>}
-              {o.mode === "demo" && o.status === "delivering" && <button disabled={!!busy} className="btn-outlined" onClick={()=>update(o,"demoReceive")}>Thử nghiệm hoàn thành đơn</button>}
               {["unpaid", "confirmed"].includes(o.status) && !o.paymentStarted && o.paymentStatus !== "paid" && <button disabled={!!busy} className="text-error" onClick={()=>update(o,"cancel")}>Hủy đơn chưa xử lý</button>}
               <button
                 className="btn-filled"
@@ -204,7 +202,7 @@ export default function OrdersPage() {
               >
                 <RotateCcw size={16} /> Mua lại
               </button>
-              {o.status === "unpaid" && (o.mode === "live" || (o.paymentMethod === "momo" && o.paymentEnvironment === "sandbox")) && (
+              {o.status === "unpaid" && ["bank", "momo"].includes(o.paymentMethod) && (o.mode === "live" || (o.paymentMethod === "momo" && o.paymentEnvironment === "sandbox")) && (
                 <>
                   <button
                     disabled={!!busy}

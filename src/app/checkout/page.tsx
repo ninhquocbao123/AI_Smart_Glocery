@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 import { formatVND } from "@/lib/priceUtils";
 import { storeDirectory } from "@/lib/stores";
@@ -22,8 +22,16 @@ type Settings = {
   stores: { key: string; acceptingOrders: boolean }[];
 };
 export default function CheckoutPage() {
-  const { state, clearCart } = useAppContext(),
+  return <Suspense fallback={<p role="status">Đang tải các món đã chọn…</p>}><CheckoutForm /></Suspense>;
+}
+function CheckoutForm() {
+  const { state, removePurchased } = useAppContext(),
     router = useRouter();
+  const search = useSearchParams();
+  const items = useMemo(() => {
+    const selected = search.getAll('recipe');
+    return search.has('recipe') ? state.cart.filter(item => selected.includes(item.recipeId)) : state.cart;
+  }, [search, state.cart]);
   const [store, setStore] = useState<string>(state.selectedStore ?? "Winmart");
   const [address, setAddress] = useState(state.user?.address ?? ""),
     [phone, setPhone] = useState(state.user?.phone ?? "");
@@ -37,7 +45,7 @@ export default function CheckoutPage() {
     } | null>(null),
     [settings, setSettings] = useState<Settings | null>(null),
     [version, setVersion] = useState(0);
-  const quoteKey = JSON.stringify({ items: state.cart, store, version });
+  const quoteKey = JSON.stringify({ items, store, version });
   const quote = quoteResult?.key === quoteKey ? quoteResult.quote : null;
   const quoteError = quoteResult?.key === quoteKey ? quoteResult.error : "";
   const request = useRef<{ payload: string; id: string } | null>(null);
@@ -52,11 +60,11 @@ export default function CheckoutPage() {
   }, []);
   useEffect(() => {
     const controller = new AbortController();
-    if (state.cart.length)
+    if (items.length)
       fetch("/api/checkout/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: state.cart, store }),
+        body: JSON.stringify({ items, store }),
         signal: controller.signal,
       })
         .then(async (r) => {
@@ -70,7 +78,7 @@ export default function CheckoutPage() {
             setQuoteResult({ key: quoteKey, quote: null, error: e.message });
         });
     return () => controller.abort();
-  }, [state.cart, store, version, quoteKey]);
+  }, [items, store, version, quoteKey]);
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (busy || !quote) return;
@@ -78,7 +86,7 @@ export default function CheckoutPage() {
     setError("");
     try {
       const payload = JSON.stringify({
-        items: state.cart,
+        items,
         store,
         address,
         phone,
@@ -98,8 +106,12 @@ export default function CheckoutPage() {
       const d = await r.json();
       if (!r.ok) throw Error(d.message);
       // Save the order first; provider failure must never cause a second order.
-      clearCart();
-      if (payment === "momo" || payment === "bank") {
+      removePurchased(items);
+      if (payment === "bank") {
+        router.push("/payment/" + encodeURIComponent(d.order.orderId));
+        return;
+      }
+      if (payment === "momo") {
         try {
           const response = await fetch("/api/payments", {
             method: "POST",
@@ -121,12 +133,12 @@ export default function CheckoutPage() {
       setBusy(false);
     }
   }
-  if (!state.cart.length)
+  if (!items.length && !busy)
     return (
       <div className="card-outlined p-12 text-center">
-        <h1>Giỏ hàng đang trống</h1>
-        <Link href="/meal-plan" className="btn-filled mt-5">
-          Khám phá món ăn
+        <h1>Chưa có món nào được chọn để đặt hàng</h1>
+        <Link href="/grocery-store" className="btn-filled mt-5">
+          Quay lại chọn món
         </Link>
       </div>
     );
@@ -167,7 +179,8 @@ export default function CheckoutPage() {
       </section>
       {quote && (
         <section className="card-outlined p-6 space-y-4">
-          <h2 className="font-bold">Báo giá từ cửa hàng</h2>
+          <h2 className="font-bold">Nguyên liệu của các món đã chọn</h2>
+          <p className="text-sm text-on-surface-variant">{[...new Set(items.map(i => i.recipeTitle))].join(" · ")}</p>
           {quote.sellerName && (
             <p>
               Người bán: {quote.sellerName} · {quote.branch}
@@ -227,13 +240,12 @@ export default function CheckoutPage() {
             className="block w-full border rounded-xl p-3 mt-2"
           >
             <option value="cod">Thanh toán khi nhận hàng</option>
-            {settings?.mode !== "live" && <option value="demo">Thanh toán mô phỏng · Không thu tiền</option>}
             <option
               value="bank"
               disabled={settings?.mode !== "live" || !settings?.payments.bank}
             >
               QR ngân hàng · payOS
-              {!settings?.payments.bank ? " (chưa cấu hình)" : ""}
+              {!settings?.payments.bank ? " (chưa sẵn sàng)" : settings.mode !== "live" ? " (chưa bật thanh toán thật)" : ""}
             </option>
             <option
               value="momo"
@@ -245,6 +257,12 @@ export default function CheckoutPage() {
             </option>
           </select>
         </label>
+        {settings && (settings.mode !== "live" || !settings.payments.bank) && (
+          <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 space-y-2">
+            <p>QR ngân hàng chưa sẵn sàng. Website chỉ tạo mã QR sau khi cổng payOS được cấu hình và bật thanh toán trực tuyến.</p>
+            {state.user?.isAdmin && <p>Quản trị viên: kiểm tra PAYOS_CLIENT_ID, PAYOS_API_KEY, PAYOS_CHECKSUM_KEY, APP_URL, LIVE_PAYMENTS_ENABLED=true và COMMERCE_MODE=live trong môi trường đang chạy. Trên Vercel cần Redeploy sau khi lưu. Cửa hàng phải bật nhận đơn và có giá, tồn kho hợp lệ.</p>}
+          </div>
+        )}
         {payment === "momo" && <p className="rounded-xl bg-pink-50 p-4 text-sm text-pink-900">{settings?.momoEnvironment === "sandbox" ? "MoMo thử nghiệm: dùng ứng dụng/tài khoản test theo hướng dẫn MoMo, không dùng tiền thật." : "Bạn sẽ xác nhận thanh toán trên trang MoMo. Đơn chỉ được đánh dấu đã thanh toán sau khi backend xác minh giao dịch."}</p>}
       </section>
       {(error || quoteError) && (
@@ -266,7 +284,7 @@ export default function CheckoutPage() {
       >
         {busy
           ? "Đang xử lý đơn và thanh toán…"
-          : (payment === "momo" ? "Tiếp tục với MoMo" : settings?.mode === "live" ? "Đặt hàng" : "Đặt đơn thử nghiệm") +
+          : "Đặt đơn hàng" +
             (quote ? " · " + formatVND(quote.total) : "")}
       </button>
     </form>

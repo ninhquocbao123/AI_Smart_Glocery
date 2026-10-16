@@ -186,3 +186,26 @@ test("cooking guides cover every recipe and distinguish cooking amounts from ret
   assert.ok(pork.ingredients.some(i => i.name === "Trứng gà"));
   assert.ok(!recommend(500000, 3, "Không hạn chế", ["Trứng"], [pork]).length);
 });
+
+test('cart keeps shared ingredients separate by dish and edits only the chosen dish',()=>{
+ const ingredient=recipes[0].ingredients[0];
+ const a={ingredient,recipeId:'dish-a',recipeTitle:'Canh chua',quantity:2};
+ const b={ingredient,recipeId:'dish-b',recipeTitle:'Sườn chua ngọt',quantity:3};
+ let state=appReducer(initialState,{type:'ADD_MULTIPLE_TO_CART',payload:[a,b]});
+ assert.equal(state.cart.length,2);
+ state=appReducer(state,{type:'UPDATE_CART_QUANTITY',payload:{id:ingredient.id,recipeId:'dish-a',quantity:4}});
+ assert.equal(state.cart[0].quantity,4);assert.equal(state.cart[1].quantity,3);
+ state=appReducer(state,{type:'REMOVE_FROM_CART',payload:ingredient.id,recipeId:'dish-a'});
+ assert.equal(state.cart.length,1);assert.equal(state.cart[0].recipeId,'dish-b');
+});
+test('placing a partial order preserves unselected dishes and items added while submitting',()=>{
+ const ingredient=recipes[0].ingredients[0];
+ const a={ingredient,recipeId:'dish-a',recipeTitle:'Canh chua',quantity:2};
+ const b={ingredient,recipeId:'dish-b',recipeTitle:'Sườn chua ngọt',quantity:3};
+ let state=appReducer(initialState,{type:'ADD_MULTIPLE_TO_CART',payload:[a,b]});
+ state=appReducer(state,{type:'ADD_TO_CART',payload:{...a,quantity:1}});
+ state=appReducer(state,{type:'REMOVE_PURCHASED',payload:[a]});
+ assert.equal(state.cart.length,2);assert.equal(state.cart[0].quantity,1);assert.equal(state.cart[1].quantity,3);
+ const cleared=appReducer(state,{type:'REMOVE_PURCHASED',payload:state.cart});
+ assert.equal(cleared.cart.length,0);assert.equal(cleared.selectedStore,null);
+});

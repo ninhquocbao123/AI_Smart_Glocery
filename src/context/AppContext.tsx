@@ -69,8 +69,9 @@ type Action =
   | { type: "SET_SERVINGS"; payload: number }
   | { type: "ADD_TO_CART"; payload: CartItem }
   | { type: "ADD_MULTIPLE_TO_CART"; payload: CartItem[] }
-  | { type: "REMOVE_FROM_CART"; payload: string } // ingredient id
-  | { type: "UPDATE_CART_QUANTITY"; payload: { id: string; quantity: number } }
+  | { type: "REMOVE_PURCHASED"; payload: CartItem[] }
+  | { type: "REMOVE_FROM_CART"; payload: string; recipeId?: string } // ingredient id
+  | { type: "UPDATE_CART_QUANTITY"; payload: { id: string; quantity: number; recipeId?: string } }
   | { type: "CLEAR_CART" }
   | { type: "ADD_PANTRY_INGREDIENT"; payload: string }
   | { type: "REMOVE_PANTRY_INGREDIENT"; payload: string }
@@ -125,14 +126,14 @@ export function appReducer(state: AppState, action: Action): AppState {
       const baseCart = state.cart;
 
       const existing = baseCart.find(
-        (item) => item.ingredient.id === action.payload.ingredient.id,
+        (item) => item.ingredient.id === action.payload.ingredient.id && item.recipeId === action.payload.recipeId,
       );
       if (existing) {
         return {
           ...state,
           selectedStore: isDifferentStore ? null : itemStore,
           cart: baseCart.map((item) =>
-            item.ingredient.id === action.payload.ingredient.id
+            item.ingredient.id === action.payload.ingredient.id && item.recipeId === action.payload.recipeId
               ? { ...item, quantity: item.quantity + action.payload.quantity }
               : item,
           ),
@@ -151,7 +152,7 @@ export function appReducer(state: AppState, action: Action): AppState {
 
       for (const payloadItem of action.payload) {
         const existingIndex = newCart.findIndex(
-          (item) => item.ingredient.id === payloadItem.ingredient.id,
+          (item) => item.ingredient.id === payloadItem.ingredient.id && item.recipeId === payloadItem.recipeId,
         );
 
         if (existingIndex >= 0) {
@@ -174,7 +175,7 @@ export function appReducer(state: AppState, action: Action): AppState {
 
     case "REMOVE_FROM_CART": {
       const remainingCart = state.cart.filter(
-        (item) => item.ingredient.id !== action.payload,
+        (item) => item.ingredient.id !== action.payload || (action.recipeId !== undefined && item.recipeId !== action.recipeId),
       );
       return {
         ...state,
@@ -187,12 +188,19 @@ export function appReducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         cart: state.cart.map((item) =>
-          item.ingredient.id === action.payload.id
+          item.ingredient.id === action.payload.id && (action.payload.recipeId === undefined || item.recipeId === action.payload.recipeId)
             ? { ...item, quantity: action.payload.quantity }
             : item,
         ),
       };
 
+    case "REMOVE_PURCHASED": {
+      const cart = state.cart.flatMap(item => {
+        const removed = action.payload.filter(p => p.recipeId === item.recipeId && p.ingredient.id === item.ingredient.id).reduce((sum, p) => sum + p.quantity, 0);
+        return item.quantity > removed ? [{ ...item, quantity: item.quantity - removed }] : [];
+      });
+      return { ...state, cart, selectedStore: cart.length ? state.selectedStore : null };
+    }
     case "CLEAR_CART":
       return { ...state, cart: [], selectedStore: null };
 
@@ -268,8 +276,9 @@ interface AppContextValue {
   // Cart
   addToCart: (item: CartItem) => void;
   addMultipleToCart: (items: CartItem[]) => void;
-  removeFromCart: (ingredientId: string) => void;
-  updateCartQuantity: (ingredientId: string, quantity: number) => void;
+  removeFromCart: (ingredientId: string, recipeId?: string) => void;
+  updateCartQuantity: (ingredientId: string, quantity: number, recipeId?: string) => void;
+  removePurchased: (items: CartItem[]) => void;
   clearCart: () => void;
   cartTotal: number;
   cartItemCount: number;
@@ -404,19 +413,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "ADD_MULTIPLE_TO_CART", payload: items });
   }, []);
 
-  const removeFromCart = useCallback((ingredientId: string) => {
-    dispatch({ type: "REMOVE_FROM_CART", payload: ingredientId });
+  const removeFromCart = useCallback((ingredientId: string, recipeId?: string) => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: ingredientId, recipeId });
   }, []);
 
   const updateCartQuantity = useCallback(
-    (ingredientId: string, quantity: number) => {
+    (ingredientId: string, quantity: number, recipeId?: string) => {
       dispatch({
         type: "UPDATE_CART_QUANTITY",
-        payload: { id: ingredientId, quantity },
+        payload: { id: ingredientId, quantity, recipeId },
       });
     },
     [],
   );
+
+  const removePurchased = useCallback((items: CartItem[]) => { dispatch({ type: "REMOVE_PURCHASED", payload: items }); }, []);
 
   const clearCart = useCallback(() => {
     dispatch({ type: "CLEAR_CART" });
@@ -504,6 +515,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     removeFromCart,
     updateCartQuantity,
     clearCart,
+    removePurchased,
     cartTotal,
     cartItemCount,
     addPantryIngredient,

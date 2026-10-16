@@ -24,7 +24,6 @@ export default function RecipesPage() {
   );
   return (
     <div className="space-y-6">
-      <p className="text-xs text-on-surface-variant">Ảnh món ăn và sản phẩm mang tính minh họa, gồm ảnh chụp và ảnh tạo bằng AI. <a href="/images/food/credits.html" className="underline">Nguồn ảnh</a></p>
       <div className="rounded-3xl bg-primary-container/50 p-8">
         <ChefHat className="text-primary mb-3" />
         <p className="text-sm font-bold text-primary">

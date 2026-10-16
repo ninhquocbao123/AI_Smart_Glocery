@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
+import RecipeCatalog from '@/components/admin/RecipeCatalog';
+import OperationsPanel from '@/components/admin/OperationsPanel';
 import Image from 'next/image';
 import type { Recipe, Store } from '@/data/mockData';
 import { formatVND } from '@/lib/priceUtils';
@@ -20,8 +22,9 @@ async function request(url: string, options?: RequestInit) {
   return data;
 }
 export default function AdminPage() {
+  const [operations,setOperations]=useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]), [allowed, setAllowed] = useState(false), [loading, setLoading] = useState(true);
-  const [draft, setDraft] = useState<Draft | null>(null), [query, setQuery] = useState(''), [message, setMessage] = useState(''), [busy, setBusy] = useState(false);
+  const [draft, setDraft] = useState<Draft | null>(null), [message, setMessage] = useState(''), [busy, setBusy] = useState(false);
   async function refresh() { const data = await request('/api/admin/recipes'); setRecipes(data.recipes); setAllowed(true); }
   useEffect(() => { let active = true; request('/api/admin/recipes').then(data => { if (active) { setRecipes(data.recipes); setAllowed(true); } }).catch(e => { if (active) setMessage(e.message); }).finally(() => { if (active) setLoading(false); }); return () => { active = false; }; }, []);
   function edit(recipe: Recipe) {
@@ -50,8 +53,9 @@ export default function AdminPage() {
     catch (e) { setMessage((e as Error).message); } finally { setBusy(false); }
   }
   const total = draft?.ingredients.reduce((sum, i) => sum + i.price * i.quantity, 0) ?? 0;
-  return <main className="max-w-7xl mx-auto px-4 py-8 pb-28 text-slate-900">
-    <div className="flex flex-wrap items-end justify-between gap-4 mb-6"><div><p className="text-green-700 text-sm font-bold tracking-widest">SMART GROCERY · QUẢN TRỊ</p><h1 className="text-3xl font-bold mt-2">Bếp của bạn, thực đơn của mọi nhà</h1><p className="text-slate-500 mt-2">Quản lý món Việt, hình ảnh và hướng dẫn nấu ăn.</p></div>{allowed && <Link className={button} href="/admin/operations">Đơn hàng & cửa hàng →</Link>}</div>
+  if (allowed && operations) return <div className="space-y-5"><button className={button} onClick={()=>setOperations(false)}>← Quản lý món ăn</button><OperationsPanel /></div>;
+  return <main className="mx-auto pb-12 text-slate-900">
+    <div className="flex flex-wrap items-end justify-between gap-4 mb-6"><div><p className="text-green-700 text-sm font-bold tracking-widest">THỰC ĐƠN MỖI NGÀY</p><h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2">Gian bếp của bạn.</h1><p className="text-slate-500 mt-2">Chăm chút từng món ăn, mang bữa ngon đến mọi nhà.</p></div>{allowed && <button type="button" className={button} onClick={()=>setOperations(true)}>Đơn hàng & cửa hàng →</button>}</div>
     {message && <p role="status" className="rounded-xl border border-green-200 bg-green-50 p-4 mb-5">{message}</p>}
     {loading ? <p>Đang kiểm tra quyền quản trị…</p> : !allowed ? <Link className={button} href="/auth/login">Đăng nhập bằng tài khoản quản trị</Link> : draft ? <form onSubmit={e => { e.preventDefault(); void save(); }}>
       <fieldset disabled={busy} className="space-y-6 disabled:opacity-70">
@@ -81,10 +85,7 @@ export default function AdminPage() {
         <div className="sticky bottom-20 lg:bottom-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border bg-white p-4 shadow-lg"><span>{draft.ingredients.length} nguyên liệu · {draft.cookingGuide.steps.length} bước · {formatVND(total)}</span><button disabled={!draft.image || !draft.ingredients.length || !draft.cookingGuide.steps.length} className="rounded-xl bg-green-700 text-white font-bold px-7 py-3 disabled:opacity-40" type="submit">{busy ? 'Đang lưu…' : 'Lưu món ăn'}</button></div>
       </fieldset>
     </form> : <>
-      <div className="grid grid-cols-3 gap-3 mb-6">{[['Tất cả món', recipes.length], ['Đang hiển thị', recipes.filter(r => r.active !== false).length], ['Đã ẩn', recipes.filter(r => r.active === false).length]].map(([label, count]) => <div key={label} className="rounded-2xl border border-slate-200 bg-white p-4"><p className="text-sm text-slate-500">{label}</p><strong className="text-3xl text-green-800">{count}</strong></div>)}</div>
-      <div className="flex flex-wrap gap-3 mb-6"><input aria-label="Tìm món ăn" placeholder="Tìm theo tên món…" className={field + ' flex-1 min-w-48'} value={query} onChange={e => setQuery(e.target.value)} /><button className="rounded-xl bg-green-700 text-white font-bold px-6 py-3" onClick={() => { setDraft(blank()); setMessage(''); }}>+ Thêm món ăn</button></div>
-      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{recipes.filter(r => r.title.toLocaleLowerCase('vi').includes(query.toLocaleLowerCase('vi'))).map(recipe => <article key={recipe.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white"><div className="relative aspect-video bg-green-50"><Image src={recipe.image} alt={recipe.title} fill unoptimized className="object-cover" /><span className="absolute top-3 left-3 rounded-full bg-white px-3 py-1 text-xs font-bold">{recipe.active === false ? 'Đã ẩn' : 'Đang hiển thị'}</span></div><div className="p-5"><h2 className="font-bold text-lg">{recipe.title}</h2><p className="text-sm text-slate-500 mt-1">{recipe.ingredients.length} nguyên liệu · {recipe.prepTime + recipe.cookTime} phút · {recipe.servings} người</p><p className="font-bold text-green-800 mt-2">{formatVND(recipe.totalPrice)}</p><div className="flex flex-wrap gap-2 mt-4"><button className={button} onClick={() => edit(recipe)}>Chỉnh sửa</button><button disabled={busy} className={button} onClick={() => void toggle(recipe)}>{recipe.active === false ? 'Hiện món' : 'Ẩn món'}</button>{recipe.active !== false && <Link className={button} href={`/meal-plan/${recipe.id}`}>Xem món ↗</Link>}</div></div></article>)}</div>
-      {!recipes.length && <p className="py-12 text-center text-slate-500">Chưa có món ăn. Thêm món đầu tiên cho danh mục của bạn.</p>}
+      <RecipeCatalog recipes={recipes} busy={busy} onEdit={edit} onToggle={recipe=>void toggle(recipe)} onAdd={()=>{setDraft(blank());setMessage('');}} />
     </>}
   </main>;
 }
