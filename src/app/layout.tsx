@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SmartCart AI — Đi chợ Thông minh bằng AI",
+  title: "AI Smart Grocery — Đi chợ Thông minh bằng AI",
   description:
     "Trợ lý đi chợ bằng AI của bạn. Lên kế hoạch thực đơn, so sánh giá cả giữa các siêu thị và tối ưu hóa ngân sách.",
   keywords: [

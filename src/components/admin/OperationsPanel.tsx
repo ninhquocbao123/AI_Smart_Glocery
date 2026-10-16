@@ -12,7 +12,9 @@ type AdminOrder = {
   phone: string;
   mode: string;
 };
+type StoreConfig = { key: string; branch: string; sellerName: string; serviceArea: string; deliveryFee: number; acceptingOrders: boolean };
 export default function AdminPage() {
+  const [configs, setConfigs] = useState<StoreConfig[]>([]);
   const [allowed, setAllowed] = useState(false),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false),
@@ -42,6 +44,13 @@ export default function AdminPage() {
         const d = await r.json();
         if (!r.ok) throw Error(d.message);
         setAllowed(true);
+        setConfigs(d.stores);
+        const initial = d.stores.find((s: StoreConfig) => s.key === "Winmart");
+        if (initial) {
+          setBranch(initial.branch); setSellerName(initial.sellerName);
+          setServiceArea(initial.serviceArea); setFee(initial.deliveryFee);
+          setAccepting(initial.acceptingOrders);
+        }
         await refresh();
       })
       .catch((e) => setMessage(e.message));
@@ -57,6 +66,7 @@ export default function AdminPage() {
       });
       const d = await r.json();
       if (!r.ok) throw Error(d.message);
+      if (d.store) setConfigs(previous => [...previous.filter(s => s.key !== d.store.key), d.store]);
       setMessage("Đã lưu thành công.");
       await refresh();
     } catch (e) {
@@ -92,10 +102,12 @@ export default function AdminPage() {
               value={store}
               onChange={(e) => {
                 setStore(e.target.value);
-                setBranch("");
-                setSellerName("");
-                setServiceArea("");
-                setAccepting(false);
+                const saved = configs.find(s => s.key === e.target.value);
+                setBranch(saved?.branch ?? "");
+                setSellerName(saved?.sellerName ?? "");
+                setServiceArea(saved?.serviceArea ?? "");
+                setFee(saved?.deliveryFee ?? 0);
+                setAccepting(saved?.acceptingOrders ?? false);
               }}
             >
               {storeDirectory.map((s) => (

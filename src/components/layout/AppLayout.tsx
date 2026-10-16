@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -44,6 +45,7 @@ function TopNavbar() {
       {/* Brand */}
       <Link href="/dashboard">
         <div className="flex items-center gap-2 cursor-pointer">
+          <BrandLogo />
           <h1 className="font-bold text-lg tracking-tight text-[#0D7A25]">
             AI Smart Grocery
           </h1>
@@ -177,7 +179,8 @@ function BottomNav() {
 function Footer() {
   return (
     <footer className="hidden md:flex border-t border-outline-variant/30 bg-[#EFEFEF] py-8 px-8 mt-12 items-center justify-between text-sm">
-      <div className="text-[#0D7A25] font-semibold">
+      <div className="text-[#0D7A25] font-semibold flex items-center gap-3">
+        <BrandLogo size={48} />
         AI Smart Grocery
       </div>
       <div className="flex items-center gap-6 text-on-surface-variant font-medium">
@@ -213,6 +216,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (isAuthOrLanding) {
     return (
       <div className="min-h-screen bg-[#F4F8F1] flex flex-col font-sans">
+        {pathname === "/" && <Link href="/" aria-label="AI Smart Grocery — Trang chủ" className="self-center mt-6"><BrandLogo size={104} /></Link>}
         <main className="flex-1">
           <div className="max-w-7xl mx-auto py-8">
             {children}
@@ -225,6 +229,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[#F4F8F1] flex flex-col font-sans">
       <TopNavbar />
+      <Link href="/dashboard" aria-label="AI Smart Grocery — Trang chủ" className="lg:hidden self-center mt-4"><BrandLogo size={64} /></Link>
       <BottomNav />
 
       {/* Main content area */}

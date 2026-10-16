@@ -31,8 +31,7 @@ export default function SuggestionsPage() {
           {state.user?.diet ?? "Không hạn chế"}
         </p>
         <p className="text-sm text-on-surface-variant mt-3">
-          Có {list.length} món phù hợp. Mỗi món là một lựa chọn riêng trong ngân
-          sách, chưa gồm phí giao hàng.
+          {result.loading ? "Đang chọn món phù hợp cho bữa ăn của bạn…" : `Có ${list.length} món phù hợp. Mỗi món là một lựa chọn riêng trong ngân sách, chưa gồm phí giao hàng.`}
         </p>
       </div>
       <div className="flex justify-between gap-4 flex-wrap">
@@ -53,7 +52,7 @@ export default function SuggestionsPage() {
         </label>
       </div>
       <label className="block">Cửa hàng tham khảo <select value={store} onChange={e=>setStore(e.target.value)} className="border rounded-xl p-2">{storeDirectory.map(s=><option key={s.key} value={s.key}>{s.name}</option>)}</select></label>
-      {result.loading && <p role="status">Đang lấy gợi ý từ backend…</p>}
+      {result.loading && <div role="status" className="rounded-2xl bg-white p-8 text-center text-primary"><Sparkles className="mx-auto mb-3 animate-pulse" />Đang tìm món ngon vừa túi tiền cho bạn…</div>}
       {result.error && <p role="alert" className="text-error">{result.error}</p>}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {list.map((r) => (

@@ -77,6 +77,21 @@ function loader(stubs = {}, env = {}) {
   return load;
 }
 const load = loader();
+test("live meal discovery with no store offers still returns affordable recipes at reference prices", async () => {
+  const {recipes} = load("src/data/mockData.ts");
+  const route = loader({
+    "@/lib/server/catalog-data": {readCatalog: async () => ({recipes})},
+    "@/models/Commerce": {Offer: {find: () => ({lean: async () => []})}},
+    "@/lib/server/config": {isLive: () => true},
+    "@/lib/server/http": {...http, sameOrigin: () => {}, userRequired: async () => ({_id:"u", diet:"Không hạn chế", allergies:[]}), rateLimit: async () => {}, body: r => r.json(), fail: e => Response.json({message:e.message}, {status:500})},
+  })("src/app/api/recommendations/route.ts");
+  const response = await route.POST(new Request("http://localhost/api/recommendations", {method:"POST", body:JSON.stringify({budget:50000,servings:1,store:"Winmart"})}));
+  const result = await response.json();
+  assert.equal(response.status,200);
+  assert.equal(result.priceSource,"reference");
+  assert.ok(result.recipes.length > 0);
+  assert.ok(Object.values(result.costs).every(cost => cost <= 50000));
+});
 test("demo payment and delivery run end-to-end, while live simulation is rejected", async()=>{
   const record={orderId:"demo-order",userId:"demo-user",mode:"demo",status:"unpaid",paymentStatus:"pending"};
   const common={...http,sameOrigin:()=>{},userRequired:async()=>({_id:"demo-user"}),body:req=>req.json(),fail:e=>Response.json({message:e.message},{status:e.status??503})};

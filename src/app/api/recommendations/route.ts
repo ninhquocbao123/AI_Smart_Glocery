@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       servings = integer(data.servings, 1, 20);
     const { recipes } = await readCatalog();
     let catalog: Recipe[] = recipes;
+    let referencePrices = !isLive();
     if (isLive()) {
       if (typeof data.store !== "string")
         throw new ApiError(400, "Chọn cửa hàng để tính giá nguyên liệu.");
@@ -47,6 +48,12 @@ export async function POST(req: Request) {
           ? [{ ...r, ingredients: ingredients as Recipe["ingredients"] }]
           : [];
       });
+      // Meal discovery remains available even before a store publishes its offers.
+      // Checkout independently validates live prices and stock before taking payment.
+      if (catalog.length < recipes.length) {
+        referencePrices = true;
+        catalog = recipes;
+      }
     }
     const candidates = recommend(
       budget,
@@ -57,11 +64,9 @@ export async function POST(req: Request) {
     ).slice(0, 20);
     let ordered = candidates;
     let source = "rules",
-      message = "Gợi ý theo công thức và ngân sách; AI chưa được cấu hình.";
+      message = "Món ngon được chọn theo ngân sách và khẩu vị của bạn.";
     if (!candidates.length)
-      message = isLive()
-        ? "Chưa đủ giá/tồn kho hiện hành để gợi ý món tại cửa hàng này."
-        : "Chưa có món phù hợp ngân sách và khẩu vị.";
+      message = "Chưa có món phù hợp ngân sách và khẩu vị.";
     if (
       candidates.length &&
       process.env.GEMINI_API_KEY &&
@@ -135,7 +140,7 @@ export async function POST(req: Request) {
         ];
         source = "gemini";
         message =
-          "AI sắp xếp món phù hợp; backend đã kiểm tra ngân sách và nguyên liệu.";
+          "AI đã sắp xếp các món phù hợp với ngân sách và nguyên liệu của bạn.";
       } catch {
         message =
           "AI tạm thời không khả dụng hoặc đã hết hạn mức. Đang dùng bộ gợi ý theo ngân sách.";
@@ -145,7 +150,7 @@ export async function POST(req: Request) {
       recipes: ordered,
       source,
       message,
-      priceSource: isLive() ? "managed-catalog" : "reference",
+      priceSource: referencePrices ? "reference" : "managed-catalog",
       costs: Object.fromEntries(
         ordered.map((r) => [r.id, recipeCost(r, servings)]),
       ),

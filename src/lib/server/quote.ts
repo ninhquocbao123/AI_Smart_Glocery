@@ -49,7 +49,7 @@ export async function quoteCart(
   if (isLive() && !config)
     throw new ApiError(
       409,
-      "Cửa hàng chưa nhận đơn qua ứng dụng. Bạn có thể mua tại website chính thức.",
+      "Điểm bán này chưa mở nhận đơn. Vui lòng chọn điểm bán khác hoặc liên hệ quản trị để mở nhận đơn và cập nhật giá, tồn kho.",
     );
   const { recipes, deals } = await readCatalog();
   const items = [];
