@@ -22,7 +22,7 @@ export default function SuggestionsPage() {
       <Link href="/dashboard" className="text-primary">
         ← Điều chỉnh ngân sách
       </Link>
-      <div className="rounded-3xl bg-primary-container/50 p-8">
+      <div data-user-panel className="rounded-3xl bg-primary-container/50 p-8">
         <Sparkles className="text-primary mb-3" />
         <p className="text-sm text-primary font-bold">GỢI Ý THÔNG MINH</p>
         <h1 className="text-3xl font-extrabold mt-2">Bữa ngon vừa túi tiền</h1>

@@ -1,12 +1,12 @@
 "use client";
+import styles from "@/components/ui/WorkspacePages.module.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Wallet } from "lucide-react";
-import { useAppContext } from "@/context/AppContext";
+
 import { type GroceryOrder, monthKey, normalizeOrders, orderMoney, orderItemMoney, orderDate } from "@/lib/orders";
 import { formatVND } from "@/lib/priceUtils";
 export default function BudgetPage() {
-  const { state } = useAppContext();
+  const [target,setTarget]=useState(0),[draft,setDraft]=useState(""),[saving,setSaving]=useState(false);
   const [orders, setOrders] = useState<GroceryOrder[]>([]),
     [month, setMonth] = useState(() => monthKey(new Date())),
     [error, setError] = useState(""),
@@ -21,20 +21,20 @@ export default function BudgetPage() {
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
+  useEffect(()=>{const controller=new AbortController();setTarget(0);setDraft("");fetch("/api/budget/target?month="+month,{signal:controller.signal}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.message);setTarget(d.amount);setDraft(String(d.amount));}).catch(e=>{if(!controller.signal.aborted)setError(e.message);});return ()=>controller.abort();},[month]);
   const list = orders.filter((o) => monthKey(o.createdAt) === month),
-    spent = list.reduce((s, o) => s + (o.total ?? 0), 0),
-    target = state.user?.monthlyBudgetTarget ?? 1500000;
+    spent = list.reduce((s, o) => s + (o.total ?? 0), 0);
   const stores = list.reduce<Record<string, number>>((s, o) => {
     s[o.store] = (s[o.store] || 0) + (o.total ?? 0);
     return s;
   }, {});
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between gap-4 flex-wrap">
+    <div className={styles.page}>
+      <div data-page-intro className="flex justify-between gap-4 flex-wrap">
         <div>
-          <p className="text-primary text-sm font-bold">MY BUDGET</p>
+          <p className="text-primary text-sm font-bold">Ngân sách hằng tháng</p>
           <h1 className="text-3xl font-extrabold mt-2">
-            Chi tiêu trong tầm tay
+            Ngân sách & chi tiêu
           </h1>
           <p className="text-on-surface-variant mt-2">
             Biết mình đã mua gì, ở đâu và còn bao nhiêu ngân sách.
@@ -51,14 +51,14 @@ export default function BudgetPage() {
           />
         </label>
       </div>
-      <div className="grid sm:grid-cols-3 gap-4">
+      <form className="bg-white border rounded-2xl p-6 flex flex-wrap items-end gap-4 shadow-sm" onSubmit={async e=>{e.preventDefault();setSaving(true);setError("");try{const r=await fetch("/api/budget/target",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({month,amount:Number(draft)})});const d=await r.json();if(!r.ok)throw Error(d.message);setTarget(d.amount);}catch(err){setError(err instanceof Error?err.message:"Không thể lưu.");}finally{setSaving(false);}}}><label className="flex-1 text-sm font-semibold">Ngân sách cho tháng đã chọn<input required type="number" min="0" max="1000000000" step="1" value={draft} onChange={e=>setDraft(e.target.value)} placeholder="Nhập ngân sách (đ)" className="block border rounded-lg p-3 mt-2 w-full"/></label><button disabled={saving} className="btn-filled">{saving?"Đang lưu…":"Lưu ngân sách"}</button></form><section className={styles.budgetOverview}><div className={styles.stats}>
         {[
           ["Ngân sách tháng", target],
           ["Đã chi", spent],
           ["Còn lại", target - spent],
         ].map(([label, value]) => (
-          <div key={label} className="card-outlined p-6">
-            <Wallet className="text-primary mb-3" />
+          <div key={label}>
+            
             <p className="text-sm text-on-surface-variant">{label}</p>
             <p
               className={
@@ -74,21 +74,20 @@ export default function BudgetPage() {
       <div className="h-3 rounded-full bg-surface-container overflow-hidden">
         <div
           className="h-full bg-primary"
-          style={{ width: Math.min(100, (spent / target) * 100) + "%" }}
+          style={{ width: Math.min(100, target>0 ? (spent / target) * 100 : 0) + "%" }}
         />
       </div>
       <p className="text-sm text-on-surface-variant">
-        Số liệu theo tháng đặt hàng, đã gồm phí giao, chỉ tính đơn đã thu tiền.{" "}
-        <Link className="text-primary underline" href="/profile">
-          Đổi ngân sách mục tiêu
-        </Link>
+        Đã sử dụng {Math.round(target>0?spent/target*100:0)}% ngân sách. Số liệu theo tháng đặt hàng, đã gồm phí giao, chỉ tính đơn đã thu tiền.{" "}
+        Ngân sách được lưu riêng cho từng tháng.
       </p>
+      </section>
       {error && (
         <p role="alert" className="text-error">
           {error}
         </p>
       )}
-      {orders.some(o => !o.createdAt || o.total === null) && <p role="status" className="text-sm text-on-surface-variant">Một số đơn cũ thiếu ngày đặt hoặc tổng tiền nên chưa thể tính đầy đủ vào chi tiêu tháng. Xem chi tiết tại Orders.</p>}
+      {orders.some(o => !o.createdAt || o.total === null) && <p role="status" className="text-sm text-on-surface-variant">Một số đơn cũ thiếu ngày đặt hoặc tổng tiền nên chưa thể tính đầy đủ vào chi tiêu tháng. Xem chi tiết tại Đơn hàng.</p>}
       <div className="grid lg:grid-cols-[1fr_300px] gap-6">
         <section className="card-outlined p-6">
           <h2 className="text-lg font-bold mb-4">

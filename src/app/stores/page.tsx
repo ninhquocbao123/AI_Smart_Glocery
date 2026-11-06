@@ -1,4 +1,6 @@
 "use client";
+import UserPageHeader from "@/components/ui/UserPageHeader";
+
 import { useEffect, useState } from "react";
 import { storeDirectory } from "@/lib/stores";
 import { formatVND } from "@/lib/priceUtils";
@@ -26,7 +28,7 @@ export default function StoresPage() {
   }, []);
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Cửa hàng thực phẩm</h1>
+      <UserPageHeader eyebrow="CỬA HÀNG & NGUYÊN LIỆU" title="Cửa hàng thực phẩm" description="Tham khảo các điểm bán và bảng giá được cập nhật trong hệ thống."/>
       <p>
         Nhóm chưa có kết nối đối tác với các chuỗi bên dưới. Bạn có thể mua trực
         tiếp tại website chính thức; đơn và thanh toán trên các website đó do

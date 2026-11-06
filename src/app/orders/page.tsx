@@ -1,4 +1,6 @@
 "use client";
+import UserPageHeader from "@/components/ui/UserPageHeader";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -87,18 +89,12 @@ export default function OrdersPage() {
   const list = orders.filter((o) => filter === "all" || o.status === filter);
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-primary text-sm font-bold">ORDERS</p>
-        <h1 className="text-3xl font-extrabold mt-2">Đơn hàng của bạn</h1>
-        <p className="text-on-surface-variant mt-2">
-          Theo dõi nguyên liệu từ lúc đặt đến bữa cơm nhà.
-        </p>
-      </div>
+      <UserPageHeader eyebrow="MUA SẮM CỦA BẠN" title="Đơn hàng của bạn" description="Theo dõi trạng thái, kiểm tra thanh toán và mua lại nguyên liệu cho món yêu thích." action={<Link href="/meal-plan" className="btn-outlined">Tiếp tục chọn món →</Link>}/>
       {paymentNotice && <p role="status" className="rounded-xl border border-outline-variant bg-surface p-4 text-sm">{paymentNotice}</p>}
       <p className="rounded-xl bg-secondary-container/40 p-4 text-sm">
         Theo dõi trạng thái thanh toán trên từng đơn hàng.
       </p>
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div data-user-toolbar className="flex gap-2 overflow-x-auto pb-2">
         {(
           [["all", "Tất cả"], ...Object.entries(orderLabels)] as [
             OrderStatus | "all",

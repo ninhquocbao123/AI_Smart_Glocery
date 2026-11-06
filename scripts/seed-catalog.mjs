@@ -15,14 +15,16 @@ try{
    if(await db.collection('recipes').findOne({id:r.id,updatedBy:{$exists:true}}))continue;
    await db.collection('recipes').updateOne({id:r.id},{$setOnInsert:{...r,createdAt:new Date(),dataSource:'demo'},$set:{updatedAt:new Date()}},{upsert:true});
    const current=await db.collection('recipes').findOne({id:r.id});
+   if(current.imageType==='reference-photograph')continue;
    const ingredients=r.cookingGuide ? r.ingredients : (current.ingredients??[]).map(i=>({...i,image:fs.existsSync('public/images/catalog/'+i.id+'.svg')?'/images/catalog/'+i.id+'.svg':r.image}));
    await db.collection('recipes').updateOne({_id:current._id},{$set:{image:r.image,cuisine:current.cuisine||'Việt Nam',ingredients,...(r.cookingGuide ? {cookingGuide:r.cookingGuide,instructions:r.instructions,prepTime:r.prepTime,cookTime:r.cookTime,totalPrice:r.totalPrice} : {})}});
   }
   for(const d of exports.DEALS_DATA)await db.collection('deals').updateOne({ingredientId:d.ingredientId},{$setOnInsert:{...d,createdAt:new Date(),dataSource:'demo'},$set:{updatedAt:new Date()}},{upsert:true});
-  for(const d of exports.DEALS_DATA)await db.collection('deals').updateOne({ingredientId:d.ingredientId},{$set:{image:d.image}});
+  for(const d of exports.DEALS_DATA)await db.collection('deals').updateOne({ingredientId:d.ingredientId,imageType:{$ne:'reference-photograph'}},{$set:{image:d.image}});
   await db.collection('deals').createIndex({ingredientId:1},{unique:true});
   const recipes=await db.collection('recipes').find().toArray(),deals=await db.collection('deals').find().toArray();
-  const missing=[...recipes,...deals,...recipes.flatMap(r=>r.ingredients??[])].filter(x=>!x.image||(x.image.startsWith('/')&&!fs.existsSync('public'+x.image)));
+  const storedImages=new Set((await db.collection('recipe_images').find({},{projection:{id:1}}).toArray()).map(r=>'/api/images/'+r.id));
+  const missing=[...recipes,...deals,...recipes.flatMap(r=>r.ingredients??[])].filter(x=>!x.image||(x.image.startsWith('/')&&!storedImages.has(x.image)&&!fs.existsSync('public'+x.image)));
   console.log(JSON.stringify({recipes:recipes.length,deals:deals.length,missingImages:missing.length,historyPreserved:true}));
  }
 }catch(e){console.error('MongoDB operation failed: '+e.name);process.exitCode=1;}finally{await client.close();}

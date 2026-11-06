@@ -24,6 +24,20 @@ try {
   await db
     .collection("requestlimits")
     .createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+  await db
+    .collection("memberships")
+    .createIndexes([
+      { key: { reference: 1 }, unique: true },
+      { key: { userId: 1, startsAt: 1, endsAt: 1 } },
+    ]);
+  await db
+    .collection("savedmealplans")
+    .createIndex({ userId: 1, createdAt: -1 });
+  await db.collection("pantryitems").createIndex({ userId: 1 });
+  await db.collection("memberaudits").createIndex({ userId: 1, createdAt: -1 });
+  await db.collection("weeklyplans").createIndex({ updatedAt: -1 });
+  await db.collection("goldenrotations").createIndex({ date: 1 });
+  await db.collection("memberusages").createIndex({ _id: 1 });
   console.log(
     "Indexes prepared. Existing records were not deleted or reseeded.",
   );

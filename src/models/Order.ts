@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 const schema = new Schema(
   {
+    kind: { type: String, enum: ["grocery", "membership"], default: "grocery" },
+    membershipPlan: { type: String, enum: ["vip", "plus"] },
     userId: { type: String, required: true, index: true },
     orderId: { type: String, required: true, unique: true },
     items: { type: [Schema.Types.Mixed], required: true },

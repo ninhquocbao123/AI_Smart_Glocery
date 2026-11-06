@@ -20,7 +20,7 @@ function load(path) {
   vm.runInNewContext(code, {
     exports,
     require: (id) =>
-      id === "@/data/mockData" ? load("src/data/mockData.ts") : id === "./priceUtils" ? load("src/lib/priceUtils.ts") : id === "./catalog" ? load("src/lib/catalog.ts") : require(id),
+      id === "./recommendations" ? load("src/lib/recommendations.ts") : id === "@/data/mockData" ? load("src/data/mockData.ts") : id === "./priceUtils" ? load("src/lib/priceUtils.ts") : id === "./catalog" ? load("src/lib/catalog.ts") : require(id),
     Intl,
     Date,
   });
@@ -208,4 +208,52 @@ test('placing a partial order preserves unselected dishes and items added while 
  assert.equal(state.cart.length,2);assert.equal(state.cart[0].quantity,1);assert.equal(state.cart[1].quantity,3);
  const cleared=appReducer(state,{type:'REMOVE_PURCHASED',payload:state.cart});
  assert.equal(cleared.cart.length,0);assert.equal(cleared.selectedStore,null);
+});
+
+const { manualCandidates } = load('src/lib/manual-meals.ts');
+test('manual planner excludes same-day dishes and prioritizes remaining daily budget', () => {
+  const selected = {breakfast:recipes[0]};
+  const budget = recipeCost(recipes[0],2)+50000;
+  const candidates=manualCandidates(recipes,selected,'lunch',budget,2);
+  assert.ok(candidates.every(r=>r.id!==recipes[0].id));
+  const firstOver=candidates.findIndex(r=>recipeCost(r,2)>50000);
+  if(firstOver>=0) assert.ok(candidates.slice(firstOver).every(r=>recipeCost(r,2)>50000));
+  assert.equal(manualCandidates([recipes[0]],selected,'dinner',1000000,2).length,0);
+  assert.equal(manualCandidates([recipes[0]],selected,'breakfast',1000000,2).length,1);
+});
+test('manual planner applies diet and ingredient exclusions without filling with unsafe fallback', () => {
+  const expected = recommend(500000,2,'Ăn chay',['Trứng'],recipes).map(r=>r.id).sort();
+  const actual = manualCandidates(recipes,{},'dinner',500000,2,'Ăn chay',['Trứng']).map(r=>r.id).sort();
+  assert.deepEqual([...actual],[...expected]);
+  assert.ok(manualCandidates(recipes,{},'breakfast',0,2).length>0);
+});
+
+test('manual planner rejects duplicates across the week but allows replacement and removal', () => {
+  const state = {...initialState, weeklyPlan:{T2:{breakfast:recipes[0]}}};
+  const write = (day,recipe) => ({type:'SET_WEEKLY_PLAN_MEAL',payload:{day,mealType:'lunch',recipe}});
+  assert.equal(appReducer(state,write('T2',recipes[0])),state);
+  assert.equal(appReducer(state,write('T3',recipes[0])),state);
+  assert.equal(appReducer(state,write('T3',recipes[1])).weeklyPlan.T3.lunch.id,recipes[1].id);
+  assert.equal(appReducer(state,write('T2',undefined)).weeklyPlan.T2.lunch,undefined);
+});
+
+test('breakfast suggestions prioritize familiar breakfast dishes when affordable', () => {
+  const egg=recipes.find(r=>r.title==='Trứng chiên hành');
+  const greens=recipes.find(r=>r.title==='Rau cải xào tỏi');
+  const result=manualCandidates([greens,egg],{},'breakfast',100000,2);
+  assert.equal(result[0].id,egg.id);
+});
+
+test('suggestions across seven days never reuse a recipe and stop when catalog is exhausted', () => {
+  const used=[];
+  for(let day=0;day<7;day++){
+    const selected={};
+    for(const slot of ['breakfast','lunch','dinner']){
+      const candidate=manualCandidates(recipes,selected,slot,10000000,2,undefined,undefined,used)[0];
+      if(candidate){assert.ok(!used.includes(candidate.id));selected[slot]=candidate;used.push(candidate.id);}
+    }
+  }
+  assert.equal(new Set(used).size,used.length);
+  assert.equal(used.length,Math.min(21,recipes.filter(r=>r.active!==false).length));
+  assert.equal(manualCandidates([recipes[0]],{},'lunch',1000000,2,undefined,undefined,[recipes[0].id]).length,0);
 });

@@ -43,3 +43,8 @@ export function paymentReady(method: string) {
     );
   return false;
 }
+
+export function membershipCheckout() {
+  const methods = { bank: isLive() && paymentReady("bank"), momo: isLive() && paymentReady("momo") && process.env.MOMO_ENV === "production" };
+  return { methods, available: methods.bank || methods.momo };
+}

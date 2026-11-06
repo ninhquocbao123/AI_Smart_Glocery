@@ -1,52 +1,12 @@
 "use client";
-import Link from "next/link";
-import BudgetCard from "@/components/dashboard/BudgetCard";
-import RecipeCarousel from "@/components/dashboard/RecipeCarousel";
-import { useCatalogRecipes } from "@/lib/use-catalog-recipes";
-import { useAppContext } from "@/context/AppContext";
-export default function DashboardPage() {
-  const recipes = useCatalogRecipes();
-  const { state } = useAppContext();
-  return (
-    <div className="space-y-8">
-      <div>
-        <p className="text-sm text-primary font-semibold">
-          CHÀO {state.user?.name.toUpperCase()}
-        </p>
-        <h1 className="text-3xl font-extrabold mt-2">
-          Bữa cơm ngon, chi tiêu gọn.
-        </h1>
-        <p className="mt-2 text-on-surface-variant">
-          Hôm nay bạn muốn dành bao nhiêu tiền để nấu ăn?
-        </p>
-      </div>
-      <BudgetCard />
-      <div className="grid sm:grid-cols-3 gap-4">
-        {[
-          ["/budget", "Ví tiền tháng này", "Xem đã mua gì, tại cửa hàng nào"],
-          ["/deals", "Ưu đãi nguyên liệu", "Tham khảo thực phẩm đang giảm giá"],
-          ["/orders", "Đơn hàng của bạn", "Theo dõi đơn và mua lại nhanh"],
-        ].map(([href, title, desc]) => (
-          <Link
-            key={href}
-            href={href}
-            className="card-outlined p-5 hover:border-primary"
-          >
-            <h2 className="font-bold text-primary">{title} →</h2>
-            <p className="text-sm text-on-surface-variant mt-2">{desc}</p>
-          </Link>
-        ))}
-      </div>
-      <RecipeCarousel
-        icon={<span>🍲</span>}
-        title="Món cơm nhà dễ nấu"
-        subtitle="Công thức Việt quen thuộc cho những ngày bận rộn"
-        recipes={recipes.filter((r) => r.prepTime + r.cookTime <= 30)}
-      />
-      <p className="text-xs text-on-surface-variant text-center">
-        Lên thực đơn phù hợp với ngân sách của bạn.
-      </p>
-    </div>
-  );
-}
-
+import GoldenHourBanner from '@/components/dashboard/GoldenHourBanner';
+import Image from 'next/image';
+import Link from 'next/link';
+import {Sparkles,ArrowUpRight,Refrigerator,Tag,CalendarDays,ChefHat,Wallet,Package} from 'lucide-react';
+import MembershipStatus from '@/components/MembershipStatus';
+import BudgetCard from '@/components/dashboard/BudgetCard';
+import RecipeCarousel from '@/components/dashboard/RecipeCarousel';
+import {useCatalogRecipes} from '@/lib/use-catalog-recipes';
+import {useAppContext} from '@/context/AppContext';
+import styles from '@/components/dashboard/Home.module.css';
+export default function DashboardPage(){const recipes=useCatalogRecipes();const {state}=useAppContext();return <div className={styles.home}><GoldenHourBanner/><section className={styles.hero}><div className={styles.heroCopy}><p className={styles.eyebrow}>Chào {state.user?.name}</p><h1>Hôm nay<br/>mình ăn gì nhỉ?</h1><p>Chọn món bạn thích, xem trong tủ còn gì rồi chuẩn bị một bữa cơm vừa đủ.</p><div className={styles.heroActions}><Link href="/meal-plan/ai">Lên thực đơn</Link><Link href="/meal-plan">Khám phá món ăn <ArrowUpRight size={15}/></Link></div></div><div className={styles.heroPhoto}><Image src="/images/food/recipe-002.webp" alt="Cơm sườn cho bữa ăn tại nhà" fill sizes="(max-width: 700px) 100vw, 450px" className="object-cover" priority/><span>Cơm sườn · Một gợi ý cho bữa trưa</span></div></section><div className={styles.quickLinks}>{[{href:'/meal-plan/weekly',icon:CalendarDays,label:'Lịch bữa ăn',desc:'Sắp xếp bữa ngon cả tuần',color:'sage'},{href:'/pantry',icon:Refrigerator,label:'Tủ lạnh của tôi',desc:'Kiểm tra nguyên liệu có sẵn',color:'cream'},{href:'/deals',icon:Tag,label:'Ưu đãi giờ vàng',desc:'Xem lịch và giá hiện hành',color:'peach'}].map(({href,icon:Icon,label,desc,color})=><Link key={href} href={href} data-tone={color}><span className={styles.iconBox}><Icon size={22} strokeWidth={1.6}/></span><div><h2>{label}</h2><p>{desc}</p></div><ArrowUpRight size={16}/></Link>)}</div><div className={styles.planning}><BudgetCard/><section className={styles.account}><div className={styles.sectionTitle}><span className={styles.iconBox}><Sparkles size={20}/></span><div><h2>Tài khoản & mua sắm</h2><p>Xem lượt còn lại và các đơn đã đặt.</p></div></div><MembershipStatus/><div className={styles.accountLinks}><Link href="/budget"><Wallet size={18}/><span>Kiểm tra ngân sách tháng</span><ArrowUpRight size={15}/></Link><Link href="/orders"><Package size={18}/><span>Theo dõi đơn hàng</span><ArrowUpRight size={15}/></Link></div></section></div><section className={styles.recipes}><div className={styles.recipeTop}><span>Món ngon trong tuần</span><Link href="/meal-plan">Xem tất cả món ăn <ArrowUpRight size={14}/></Link></div><RecipeCarousel icon={<ChefHat size={20}/>} title="Món cơm nhà dễ nấu" subtitle="Công thức quen thuộc, sẵn sàng cho những ngày bận rộn." recipes={recipes.filter(r=>r.prepTime+r.cookTime<=30)}/>{recipes.length===0&&<p className="text-sm text-on-surface-variant py-8">Các công thức sẽ xuất hiện khi danh mục được tải.</p>}</section></div>}

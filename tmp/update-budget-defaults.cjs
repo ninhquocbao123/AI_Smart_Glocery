@@ -1,0 +1,1 @@
+const fs=require('fs');for(const p of ['src/models/User.ts','src/context/AppContext.tsx','src/app/budget/page.tsx','src/app/profile/page.tsx'])fs.writeFileSync(p,fs.readFileSync(p,'utf8').replaceAll('1500000','0'));const p='src/app/api/profile/route.ts';fs.writeFileSync(p,fs.readFileSync(p,'utf8').replace('data.monthlyBudgetTarget <= 0','data.monthlyBudgetTarget < 0'));

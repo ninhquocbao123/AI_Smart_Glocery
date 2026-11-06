@@ -1,6 +1,11 @@
 "use client";
+import styles from "@/components/ui/WorkspacePages.module.css";
+
+
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import MembershipStatus from "@/components/MembershipStatus";
 import { useRouter } from "next/navigation";
 import {
   UserRound,
@@ -20,7 +25,7 @@ export default function ProfilePage() {
     [address, setAddress] = useState(user?.address ?? ""),
     [diet, setDiet] = useState(user?.diet ?? "Không hạn chế"),
     [allergies, setAllergies] = useState<string[]>(user?.allergies ?? []),
-    [target, setTarget] = useState(user?.monthlyBudgetTarget ?? 1500000),
+    [target] = useState(user?.monthlyBudgetTarget ?? 0),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
@@ -66,184 +71,5 @@ export default function ProfilePage() {
       setBusy(false);
     }
   }
-  const field =
-    "w-full rounded-xl border border-outline-variant bg-surface p-3 mt-2 outline-none focus:ring-2 focus:ring-primary/30";
-  return (
-    <div className="space-y-6">
-      <div>
-        <p className="text-sm font-bold text-primary">HỒ SƠ CÁ NHÂN</p>
-        <h1 className="text-3xl font-extrabold mt-2">
-          Gian bếp mang dấu ấn của bạn
-        </h1>
-        <p className="text-on-surface-variant mt-2">
-          Cập nhật thông tin để chuẩn bị bữa ăn phù hợp hơn mỗi ngày.
-        </p>
-      </div>
-      <div className="grid lg:grid-cols-[280px_1fr] gap-6">
-        <aside className="space-y-4">
-          {user?.isAdmin && <Link href="/admin" className="block rounded-xl bg-primary p-3 text-center font-bold text-white">Quản trị món ăn</Link>}
-          <div className="card-outlined p-6 text-center">
-            <div className="w-24 h-24 bg-primary-container text-primary rounded-full flex items-center justify-center mx-auto text-3xl font-bold">
-              {user?.name
-                .split(" ")
-                .map((n) => n[0])
-                .slice(-2)
-                .join("")
-                .toUpperCase()}
-            </div>
-            <h2 className="text-xl font-bold mt-4">{user?.name}</h2>
-            <p className="text-sm text-on-surface-variant break-all mt-2">
-              {user?.email}
-            </p>
-            <p className="text-sm text-primary mt-4">
-              Thành viên từ {user?.joinYear}
-            </p>
-            <Link href="/orders" className="btn-outlined w-full mt-6">
-              Đơn hàng của tôi
-            </Link>
-          </div>
-          <button
-            disabled={busy}
-            onClick={logout}
-            className="btn-outlined w-full text-error"
-          >
-            <LogOut size={18} />
-            Đăng xuất
-          </button>
-          <p className="text-xs text-on-surface-variant p-3 flex gap-2">
-            <ShieldCheck size={18} />
-            Thông tin được lưu theo tài khoản của bạn.
-          </p>
-        </aside>
-        <form onSubmit={save} className="space-y-5">
-          <section className="card-outlined p-6">
-            <h2 className="font-bold text-lg flex items-center gap-2">
-              <UserRound size={20} />
-              Thông tin liên hệ
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4 mt-4">
-              <label className="text-sm font-semibold">
-                Họ và tên
-                <input
-                  required
-                  maxLength={100}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={field}
-                />
-              </label>
-              <label className="text-sm font-semibold">
-                Số điện thoại
-                <input
-                  type="tel"
-                  maxLength={20}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className={field}
-                />
-              </label>
-            </div>
-            <label className="text-sm font-semibold block mt-4">
-              Email đăng nhập
-              <input
-                readOnly
-                value={user?.email ?? ""}
-                className={field + " opacity-70"}
-              />
-            </label>
-          </section>
-          <section className="card-outlined p-6">
-            <h2 className="font-bold text-lg flex gap-2 items-center">
-              <MapPin size={20} />
-              Địa chỉ giao hàng mặc định
-            </h2>
-            <textarea
-              maxLength={300}
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              aria-label="Địa chỉ giao hàng mặc định"
-              placeholder="Số nhà, đường, phường/xã, tỉnh/thành phố"
-              className={field}
-            />
-          </section>
-          <section className="card-outlined p-6 space-y-4">
-            <h2 className="font-bold text-lg flex gap-2 items-center">
-              <Utensils size={20} />
-              Khẩu vị & ngân sách
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <label className="text-sm font-semibold">
-                Chế độ ăn
-                <select
-                  value={diet}
-                  onChange={(e) => setDiet(e.target.value)}
-                  className={field}
-                >
-                  {["Không hạn chế", "Ăn chay", "Ít tinh bột"].map((d) => (
-                    <option key={d}>{d}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-sm font-semibold">
-                Ngân sách tháng (VNĐ)
-                <input
-                  type="number"
-                  required
-                  min={1}
-                  max={1000000000}
-                  value={target}
-                  onChange={(e) => setTarget(Number(e.target.value))}
-                  className={field}
-                />
-              </label>
-            </div>
-            <fieldset>
-              <legend className="text-sm font-semibold mb-2">
-                Nguyên liệu cần tránh
-              </legend>
-              <div className="flex flex-wrap gap-3">
-                {["Hải sản", "Đậu phộng", "Trứng", "Sữa"].map((a) => (
-                  <label
-                    key={a}
-                    className="flex gap-2 px-3 py-2 rounded-xl border border-outline-variant"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={allergies.includes(a)}
-                      onChange={() =>
-                        setAllergies((prev) =>
-                          prev.includes(a)
-                            ? prev.filter((x) => x !== a)
-                            : [...prev, a],
-                        )
-                      }
-                    />
-                    {a}
-                  </label>
-                ))}
-              </div>
-              <p className="text-xs text-on-surface-variant mt-3">
-                Bộ gợi ý lọc theo nguyên liệu được ghi trong công thức; hãy kiểm
-                tra đầy đủ thành phần trước khi nấu.
-              </p>
-            </fieldset>
-          </section>
-          {message && (
-            <p role="status" className="text-primary">
-              {message}
-            </p>
-          )}
-          {error && (
-            <p role="alert" className="text-error">
-              {error}
-            </p>
-          )}
-          <button disabled={busy} className="btn-filled">
-            <Save size={18} />
-            {busy ? "Đang lưu…" : "Lưu thay đổi"}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+  return <div className={styles.profileRedesign}><header><p>TÀI KHOẢN CỦA BẠN</p><h1>Hồ sơ cá nhân</h1><span>Một chút thông tin để mỗi bữa ăn hợp với bạn hơn.</span></header><form onSubmit={save} className={styles.profileColumns}><aside><section className={styles.identityCard}><div className={styles.portrait}>{user?.avatar?<Image src={user.avatar} alt="Ảnh đại diện" fill sizes="104px"/>:<span>{user?.name.slice(0,1)}</span>}</div><label className={styles.photoButton}>Đổi ảnh đại diện<input type="file" accept="image/jpeg,image/png,image/webp" hidden disabled={busy} onChange={async e=>{const input=e.currentTarget,file=input.files?.[0];if(!file||!user)return;setBusy(true);setError('');try{const form=new FormData();form.append('image',file);const r=await fetch('/api/profile/avatar',{method:'POST',body:form});const d=await r.json();if(!r.ok)throw Error(d.message);setUser({...user,avatar:d.avatar});setMessage('Đã đổi ảnh đại diện.');}catch(err){setError(err instanceof Error?err.message:'Không thể tải ảnh.');}finally{setBusy(false);input.value='';}}}/></label><h2>{user?.name}</h2><p>Thành viên từ {user?.joinYear}</p><Link href="/orders">Đơn hàng của tôi →</Link></section><section><h2><UserRound size={18}/>Thông tin liên hệ</h2><label>Họ và tên<input required maxLength={100} value={name} onChange={e=>setName(e.target.value)}/></label><label>Số điện thoại<input type="tel" maxLength={20} value={phone} onChange={e=>setPhone(e.target.value)}/></label><label>Email đăng nhập<input readOnly value={user?.email??''}/></label><button className={styles.profileSave} disabled={busy}><Save size={16}/>{busy?'Đang lưu…':'Lưu thay đổi'}</button></section><button type="button" className={styles.profileLogout} disabled={busy} onClick={logout}><LogOut size={17}/>Đăng xuất</button></aside><div className={styles.profileMain}><section><h2><Utensils size={20}/>Khẩu vị của bạn</h2><p>Chọn chế độ ăn và những nguyên liệu bạn muốn tránh.</p><div className={styles.preferenceGrid}><fieldset><legend>Chế độ ăn uống</legend><div className={styles.preferenceChips}>{['Không hạn chế','Ăn chay','Ít tinh bột'].map(d=><button key={d} type="button" aria-pressed={diet===d} onClick={()=>setDiet(d)}>{d}</button>)}</div></fieldset><fieldset><legend>Dị ứng & kiêng kị</legend><div className={styles.allergyChips}>{['Hải sản','Đậu phộng','Trứng','Sữa'].map(a=><button type="button" key={a} aria-pressed={allergies.includes(a)} onClick={()=>setAllergies(prev=>prev.includes(a)?prev.filter(x=>x!==a):[...prev,a])}>{a}</button>)}</div></fieldset></div><div className={styles.preferenceNote}><ShieldCheck size={21}/><div><strong>Gợi ý phù hợp hơn với bạn</strong><p>Lựa chọn này được dùng để lọc công thức. Hãy kiểm tra thành phần trước khi nấu nếu bạn có dị ứng.</p></div></div></section><div className={styles.profileBottom}><section><h2><MapPin size={19}/>Địa chỉ giao hàng</h2><p>Địa chỉ mặc định cho những lần đặt hàng tiếp theo.</p><label>Nhà riêng<textarea maxLength={300} rows={5} value={address} onChange={e=>setAddress(e.target.value)} placeholder="Số nhà, đường, phường/xã, tỉnh/thành phố"/></label></section><section><h2>Gói thành viên</h2><MembershipStatus/><Link href="/budget" className={styles.budgetLink}>Quản lý ngân sách tháng →</Link><p>Thiết lập ngân sách và theo dõi các khoản mua sắm ở trang Ngân sách.</p></section></div>{message&&<p role="status">{message}</p>}{error&&<p role="alert" className="text-error">{error}</p>}</div></form></div>;
 }

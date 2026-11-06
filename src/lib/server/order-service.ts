@@ -1,3 +1,4 @@
+import { grantMembership } from "./membership-grants";
 import mongoose from "mongoose";
 import { randomUUID, randomInt, createHash } from "node:crypto";
 import Order from "@/models/Order";
@@ -50,19 +51,36 @@ export async function placeOrder(
   const orderId = "SG-" + randomUUID();
   if (!isLive()) {
     const quote = await quoteCart(input.items, input.store);
-    if (quote.total !== input.expectedTotal) throw new ApiError(409, "Giá đã thay đổi. Vui lòng tải lại báo giá.");
+    if (quote.total !== input.expectedTotal)
+      throw new ApiError(409, "Giá đã thay đổi. Vui lòng tải lại báo giá.");
     try {
-      return await Order.create({ ...quote, schemaVersion: 2, userId, orderId,
-        address: input.address, phone: input.phone, paymentMethod: input.paymentMethod,
-        clientRequestId: input.clientRequestId, requestHash, inventoryReserved: false,
+      return await Order.create({
+        ...quote,
+        schemaVersion: 2,
+        userId,
+        orderId,
+        address: input.address,
+        phone: input.phone,
+        paymentMethod: input.paymentMethod,
+        clientRequestId: input.clientRequestId,
+        requestHash,
+        inventoryReserved: false,
         status: input.paymentMethod === "cod" ? "confirmed" : "unpaid",
         paymentStatus: input.paymentMethod === "cod" ? "cod" : "pending",
-        payment: { provider: input.paymentMethod, environment: input.paymentMethod === "momo" ? "sandbox" : "demo",
-          reference: orderId, requestId: randomUUID(), orderCode: Date.now() * 1000 + randomInt(1000) },
+        payment: {
+          provider: input.paymentMethod,
+          environment: input.paymentMethod === "momo" ? "sandbox" : "demo",
+          reference: orderId,
+          requestId: randomUUID(),
+          orderCode: Date.now() * 1000 + randomInt(1000),
+        },
       });
     } catch (error) {
-      if ((error as {code?:number}).code === 11000) {
-        const duplicate = await Order.findOne({userId,clientRequestId:input.clientRequestId});
+      if ((error as { code?: number }).code === 11000) {
+        const duplicate = await Order.findOne({
+          userId,
+          clientRequestId: input.clientRequestId,
+        });
         if (duplicate?.requestHash === requestHash) return duplicate;
       }
       throw error;
@@ -85,7 +103,7 @@ export async function placeOrder(
               store: quote.store,
               ingredientId: item.ingredient.id,
               active: true,
-              price: item.ingredient.price,
+              price: item.catalogPrice,
               validUntil: { $gt: new Date() },
               stock: { $gte: item.quantity },
             },
@@ -149,9 +167,19 @@ export async function placeOrder(
   return order;
 }
 export async function cancelOrder(userId: string, orderId: string) {
-  const demo = await Order.findOneAndUpdate({ userId, orderId, mode: "demo", status: {$in:["unpaid","confirmed"]},
-    paymentStatus: {$nin:["paid","review"]}, "payment.startedAt": {$exists:false} }, {$set:{status:"cancelled"}}, {new:true});
-  if(demo)return demo;
+  const demo = await Order.findOneAndUpdate(
+    {
+      userId,
+      orderId,
+      mode: "demo",
+      status: { $in: ["unpaid", "confirmed"] },
+      paymentStatus: { $nin: ["paid", "review"] },
+      "payment.startedAt": { $exists: false },
+    },
+    { $set: { status: "cancelled" } },
+    { new: true },
+  );
+  if (demo) return demo;
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
@@ -201,14 +229,33 @@ export async function settlePayment(
   const order = await Order.findOne({
     "payment.reference": reference,
     "payment.provider": provider,
-    $or: [{mode:"live"},{mode:"demo", "payment.environment":"sandbox", "payment.provider":"momo"}],
+    $or: [
+      { mode: "live" },
+      {
+        mode: "demo",
+        "payment.environment": "sandbox",
+        "payment.provider": "momo",
+      },
+    ],
   });
   if (!order || order.total !== amount)
     throw new ApiError(400, "Giao dịch không khớp đơn hàng.");
-  if (order.paymentStatus === "paid" || order.paymentStatus === "review")
+  if (order.paymentStatus === "paid" || order.paymentStatus === "review") {
+    if (
+      order.paymentStatus === "paid" &&
+      order.kind === "membership" &&
+      order.payment.environment === "production"
+    )
+      await grantMembership(
+        order.userId,
+        order.membershipPlan,
+        order.orderId,
+        "payment",
+      );
     return order;
+  }
   // Atomic update: duplicate notifications cannot credit twice or regress fulfillment.
-  return Order.findOneAndUpdate(
+  const settled = await Order.findOneAndUpdate(
     { _id: order._id, paymentStatus: { $nin: ["paid", "review"] } },
     [
       {
@@ -227,4 +274,17 @@ export async function settlePayment(
     ],
     { new: true },
   );
+  const result = settled ?? (await Order.findById(order._id));
+  if (
+    result?.paymentStatus === "paid" &&
+    result.kind === "membership" &&
+    result.payment.environment === "production"
+  )
+    await grantMembership(
+      result.userId,
+      result.membershipPlan,
+      result.orderId,
+      "payment",
+    );
+  return result;
 }

@@ -11,7 +11,9 @@ export async function GET() {
   try {
     await adminRequired();
     return Response.json({
-      orders: await Order.find().sort({ createdAt: -1 }).limit(200),
+      orders: await Order.find({ kind: { $ne: "membership" } })
+        .sort({ createdAt: -1 })
+        .limit(200),
     });
   } catch (e) {
     return fail(e);
@@ -27,6 +29,7 @@ export async function PATCH(req: Request) {
       const order = await Order.findOneAndUpdate(
         {
           orderId,
+          kind: { $ne: "membership" },
           paymentMethod: "cod",
           paymentStatus: "cod",
           status: { $in: ["delivered", "completed"] },
@@ -52,6 +55,7 @@ export async function PATCH(req: Request) {
     const order = await Order.findOneAndUpdate(
       {
         orderId,
+        kind: { $ne: "membership" },
         status: { $in: from },
         $or: [
           { paymentStatus: "paid" },

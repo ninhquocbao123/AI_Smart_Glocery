@@ -20,7 +20,7 @@ export async function PATCH(req: Request) {
         (a: unknown) => typeof a !== "string" || a.length > 50,
       ) ||
       !Number.isFinite(data.monthlyBudgetTarget) ||
-      data.monthlyBudgetTarget <= 0 ||
+      data.monthlyBudgetTarget < 0 ||
       data.monthlyBudgetTarget > 1000000000
     )
       return Response.json(

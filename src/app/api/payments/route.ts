@@ -8,7 +8,11 @@ import {
   stringValue,
   userRequired,
 } from "@/lib/server/http";
-import { createBankPayment, createPayment, queryPayment } from "@/lib/server/providers";
+import {
+  createBankPayment,
+  createPayment,
+  queryPayment,
+} from "@/lib/server/providers";
 import QRCode from "qrcode";
 import { settlePayment } from "@/lib/server/order-service";
 import { paymentReady } from "@/lib/server/config";
@@ -26,12 +30,26 @@ export async function POST(req: Request) {
     let order = await Order.findOne({ orderId: id, userId: String(user._id) });
     if (
       !order ||
-      !(order.mode === "live" || (order.mode === "demo" && order.paymentMethod === "momo" && order.payment?.environment === "sandbox" && process.env.MOMO_ENV !== "production")) ||
+      !(
+        order.mode === "live" ||
+        (order.mode === "demo" &&
+          order.paymentMethod === "momo" &&
+          order.payment?.environment === "sandbox" &&
+          process.env.MOMO_ENV !== "production")
+      ) ||
       !["bank", "momo"].includes(order.paymentMethod)
     )
       throw new ApiError(409, "Đơn này không hỗ trợ thanh toán trực tuyến.");
-    if (order.paymentStatus === "paid")
+    if (order.paymentStatus === "paid") {
+      if (order.kind === "membership")
+        order = await settlePayment(
+          order.payment.reference,
+          order.paymentMethod,
+          order.total,
+          order.payment.transactionId,
+        );
       return Response.json({ order, paid: true });
+    }
     if (order.status === "cancelled" || order.paymentStatus === "review")
       return Response.json({ order, paid: false, terminal: true });
     if (data.action === "check") {
@@ -45,12 +63,15 @@ export async function POST(req: Request) {
           result.amount,
           result.transactionId,
         );
-      return Response.json({ order, paid: order?.paymentStatus === "paid", providerStatus: "status" in result ? result.status : undefined });
+      return Response.json({
+        order,
+        paid: order?.paymentStatus === "paid",
+        providerStatus: "status" in result ? result.status : undefined,
+      });
     }
     if (order.status !== "unpaid" || !paymentReady(order.paymentMethod))
       throw new ApiError(409, "Đơn hoặc cổng thanh toán chưa sẵn sàng.");
-    if (order.payment.checkoutUrl)
-      return await paymentResponse(order);
+    if (order.payment.checkoutUrl) return await paymentResponse(order);
     if (order.payment.startedAt)
       throw new ApiError(
         409,
@@ -66,12 +87,20 @@ export async function POST(req: Request) {
       { new: true },
     );
     if (!order) throw new ApiError(409, "Thanh toán đang được xử lý.");
-    const details = order.paymentMethod === "bank"
-      ? await createBankPayment(order)
-      : { checkoutUrl: await createPayment(order) };
+    const details =
+      order.paymentMethod === "bank"
+        ? await createBankPayment(order)
+        : { checkoutUrl: await createPayment(order) };
     await Order.updateOne(
       { _id: order._id },
-      { $set: Object.fromEntries(Object.entries(details).map(([key, value]) => ["payment." + key, value])) },
+      {
+        $set: Object.fromEntries(
+          Object.entries(details).map(([key, value]) => [
+            "payment." + key,
+            value,
+          ]),
+        ),
+      },
     );
     order = await Order.findById(order._id);
     return await paymentResponse(order);
@@ -80,14 +109,40 @@ export async function POST(req: Request) {
   }
 }
 
-async function paymentResponse(order: { orderId: string; total: number; payment: { checkoutUrl?: string; qrCode?: string; accountNumber?: string; accountName?: string; bankBin?: string; description?: string; expiresAt?: number } }) {
+async function paymentResponse(order: {
+  orderId: string;
+  total: number;
+  payment: {
+    checkoutUrl?: string;
+    qrCode?: string;
+    accountNumber?: string;
+    accountName?: string;
+    bankBin?: string;
+    description?: string;
+    expiresAt?: number;
+  };
+}) {
   const p = order.payment;
-  return Response.json({
-    orderId: order.orderId, total: order.total, checkoutUrl: p.checkoutUrl,
-    bank: p.qrCode ? {
-      qrImage: await QRCode.toDataURL(p.qrCode, { width: 360, margin: 4, errorCorrectionLevel: "M" }),
-      accountNumber: p.accountNumber, accountName: p.accountName, bankBin: p.bankBin,
-      description: p.description, expiresAt: p.expiresAt,
-    } : null,
-  }, { headers: { "Cache-Control": "no-store" } });
+  return Response.json(
+    {
+      orderId: order.orderId,
+      total: order.total,
+      checkoutUrl: p.checkoutUrl,
+      bank: p.qrCode
+        ? {
+            qrImage: await QRCode.toDataURL(p.qrCode, {
+              width: 360,
+              margin: 4,
+              errorCorrectionLevel: "M",
+            }),
+            accountNumber: p.accountNumber,
+            accountName: p.accountName,
+            bankBin: p.bankBin,
+            description: p.description,
+            expiresAt: p.expiresAt,
+          }
+        : null,
+    },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }

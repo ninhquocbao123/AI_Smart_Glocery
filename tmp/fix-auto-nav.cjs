@@ -1,0 +1,1 @@
+const fs=require('fs');const p='src/app/meal-plan/weekly/page.tsx';let s=fs.readFileSync(p,'utf8');s=s.replace("if(saving)return;if(dirty&&!window.confirm('Lịch chưa được lưu. Chuyển tuần và bỏ các thay đổi?'))return;","if(saveLock.current)return;if(dirty){setMessage('Hãy bấm Thử lưu lại trước khi chuyển tuần để giữ các món đã chọn.');return;}");fs.writeFileSync(p,s);

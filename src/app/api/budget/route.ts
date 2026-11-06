@@ -8,9 +8,17 @@ export async function GET() {
     return Response.json({
       orders: await Order.find({
         userId: String(user._id),
+        kind: { $ne: "membership" },
         $or: [
-          { mode: "live", paymentStatus: "paid", "payment.environment": { $ne: "sandbox" } },
-          { mode: { $ne: "live" }, status: { $in: ["completed", "delivered"] } },
+          {
+            mode: "live",
+            paymentStatus: "paid",
+            "payment.environment": { $ne: "sandbox" },
+          },
+          {
+            mode: { $ne: "live" },
+            status: { $in: ["completed", "delivered"] },
+          },
         ],
       }).sort({ createdAt: -1 }),
       monthlyBudgetTarget: user.monthlyBudgetTarget,

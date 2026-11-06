@@ -1,7 +1,8 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IUser extends Document {
   role?: string;
+  avatar?: string;
   name: string;
   email: string;
   password?: string;
@@ -18,6 +19,8 @@ export interface IUser extends Document {
 
 const UserSchema: Schema = new Schema(
   {
+    avatar: {type:String,default:""},
+    membershipVersion: { type: Number, default: 0 },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -26,13 +29,14 @@ const UserSchema: Schema = new Schema(
     address: { type: String, default: "" },
     diet: { type: String, default: "Không hạn chế" },
     allergies: { type: [String], default: [] },
-    monthlyBudgetTarget: { type: Number, default: 1500000 },
+    monthlyBudgetTarget: { type: Number, default: 0 },
     memberTier: { type: String, default: "Thành viên Tiêu chuẩn" },
     joinYear: { type: Number, default: () => new Date().getFullYear() },
     points: { type: String, default: "0" },
     orders: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+export default mongoose.models.User ||
+  mongoose.model<IUser>("User", UserSchema);

@@ -1,4 +1,6 @@
 "use client";
+import UserPageHeader from "@/components/ui/UserPageHeader";
+
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -147,7 +149,7 @@ function CheckoutForm() {
       <Link href="/grocery-store" className="text-primary">
         ← Quay lại giỏ hàng
       </Link>
-      <h1 className="text-3xl font-extrabold">Xác nhận đơn hàng</h1>
+      <UserPageHeader eyebrow="BƯỚC CUỐI TRƯỚC KHI ĐẶT" title="Kiểm tra đơn hàng của bạn" description="Chọn cửa hàng, kiểm tra địa chỉ giao và phương thức thanh toán."/>
       <p className="p-4 bg-secondary-container/40 rounded-xl text-sm">
         {settings?.mode === "live"
           ? "Kiểm tra người bán và khu vực giao hàng trước khi đặt. Khi chọn thanh toán trực tuyến, bạn sẽ được chuyển đến cổng thanh toán sau khi tạo đơn."

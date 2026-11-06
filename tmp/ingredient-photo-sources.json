@@ -1,0 +1,330 @@
+[
+  {
+    "id": "ingredient-photo-001",
+    "name": "Rau muống",
+    "kind": "ingredient",
+    "title": "Rau muống ở Việt Nam rẻ bằng cốc trà đá, ra nước ngoài đại gia mới dám mua ăn | Báo Dân trí",
+    "source": "https://dantri.com.vn/kinh-doanh/rau-muong-o-viet-nam-re-bang-coc-tra-da-ra-nuoc-ngoai-dai-gia-moi-dam-mua-an-20190710015058121.htm",
+    "url": "https://icdn.dantri.com.vn/thumb_w/960/2019/07/10/raumuonghat-1562697738988.jpg"
+  },
+  {
+    "id": "ingredient-photo-002",
+    "name": "Ớt tươi",
+    "kind": "ingredient",
+    "title": "越南辣椒产品获准出口中国市场",
+    "source": "https://cn.qdnd.vn/cid-6158/7193/-590633",
+    "url": "https://file3.qdnd.vn/data/images/15/2022/03/06/dangloancn/9.jpg"
+  },
+  {
+    "id": "ingredient-photo-003",
+    "name": "Cá diêu hồng",
+    "kind": "ingredient",
+    "title": "Cá Diêu Hồng",
+    "source": "https://phamgiaphat.com/ca-dieu-hong",
+    "url": "https://phamgiaphat.com/watermark/product/600x600x2/upload/product/ca-dieu-hong-tai-1116.jpg"
+  },
+  {
+    "id": "ingredient-photo-004",
+    "name": "Me",
+    "kind": "ingredient",
+    "title": "Cách làm mứt me nguyên trái siêu ngon cho ngày Tết | Thời Đại",
+    "source": "https://thoidai.com.vn/cach-lam-mut-me-nguyen-trai-sieu-ngon-cho-ngay-tet-128975.html",
+    "url": "https://thoidai.com.vn/stores/news_dataimages/van.ho/012021/16/10/3159_Cach-lam-mut-me-xanh-nguyen-trai-ngao-duong-chua.jpg?rt=20210116103729"
+  },
+  {
+    "id": "ingredient-photo-005",
+    "name": "Nấm",
+    "kind": "ingredient",
+    "title": "Clean Mushrooms In Vietnam Where The World's Culinary Cuisine",
+    "source": "https://www.mialiana.com/2019/03/clean-mushrooms-in-vietnam-where-worlds.html",
+    "url": "https://4.bp.blogspot.com/-3SZR-UutDRw/XHzcfqJD5sI/AAAAAAABoiU/eHnjUwi2jr4DCRc6wgh0XkKPxUQES0zQACLcBGAs/s1600/Nong-San-Dung-Ha-Fresh-Mushroom-2.jpg"
+  },
+  {
+    "id": "ingredient-photo-006",
+    "name": "Rau ngót",
+    "kind": "ingredient",
+    "title": "cung cấp rau sạch tại hà nội, chuyên cung cấp rau sạch tại hà nội, bán buôn rau sạch tại hà nội, chuyên bán rau ngót, cung cấp rau ngót sạch, bán rau ngót sạch, chuyên cung cấp rau ngót sạch số lượng lớn",
+    "source": "https://www.biggreen.com.vn/product/rau-ngot.aspx",
+    "url": "https://www.biggreen.com.vn/data/product/rau-ng%C3%B3t.jpg"
+  },
+  {
+    "id": "ingredient-photo-007",
+    "name": "Thịt heo băm",
+    "kind": "ingredient",
+    "title": "Thịt heo xay 300g",
+    "source": "https://www.lottemart.vn/vi-dni/product/so-thit-heo-xay-2204360000009-p2713",
+    "url": "https://cdn.lottemart.vn/media/description/product/cache/2204360000009-DT-2.jpg.webp"
+  },
+  {
+    "id": "ingredient-photo-008",
+    "name": "Hành tím",
+    "kind": "ingredient",
+    "title": "1 kg Hành tím Lý Sơn hàng tuyển đặc biệt loại VIP, củ đẹp chắc thơm ngon (Hành tím, Tỏi Tím, Tỏi Đen, hành khô, hành phi)) - Gia vị dạng bột | Bachhoa.Extra.vn",
+    "source": "https://bachhoa.extra.vn/1-kg-hanh-tim-ly-son-hang-tuyen-dac-biet-loai-vip-cu-dep-chac-thom-ngon-hanh-tim-toi-tim-toi-den-hanh-kho-hanh-phi-l2024770270.html",
+    "url": "https://vn-live-01.slatic.net/p/b9d902178b7858d21ecf139d3cd3298e.jpg"
+  },
+  {
+    "id": "ingredient-photo-009",
+    "name": "Thịt heo",
+    "kind": "ingredient",
+    "title": "Ubofood | Nạc Thăn Heo An Toàn",
+    "source": "https://ubofood.com/products/nac-than-lon-01020016300",
+    "url": "https://anvita.sgp1.cdn.digitaloceanspaces.com/ubofood/images/nac-than-lon-01020016300_1000_750_2cd8268c-bf7d-4bdc-8b40-ae9e9e4478bb.JPEG"
+  },
+  {
+    "id": "ingredient-photo-010",
+    "name": "Cơm nguội",
+    "kind": "ingredient",
+    "title": "1 chén cơm bao nhiêu calo? Ăn cơm nhiều có bị mập không?",
+    "source": "https://dienmaycholon.com/kinh-nghiem-mua-sam/1-chen-com-bao-nhieu-calo-an-com-nhieu-co-bi-map-khong",
+    "url": "https://cdn11.dienmaycholon.vn/filewebdmclnew/DMCL21/Picture/News/News_expe_12601/12601.png?version=141753"
+  },
+  {
+    "id": "ingredient-photo-011",
+    "name": "Đậu Hà Lan",
+    "kind": "ingredient",
+    "title": "Đậu hà lan xanh nguyên Hạt Nhập khẩu từ Canada",
+    "source": "https://suckhoexanh.vn/dau-ha-lan-xanh-nguyen-hat-canada",
+    "url": "https://bizweb.dktcdn.net/thumb/1024x1024/100/514/950/products/dau-hlxnh-250-hinh-2.png?v=1762837384703"
+  },
+  {
+    "id": "ingredient-photo-012",
+    "name": "Gạo nếp",
+    "kind": "ingredient",
+    "title": "Klebreis / Ricefield Vietnam 1kg - My-Asia-Shop",
+    "source": "https://www.my-asia-shop.de/p/klebreis-ricefield-vietnam-1kg",
+    "url": "https://www.my-asia-shop.de/storage/images/image?remote=https%3A%2F%2Fwww.my-asia-shop.de%2FWebRoot%2FStore28%2FShops%2F90781291%2F6100%2F2B96%2F2B1D%2F2E28%2F80D7%2F0A0C%2F6D0F%2F69F3%2F120406.jpg&shop=90781291"
+  },
+  {
+    "id": "ingredient-photo-013",
+    "name": "Chicken thigh",
+    "kind": "ingredient",
+    "title": "Курица, бройлеры или цыплята, бедра, мясо и кожа, сырые: калорийность на 100 грамм — 211 ККал. Белки, жиры, углеводы, химический состав.",
+    "source": "https://bonfit.ru/kalorii/myaso-i-myasnye-produkty/kuritsa/kalorii-kuritsa-broylery-ili-tsyplyata-bedra-myaso-i-kozha-syrye/",
+    "url": "https://bonfit.ru/upload/iblock/6f5/6f5665f249b48ec4cd2d632aef31939f.jpg"
+  },
+  {
+    "id": "ingredient-photo-014",
+    "name": "Thịt ba chỉ",
+    "kind": "ingredient",
+    "title": "Thịt Ba Chỉ heo Baf - Cửa hàng rau sạch An Nhiên Farm",
+    "source": "https://www.chogiakiem.vn/products/6005f25a-5079-4b20-8a7f-d5aa5c88bf43",
+    "url": "https://tvkfennuwtsvexysblvs.supabase.co/storage/v1/object/public/product-images/77e60a83-97db-4565-81c9-7cd330d35a54/1763600429505-di3lpw.jpg"
+  },
+  {
+    "id": "ingredient-photo-015",
+    "name": "Nước dừa tươi",
+    "kind": "ingredient",
+    "title": "manfaat air kelapa mempercepat penyerapan obat",
+    "source": "https://otcdigest.id/info-sehat/5-manfaat-air-kelapa-cairan-elektrolitnya-mempercepat-penyerapan-obat",
+    "url": "https://otcdigest.id/sites/default/files/manfaat%20air%20kelapa%20mempercepat%20penyerapan%20obat%20.jpg"
+  },
+  {
+    "id": "ingredient-photo-016",
+    "name": "Bánh mì",
+    "kind": "ingredient",
+    "title": "12” Baguettes | Dong Phuong Bakery",
+    "source": "https://orders.dpbakery.com/product/12-baguettes/153",
+    "url": "https://132307573.cdn6.editmysite.com/uploads/1/3/2/3/132307573/RB2MEXRKECLW4SSPJ7ASJI44.jpeg?optimize=medium&width=2400"
+  },
+  {
+    "id": "ingredient-photo-017",
+    "name": "Rau ngò rí",
+    "kind": "ingredient",
+    "title": "Ngò rí gói 50g (1 Gói) - Chuỗi siêu thị thực phẩm tươi ngon, chất lượng Kingfoodmart",
+    "source": "https://kingfoodmart.com/rau-thom/ngo-ri-vietgap-ptfarm-goi-50g-1-goi-61287?srsltid=AfmBOor622v335BuhlQkmK1n0E-MgWeIf1CERILpnXKIVpMzp6QZAejP",
+    "url": "https://storage.googleapis.com/sc_pcm_product/prod/2025/1/7/616499-image1.webp"
+  },
+  {
+    "id": "ingredient-photo-018",
+    "name": "Sốt mayonnaise",
+    "kind": "ingredient",
+    "title": "Mayonnaise Kalorien & Nährwerte: Kohlenhydrate, Eiweiß, Ballaststoffe & Co",
+    "source": "https://www.foodabi.de/kalorien-naehrwerte/kcal/kohlenhydrate/eiweiss/fett/mayonnaise-724.html",
+    "url": "https://s3-eu-west-1.amazonaws.com/foodabi-usercontent/e456e04690c6c11252848b3171c24c56_min.jpg"
+  },
+  {
+    "id": "ingredient-photo-019",
+    "name": "Bơ lạt",
+    "kind": "ingredient",
+    "title": "Saputo Unsalted Butter 454g | Piazza Denardi",
+    "source": "https://www.denardi.ca/product/saputo-unsalted-butter-454g/",
+    "url": "https://www.denardi.ca/media/1_40794.jpg"
+  },
+  {
+    "id": "ingredient-photo-020",
+    "name": "Dầu hào",
+    "kind": "ingredient",
+    "title": "Oyster Sauce — Nutrients, Health Benefits, and Shopping Tips",
+    "source": "https://listonic.com/p/nutrition/oyster-sauce",
+    "url": "https://listonic.com/phimageproxy/listonic/products/oyster_sauce.webp"
+  },
+  {
+    "id": "ingredient-photo-021",
+    "name": "Xà lách xoong",
+    "kind": "ingredient",
+    "title": "Phân biệt các loại rau cải phổ biến dành cho hội chị em vụng",
+    "source": "https://quantrimang.com/cuoc-song/cac-loai-rau-cai-176728",
+    "url": "https://st.quantrimang.com/photos/image/2020/11/11/rau-cai-6.jpg"
+  },
+  {
+    "id": "ingredient-photo-022",
+    "name": "Cá lóc",
+    "kind": "ingredient",
+    "title": "Cá Lóc Đồng Tươi Ngon - Các Loại Hải Sản Khác | Bachhoa.Extra.vn",
+    "source": "https://bachhoa.extra.vn/ca-loc-dong-tuoi-ngon-t72690399.html",
+    "url": "https://salt.tikicdn.com/cache/525x525/ts/product/28/da/b6/9079f8fee01c3973515608e427a6c27f.jpg"
+  },
+  {
+    "id": "ingredient-photo-023",
+    "name": "Giá đỗ",
+    "kind": "ingredient",
+    "title": "Giá đỗ tươi ngon từ đậu xanh trồng tự nhiên",
+    "source": "https://binhdienonline.com/gia-do-tuoi-ngon-tu-hat-dau-xanh-trong-tu-nhien-2.html",
+    "url": "https://binhdienonline.com/thumbs_size/product/2021_06/gia-do/%5B550x550-cr%5Dgia-do-4.jpg"
+  },
+  {
+    "id": "ingredient-photo-024",
+    "name": "Rau om (Ngò ôm)",
+    "kind": "ingredient",
+    "title": "Ngò Ôm (Rau Ngổ) Miền Bắc | KAMEREO",
+    "source": "https://kamereo.vn/products/ngo-om-rau-ngo-mien-bac-VEG081",
+    "url": "https://image-handler-prod.s3-ap-southeast-1.amazonaws.com/supplier/654/PRODUCT_IMAGE/4a220601-2cc2-4ff4-a453-e940ac7fd111.jpg"
+  },
+  {
+    "id": "ingredient-photo-025",
+    "name": "Xương bò",
+    "kind": "ingredient",
+    "title": "Grange Meat Co.",
+    "source": "https://www.grangemeat.com.au/blog-posts/best-ways-to-use-beef-bones",
+    "url": "https://cdn.prod.website-files.com/62be8b3581a2ad2c40aaedec/68ff40f61270f68ecdc328be_Best%20ways%20to%20use%20beef%20bones.jpg"
+  },
+  {
+    "id": "ingredient-photo-026",
+    "name": "Bánh phở",
+    "kind": "ingredient",
+    "title": "BÁNH PHỞ TƯƠI ORGANICFOOD 1kg – ORGANIC GOODS",
+    "source": "https://organicgoods.vn/products/banh-pho-tuoi-organicfood-1kg",
+    "url": "https://product.hstatic.net/200000744499/product/04_result_508031708d5649b19078c978d44d1848.jpg"
+  },
+  {
+    "id": "ingredient-photo-027",
+    "name": "Hoa hồi",
+    "kind": "ingredient",
+    "title": "Top 12 Health Benefits of Star Anise - Health Benefits",
+    "source": "https://www.healthbenefitstimes.com/star-anise/",
+    "url": "https://www.healthbenefitstimes.com/9/gallery/star-anise/Star-Anise-Anis-de-la-Chine.jpg"
+  },
+  {
+    "id": "ingredient-photo-028",
+    "name": "Thanh quế",
+    "kind": "ingredient",
+    "title": "Cinnamon Sticks for Cooking and Baking",
+    "source": "https://www.walmart.com/c/kp/cinamon-sticks",
+    "url": "https://i5.walmartimages.com/seo/Orii-Inspiration-Spice-Seasoning-Cinnamon-Sticks-22-7-Grams-0-8-oz_217d4d81-222f-4ee5-b0d1-4e4c6ae68e37.749ddd489faba1fe567b4b71965a1072.jpeg?odnBg=FFFFFF&odnHeight=580&odnWidth=580"
+  },
+  {
+    "id": "ingredient-photo-029",
+    "name": "Rau húng quế",
+    "kind": "ingredient",
+    "title": "Herb – Basil Thai | bunch – Bivihome",
+    "source": "https://bivihome.com.au/products/herb-basil-thai",
+    "url": "https://bivihome.com.au/cdn/shop/files/Herb-_E2_80_93-Basil-Thai.png?v=1755653599"
+  },
+  {
+    "id": "ingredient-photo-030",
+    "name": "Gạo tấm",
+    "kind": "ingredient",
+    "title": "Gạo tấm - Bảng giá 2026 mới nhất, khuyến mãi tốt",
+    "source": "https://foods.be5.com.vn/gao-tam/",
+    "url": "https://cdn.sanity.io/images/hovb96em/production/2b94db4dc0a17836f26f90d38ea317e8d7831b6b-1024x1024.jpg?auto=format&h=1024&w=1024"
+  },
+  {
+    "id": "ingredient-photo-031",
+    "name": "Bì heo",
+    "kind": "ingredient",
+    "title": "Bì heo Ngọc Tú 6S 180g – MekongGourmet",
+    "source": "https://mekonggourmet.com/products/bi-heo-ngoc-tu-6s-180g",
+    "url": "https://product.hstatic.net/200000868055/product/mi_soi_huu_co_kieu_mach_bartolini_250g__11__d341dbd600d647228c638c753b1d2b65_large.png"
+  },
+  {
+    "id": "ingredient-photo-032",
+    "name": "Mỡ hành",
+    "kind": "ingredient",
+    "title": "Cách làm mỡ hành ăn bắp, sò, hàu nướng béo thơm, màu xanh đẹp mắt",
+    "source": "https://www.bachhoaxanh.com/kinh-nghiem-hay/cach-lam-mo-hanh-an-bap-so-hau-nuong-beo-thom-mau-xanh-dep-mat-1290889",
+    "url": "https://cdn.tgdd.vn/Files/2020/09/17/1290889/cach-lam-mo-hanh-an-bap-so-hau-nuong-beo-thom-mau-xanh-dep-mat-202203041602031080.jpg"
+  },
+  {
+    "id": "ingredient-photo-033",
+    "name": "Đồ chua",
+    "kind": "ingredient",
+    "title": "Củ cải và cà rốt ngâm - Chuỗi siêu thị thực phẩm tươi ngon, chất lượng Kingfoodmart",
+    "source": "https://kingfoodmart.com/bai-viet/cong-thuc-nau-an/cu-cai-va-ca-rot-ngam?srsltid=AfmBOorqijuMAF2YMKseds9cYsvx-3WOBSKvp8yE4jPRze9Igqdu7ybB",
+    "url": "https://storage.googleapis.com/onelife-public/blog.onelife.vn/2021/10/cach-lam-cu-cai-va-ca-rot-ngam-mon-khai-vi-361377737777.jpg"
+  },
+  {
+    "id": "ingredient-photo-034",
+    "name": "Bún tươi",
+    "kind": "ingredient",
+    "title": "Bún tươi Sáu Thạnh – Bún tươi Sáu Thạnh",
+    "source": "https://sauthanh.com/san-pham/bun-sau-thanh/",
+    "url": "https://sauthanh.com/files/uploads/bun-tuoi-mat-truoc.png"
+  },
+  {
+    "id": "ingredient-photo-035",
+    "name": "Rau thơm các loại",
+    "kind": "ingredient",
+    "title": "Các loại Rau thơm phổ biến ở Việt Nam tốt cho sức khỏe",
+    "source": "https://khuvuonxanh.com/rau-thom/",
+    "url": "https://khuvuonxanh.com/uploads/2023/07/cac-loai-rau-thom-viet-nam.jpg"
+  },
+  {
+    "id": "ingredient-photo-036",
+    "name": "Bánh tráng",
+    "kind": "ingredient",
+    "title": "Sunlee Spring Poll Sheet 340g | Villa Market",
+    "source": "https://shop.villamarket.com/product/205445",
+    "url": "https://d19oj5aeuefgv.cloudfront.net/0205445"
+  },
+  {
+    "id": "ingredient-photo-037",
+    "name": "Rau húng lủi",
+    "kind": "ingredient",
+    "title": "Húng lủi 50gr Genshai Fresh",
+    "source": "https://genshai.com.vn/products/2010500092779",
+    "url": "https://product.hstatic.net/200000352097/product/hung-lui-skyfood_52e7190fc7c14c2ca2e34e5d84d9b87a_1024x1024.jpg"
+  },
+  {
+    "id": "ingredient-photo-038",
+    "name": "Tương đen",
+    "kind": "ingredient",
+    "title": "Hoisin Sauce Substitutes | Guide for 2025 | Cozymeal",
+    "source": "https://www.cozymeal.com/magazine/hoisin-sauce-substitute",
+    "url": "https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill%2Cq_auto%2Cw_750/f_auto/hoisin-sauce-substitute-phpfjlBLe"
+  },
+  {
+    "id": "ingredient-photo-039",
+    "name": "Nui",
+    "kind": "ingredient",
+    "title": "Pasta Montana - Elbows",
+    "source": "https://www.pastamontana.com/products/category/elbows",
+    "url": "https://www.pastamontana.com/images/products/2hwel/2hwel-top.jpg"
+  },
+  {
+    "id": "ingredient-photo-040",
+    "name": "Miến",
+    "kind": "ingredient",
+    "title": "フライパンやレンジでも。春雨の正しい戻し方と注意点をおさらい - macaroni",
+    "source": "https://macaro-ni.jp/93389",
+    "url": "https://cdn.macaro-ni.jp/image/summary/93/93389/9ahv0khqLzXIdbJ4geEJWs3sIjbvflaQqRchdqaQ.jpeg?p=medium"
+  },
+  {
+    "id": "ingredient-photo-041",
+    "name": "Mực",
+    "kind": "ingredient",
+    "title": "5 loại mực phổ biến và cách làm mực tươi sạch sẽ và nhanh gọn",
+    "source": "https://www.dienmayxanh.com/vao-bep/5-loai-muc-pho-bien-va-cach-lam-muc-tuoi-sach-se-va-nhanh-gon-01500",
+    "url": "https://cdn.tgdd.vn/Files/2019/11/30/1223715/5-loai-muc-pho-bien-va-cach-lam-muc-tuoi-sach-se-va-nhanh-gon-3.jpg"
+  }
+]

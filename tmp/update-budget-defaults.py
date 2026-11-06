@@ -1,0 +1,5 @@
+from pathlib import Path
+for p in ['src/models/User.ts','src/context/AppContext.tsx','src/app/budget/page.tsx','src/app/profile/page.tsx']:
+ s=Path(p).read_text(encoding='utf-8');s=s.replace('1500000','0');Path(p).write_text(s,encoding='utf-8')
+p=Path('src/app/api/profile/route.ts');s=p.read_text(encoding='utf-8').replace('data.monthlyBudgetTarget <= 0','data.monthlyBudgetTarget < 0');p.write_text(s,encoding='utf-8')
+p=Path('src/app/admin/golden-hours/page.tsx');s=p.read_text(encoding='utf-8').replace('space-y-5 max-w-2xl','space-y-6 max-w-4xl bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm').replace('className="flex gap-3"','className="grid grid-cols-2 gap-6 rounded-xl bg-slate-50 border border-slate-200 p-6"').replace('className="block border rounded-xl p-3"','className="block border border-slate-300 rounded-lg p-3 w-full mt-2 bg-white"').replace('Sản phẩm loại trừ giữ giá bán đã cấu hình cả ngày.','Sản phẩm bị loại trừ không được giảm giá trong giờ vàng.').replace('bg-emerald-700 text-white rounded-xl p-3','bg-emerald-700 text-white rounded-lg px-6 py-3 font-semibold');p.write_text(s,encoding='utf-8')

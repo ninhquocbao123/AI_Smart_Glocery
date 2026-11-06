@@ -1,0 +1,44 @@
+.layout { width:100%; max-width:1200px; margin-inline:auto; text-align:left; display:flex; flex-direction:column; gap:28px; padding-top:20px; }
+.layout section { scroll-margin-top:28px; }
+.sectionNav { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:20px 24px; border-block:1px solid #dce5d6; }
+.navTitle { font-size:10px; font-weight:800; letter-spacing:.14em; color:#64816c; white-space:nowrap; }
+.sectionNav > div { display:flex; gap:22px; flex-wrap:wrap; }
+.sectionNav a { font-size:13px; color:#365840; font-weight:600; padding-block:6px; border-bottom:2px solid transparent; }
+.sectionNav a:hover { border-color:#1b743f; color:#126d36; }
+.gallery { padding:12px 0 0; }
+.galleryGrid { display:grid; grid-template-columns:1fr 1.25fr .7fr; gap:20px; align-items:start; }
+.foodImage { position:relative; height:350px; overflow:hidden; border-radius:24px; }
+.gallerySide > p { margin-top:14px; }
+.galleryNote { display:flex; flex-direction:column; gap:14px; }
+.galleryNote > div:first-child { min-height:146px; border-radius:24px; padding:24px; }
+.galleryNote > div:nth-child(2) { aspect-ratio:auto; height:190px; }
+.galleryNote > span { display:none; }
+.trustStrip { display:flex; justify-content:center; flex-wrap:wrap; gap:16px 32px; font-size:12px; color:#526557; padding:24px 12px 30px; }
+.benefits,.workflow,.pricing,.faq { padding:52px; border-radius:28px; border:1px solid #e0e7db; }
+.benefits { background:#fff; }
+.benefits h2,.workflow h2,.pantry h2,.pricing h2 { font-size:clamp(26px,3vw,38px); line-height:1.2; letter-spacing:-.035em; }
+.benefits article { border-radius:20px; padding:28px; }
+.benefits article h3 { margin-top:28px; }
+.workflow { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; background:#edf2e6; border-color:#dbe4d0; }
+.workflow > div:first-child { padding:20px; background:#dce8cd; border-radius:24px; }
+.workflow > div:first-child > div { transform:none; }
+.pantry { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:center; background:#123d2c; color:white; border-radius:28px; padding:52px; }
+.pricing { background:#fbf6eb; border-color:#ebe2ce; padding-block:56px; }
+.pricing > div:first-child { max-width:640px; margin-bottom:40px; }
+.pricing article { border-radius:20px; padding:28px; }
+.pricing article ul { padding-bottom:12px; }
+.faq { background:#fff; display:grid; grid-template-columns:.8fr 1.2fr; column-gap:64px; }
+.faq > div:first-child { grid-column:1; grid-row:1 / span 5; text-align:left; margin:0; }
+.faq > div:first-child h2 { font-size:32px; line-height:1.25; }
+.faq > div:first-child::after { content:'Những điều cần biết để bắt đầu thật dễ dàng.'; display:block; font-size:14px; line-height:1.8; color:#647267; margin-top:18px; max-width:250px; }
+.faq details { grid-column:2; padding-block:20px; }
+.faq details:first-of-type { padding-top:0; }
+.faq details:last-child { border-bottom:0; padding-bottom:0; }
+.faq summary { font-size:14px; line-height:1.6; }
+.finalCta { padding:48px 32px; border-radius:28px; text-align:center; background:linear-gradient(120deg,#e1ecd6,#edf3e7); border:1px solid #d8e5cb; }
+.finalCta h2 { font-size:clamp(28px,3vw,38px); line-height:1.2; }
+.footer { display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px; border-top:1px solid #dce5d6; padding:24px 6px 0; font-size:12px; color:#677569; }
+@media(min-width:1100px) { .pricing article:nth-child(2) { box-shadow:0 14px 36px #23492b12; transform:translateY(-6px); } }
+@media(max-width:1000px) { .sectionNav { flex-direction:column; align-items:flex-start; gap:8px; } .benefits,.workflow,.pantry,.pricing,.faq { padding:32px; } .workflow,.pantry { gap:28px; } .foodImage { height:300px; } .galleryNote > div:nth-child(2) { height:140px; } .faq { column-gap:32px; } }
+@media(max-width:700px) { .layout { gap:20px; padding-top:8px; } .sectionNav { padding:16px 4px; } .sectionNav > div { flex-wrap:nowrap; overflow:auto; max-width:100%; gap:20px; padding-bottom:4px; } .sectionNav a { white-space:nowrap; font-size:12px; } .galleryGrid { grid-template-columns:1fr 1.25fr; gap:12px; } .foodImage { height:240px; border-radius:20px; } .galleryNote { display:none; } .galleryMain .foodImage > div { padding:16px; padding-top:48px; } .galleryMain .foodImage > div > p:first-child { display:none; } .galleryMain .foodImage > div > p:last-child { font-size:20px; } .trustStrip { justify-content:flex-start; padding:20px 4px 8px; gap:12px; font-size:11px; } .benefits,.workflow,.pantry,.pricing,.faq { padding:28px 20px; border-radius:24px; } .benefits > div:first-child { gap:16px; margin-bottom:24px; } .benefits article { padding:24px; } .benefits article h3 { margin-top:20px; } .workflow,.pantry { grid-template-columns:1fr; gap:28px; } .workflow > div:first-child { order:2; padding:14px; } .workflow > div:last-child { order:1; } .pricing article { padding:26px; } .pricing > div:last-child { gap:26px; } .faq { display:block; } .faq > div:first-child { margin-bottom:28px; } .faq > div:first-child::after { max-width:none; } .finalCta { padding:36px 20px; } .footer { font-size:11px; padding-inline:4px; } }
+@media(prefers-reduced-motion:no-preference) { .sectionNav a { transition:color .2s,border-color .2s; } }

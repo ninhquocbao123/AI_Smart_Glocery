@@ -1,0 +1,1 @@
+import fs from 'node:fs';const rows=JSON.parse(fs.readFileSync('scripts/data/catalog-photo-sources.json','utf8'));fs.writeFileSync('src/data/catalogPhotoCredits.json',JSON.stringify(rows.map(({id,name,kind,source})=>({id,name,kind,source})),null,2)+'\n');

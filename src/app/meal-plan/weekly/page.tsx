@@ -1,331 +1,100 @@
 "use client";
+import {useRef,useState,useEffect} from 'react';
+import Link from 'next/link';
+import {useRouter} from 'next/navigation';
+import {ChevronLeft,ChevronRight,Plus,Sun,Sunset,Moon,X,ArrowRight,ShoppingBasket,CalendarDays} from 'lucide-react';
+import {useAppContext,type CartItem} from '@/context/AppContext';
+import {useCatalogRecipes} from '@/lib/use-catalog-recipes';
+import {vietnamToday,weekStart,shiftDate,dayDate} from '@/lib/weekly-calendar';
+import type {Recipe} from '@/data/mockData';
+import calendar from './WeeklyCalendar.module.css';
+import {manualCandidates,type MealSlot,type DayMeals} from '@/lib/manual-meals';
+import {recipeCost} from '@/lib/recommendations';
+import {formatVND} from '@/lib/priceUtils';
+import RecipeImage from '@/components/ui/RecipeImage';
+import UserPageHeader from '@/components/ui/UserPageHeader';
+import styles from '@/components/ui/WorkspacePages.module.css';
+const DAYS=['T2','T3','T4','T5','T6','T7','CN'];
+const MEALS=[{id:'breakfast',label:'Sáng',icon:Sun},{id:'lunch',label:'Trưa',icon:Sunset},{id:'dinner',label:'Tối',icon:Moon}] as const;
+export default function WeeklyMealPlanPage(){
+  const recipes=useCatalogRecipes();
+  const {state,addMultipleToCart}=useAppContext();
+  const [plan,setPlan]=useState<Record<string,DayMeals>>({});
+  const [servings,setServings]=useState(state.servings);
+  const [budget,setBudget]=useState(state.userBudget);
+  const [today,setToday]=useState(vietnamToday);
+  const [week,setWeek]=useState(()=>weekStart(vietnamToday()));
+  const [dirty,setDirty]=useState(false);
+  const saveLock=useRef(false);
+  const pageRef=useRef<HTMLDivElement>(null);
+  const [loadedWeek,setLoadedWeek]=useState('');
+  const router=useRouter();
+  const [day,setDay]=useState(()=>DAYS.find(d=>dayDate(weekStart(vietnamToday()),d)===vietnamToday())??'T2');
+  const [slot,setSlot]=useState<MealSlot>('breakfast');
+  const [query,setQuery]=useState('');
+  const [message,setMessage]=useState('');
+  const [version,setVersion]=useState(0),[loaded,setLoaded]=useState(false),[saving,setSaving]=useState(false);
+  useEffect(()=>{const tick=()=>setToday(vietnamToday());const timer=setInterval(tick,30000);window.addEventListener('focus',tick);return()=>{clearInterval(timer);window.removeEventListener('focus',tick);};},[]);
+  useEffect(()=>{const controller=new AbortController();fetch('/api/weekly-plan?week='+week,{signal:controller.signal}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.message);if(controller.signal.aborted)return;setPlan(d.plan??{});if(d.budget)setBudget(d.budget);if(d.servings)setServings(d.servings);setVersion(d.version);setLoadedWeek(week);setLoaded(true);setDirty(false);}).catch(e=>{if(e.name!=='AbortError')setMessage(e.message);});return()=>controller.abort();},[week]);
+  useEffect(()=>{const warn=(e:BeforeUnloadEvent)=>{if(dirty){e.preventDefault();}};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[dirty]);
+  useEffect(()=>{const guard=(e:MouseEvent)=>{const target=e.target;if(!(target instanceof Element))return;const action=target.closest('a,button');if((saving||dirty)&&action&&(action.tagName==='A'||!pageRef.current?.contains(action))){e.preventDefault();e.stopPropagation();setMessage(saving?'Đang lưu thực đơn, vui lòng chờ một chút.':'Chưa lưu được thực đơn. Hãy bấm Thử lưu lại trước khi rời trang.');}};document.addEventListener('click',guard,true);return()=>document.removeEventListener('click',guard,true);},[saving,dirty]);
+  const ready=loaded&&loadedWeek===week;
+  const past=dayDate(week,day)<today;
+  const editable=ready&&!saving&&!past;
+  function navigateWeek(target:string){if(saveLock.current)return;if(dirty){setMessage('Hãy bấm Thử lưu lại trước khi chuyển tuần để giữ các món đã chọn.');return;}setLoaded(false);setWeek(target);setDay(target===weekStart(today)?DAYS.find(d=>dayDate(target,d)===today)??'T2':'T2');setDirty(false);setMessage('');picker.current?.close();}
+  function setWeeklyPlanMeal(selectedDay:string,meal:MealSlot,recipe:Recipe|undefined){
+    if(!ready||saveLock.current||dayDate(week,selectedDay)<vietnamToday())return;
+    if(recipe&&Object.entries(plan).some(([d,meals])=>Object.entries(meals).some(([s,r])=>(d!==selectedDay||s!==meal)&&r?.id===recipe.id)))return;
+    void savePlan({...plan,[selectedDay]:{...plan[selectedDay],[meal]:recipe}});
+  }
+  async function savePlan(nextPlan:Record<string,DayMeals>=plan){
+    if(!ready||saveLock.current)return;
+    saveLock.current=true;setSaving(true);setDirty(true);setPlan(nextPlan);
+    try{
+      const payload=Object.fromEntries(Object.entries(nextPlan).map(([day,meals])=>[day,Object.fromEntries(Object.entries(meals).filter(([,r])=>r).map(([slot,r])=>[slot,r!.id]))]));
+      const r=await fetch('/api/weekly-plan',{method:'PUT',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:payload,version,weekStart:week,budget,servings})});
+      const d=await r.json();if(!r.ok)throw Error(d.message);
+      setVersion(d.version);setDirty(false);setMessage('Đã tự động lưu thực đơn vào tài khoản.');
+    }catch(e){setMessage('Chưa lưu được thực đơn: '+(e as Error).message+' Bạn có thể thử lưu lại.');}
+    finally{saveLock.current=false;setSaving(false);}
+  }
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  CalendarDays,
-  Sparkles,
-  Wallet,
-  ArrowLeft,
-  Plus,
-  CheckCircle2,
-  Trash2,
-  ListPlus,
-  Sun,
-  Sunset,
-  Moon,
-} from "lucide-react";
-import { useAppContext, type CartItem } from "@/context/AppContext";
-import { useCatalogRecipes } from "@/lib/use-catalog-recipes";
-import { formatVND } from "@/lib/priceUtils";
-import RecipeImage from "@/components/ui/RecipeImage";
-
-import { useRouter } from "next/navigation";
-import { Lock, Crown } from "lucide-react";
-
-const DAYS = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
-const MEAL_TYPES = [
-  { id: "breakfast", label: "Sáng", icon: Sun },
-  { id: "lunch", label: "Trưa", icon: Sunset },
-  { id: "dinner", label: "Tối", icon: Moon },
-] as const;
-
-export default function WeeklyMealPlanPage() {
-  const recipes = useCatalogRecipes();
-  const { state, setWeeklyPlanMeal, addMultipleToCart } = useAppContext();
-  const [activeDay, setActiveDay] = useState("T4");
-  const [showPremium, setShowPremium] = useState(true);
-  const router = useRouter();
-
-  const weeklyPlan = state.weeklyPlan;
-
-  const budget = state.userBudget > 0 ? state.userBudget * 7 : 7000000;
-  const saved = 250000;
-
-  // Calculate today's total
-  const todayMeals = weeklyPlan[activeDay] || {};
-  const todayTotal = Object.values(todayMeals).reduce((sum, recipe) => {
-    return sum + (recipe?.totalPrice || 0);
-  }, 0);
-
-  const handleRandomSuggest = () => {
-    MEAL_TYPES.forEach(({ id }) => {
-      if (!todayMeals[id]) {
-        const randomRecipe = recipes[(DAYS.indexOf(activeDay) + MEAL_TYPES.findIndex(m=>m.id===id)) % recipes.length];
-        setWeeklyPlanMeal(activeDay, id, randomRecipe);
-      }
-    });
-  };
-
-  const handleAddRandomMeal = (mealType: "breakfast" | "lunch" | "dinner") => {
-    const randomRecipe = recipes[(recipes.findIndex(r=>r.id===todayMeals[mealType]?.id)+1) % recipes.length];
-    setWeeklyPlanMeal(activeDay, mealType, randomRecipe);
-  };
-
-  const handleUpdateCart = () => {
-    const allCartItems: CartItem[] = [];
-    
-    // Gather all ingredients from the entire weekly plan
-    Object.values(weeklyPlan).forEach((dayMeals) => {
-      Object.values(dayMeals).forEach((recipe) => {
-        if (recipe) {
-          recipe.ingredients.forEach((ing) => {
-            allCartItems.push({
-              ingredient: ing,
-              recipeId: recipe.id,
-              recipeTitle: recipe.title,
-              quantity: ing.quantity,
-            });
-          });
-        }
-      });
-    });
-
-    if (allCartItems.length > 0) {
-      addMultipleToCart(allCartItems);
-    }
-    router.push("/grocery-store");
-  };
-
-  return (
-    <div className="space-y-6 pb-12">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
-      >
-        <Link
-          href="/meal-plan"
-          className="inline-flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-primary transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Quay lại Gợi ý món ăn
-        </Link>
-
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl gradient-primary flex items-center justify-center shadow-md">
-              <CalendarDays className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-extrabold text-on-surface tracking-tight">
-                Lên lịch bữa ăn AI
-              </h1>
-              <p className="text-sm text-on-surface-variant">
-                Tiết kiệm thời gian và tiền bạc với kế hoạch ăn uống thông minh.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface border border-outline-variant shadow-sm">
-            <Wallet className="w-8 h-8 text-primary bg-primary/10 p-1.5 rounded-xl" />
-            <div>
-              <div className="text-xs text-on-surface-variant font-medium">Ngân sách tuần này:</div>
-              <div className="text-sm font-bold text-on-surface">{formatVND(budget)}</div>
-              <div className="text-[10px] text-secondary font-semibold mt-0.5">
-                Tiết kiệm được {formatVND(saved)} so với tuần trước
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Main Content Grid with Premium Overlay if active */}
-      <div className="relative">
-        {showPremium && (
-          <div className="absolute inset-0 z-50 rounded-3xl bg-surface/50 backdrop-blur-md flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              className="max-w-md w-full bg-surface border-2 border-[#FFD700]/30 rounded-3xl shadow-2xl p-8 text-center relative overflow-hidden"
-            >
-              <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700]" />
-              <div className="w-20 h-20 mx-auto bg-gradient-to-tr from-[#FFD700]/20 to-[#FFA500]/20 rounded-full flex items-center justify-center mb-6">
-                <Crown className="w-10 h-10 text-[#FFA500]" />
-              </div>
-              <h2 className="text-2xl font-extrabold text-on-surface mb-3">Tính năng Premium</h2>
-              <p className="text-sm text-on-surface-variant mb-6">
-                Lên thực đơn tự động cho cả tuần, tối ưu hóa ngân sách và gợi ý tận dụng nguyên liệu thừa.
-              </p>
-              
-              <div className="bg-surface-container rounded-2xl p-5 mb-8 text-left space-y-3">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#FFA500] flex-shrink-0" />
-                  <span className="text-sm font-medium">Lên thực đơn 7 ngày/tuần</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#FFA500] flex-shrink-0" />
-                  <span className="text-sm font-medium">Theo dõi kho nguyên liệu (Pantry)</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#FFA500] flex-shrink-0" />
-                  <span className="text-sm font-medium">Tự động phân bổ ngân sách tối ưu</span>
-                </div>
-              </div>
-
-              <button className="w-full py-4 rounded-xl bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-white font-extrabold text-lg shadow-lg hover:shadow-xl transition-all mb-4">
-                Nâng cấp chỉ 19.000đ/tháng
-              </button>
-              <button 
-                onClick={() => setShowPremium(false)}
-                className="text-xs text-on-surface-variant hover:text-on-surface underline font-medium"
-              >
-                Trải nghiệm thử
-              </button>
-            </motion.div>
-          </div>
-        )}
-        
-        <div className={`grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 ${showPremium ? 'pointer-events-none' : ''}`}>
-        
-        {/* Left: Weekly Calendar & Day Plan */}
-        <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-surface rounded-3xl border border-outline-variant shadow-sm p-6"
-        >
-          {/* Day Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-4 border-b border-outline-variant scrollbar-hide">
-            {DAYS.map((day) => (
-              <button
-                key={day}
-                onClick={() => setActiveDay(day)}
-                className={`
-                  flex-1 min-w-[64px] flex flex-col items-center justify-center py-3 rounded-2xl transition-all cursor-pointer
-                  ${
-                    activeDay === day
-                      ? "bg-primary text-on-primary shadow-md"
-                      : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant"
-                  }
-                `}
-              >
-                <span className={`text-xs ${activeDay === day ? "opacity-90" : ""}`}>Thứ</span>
-                <span className="text-lg font-bold mt-0.5">{day === "CN" ? "CN" : day.replace("T", "")}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Meals for selected day */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-bold text-on-surface">Thực đơn {activeDay === "CN" ? "Chủ nhật" : `Thứ ${activeDay.replace("T", "")}`}</h2>
-              <button 
-                onClick={handleRandomSuggest}
-                className="text-xs font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Gợi ý ngẫu nhiên
-              </button>
-            </div>
-
-            {MEAL_TYPES.map(({ id, label, icon: Icon }) => {
-              const recipe = weeklyPlan[activeDay]?.[id];
-
-              return (
-                <div key={id} className="flex gap-4">
-                  {/* Timeline indicator */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary z-10 shadow-sm border-4 border-surface">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <div className="w-0.5 h-full bg-outline-variant/50 -my-2" />
-                  </div>
-
-                  {/* Meal content */}
-                  <div className="flex-1 pb-6">
-                    <h3 className="text-sm font-bold text-on-surface-variant mb-3">{label}</h3>
-                    
-                    {recipe ? (
-                      <div className="flex items-start gap-4 p-3 rounded-2xl border border-outline-variant hover:border-primary/50 transition-colors group bg-surface">
-                        <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container">
-                          <RecipeImage recipeId={recipe.id} src={recipe.image} alt={recipe.title} variant="card" />
-                        </div>
-                        <div className="flex-1 min-w-0 py-1">
-                          <h4 className="text-sm font-bold text-on-surface line-clamp-1">{recipe.title}</h4>
-                          <div className="flex items-center gap-2 mt-1 mb-2 text-xs text-on-surface-variant">
-                            <span className="font-semibold text-primary">{formatVND(recipe.totalPrice)}</span>
-                            <span>•</span>
-                            <span>{recipe.prepTime + recipe.cookTime} phút</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <button 
-                              onClick={() => setWeeklyPlanMeal(activeDay, id, undefined)}
-                              className="text-xs font-semibold text-error hover:bg-error/10 px-2 py-1 rounded-md transition-colors flex items-center gap-1 cursor-pointer"
-                            >
-                              <Trash2 className="w-3 h-3" /> Xóa
-                            </button>
-                          </div>
-                        </div>
-                        <button className="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center flex-shrink-0 self-center hover:bg-primary-dark transition-colors shadow-sm cursor-pointer">
-                          <ListPlus className="w-5 h-5" />
-                        </button>
-                      </div>
-                    ) : (
-                      <button 
-                        onClick={() => handleAddRandomMeal(id)}
-                        className="w-full flex flex-col items-center justify-center py-6 border-2 border-dashed border-outline-variant rounded-2xl text-on-surface-variant hover:bg-surface-container hover:border-primary/50 hover:text-primary transition-all cursor-pointer"
-                      >
-                        <Plus className="w-6 h-6 mb-2" />
-                        <span className="text-sm font-semibold">Thêm món {label.toLowerCase()}</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {/* Right: Pantry & Summary */}
-        <motion.div
-          initial={{ opacity: 0, x: 16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-6"
-        >
-          {/* Pantry */}
-          <div className="bg-surface rounded-3xl border border-outline-variant shadow-sm p-6">
-            <h3 className="text-sm font-bold text-on-surface mb-4">Nguồn dự trữ nhà bạn</h3>
-            <div className="space-y-3">
-              {state.pantryIngredients.length > 0 ? (
-                state.pantryIngredients.map((item) => (
-                  <div key={item} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
-                    <span className="text-sm text-on-surface font-medium">{item}</span>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-on-surface-variant italic">Không có nguyên liệu dự trữ.</p>
-              )}
-            </div>
-            <button className="w-full mt-5 py-2.5 rounded-xl border border-outline-variant text-sm font-semibold text-primary hover:bg-primary/5 transition-colors cursor-pointer">
-              Thêm nguyên liệu
-            </button>
-          </div>
-
-          {/* Summary Box */}
-          <div className="bg-primary-container/20 rounded-3xl border border-primary/20 p-6">
-            <h3 className="text-sm font-bold text-on-surface mb-2">Tổng kết {activeDay}</h3>
-            <div className="text-3xl font-black text-primary mb-4">
-              {formatVND(todayTotal)} <span className="text-sm font-semibold text-on-surface-variant">/ ngày</span>
-            </div>
-            <p className="text-xs text-on-surface-variant mb-6 leading-relaxed">
-              Thực đơn hôm nay rất cân bằng. Có thể tận dụng {state.pantryIngredients[0] || 'nước tương'} sẵn có ở nhà để nấu bữa tối!
-            </p>
-            <button 
-              onClick={handleUpdateCart}
-              className="w-full py-3.5 rounded-2xl gradient-primary text-on-primary font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <CheckCircle2 className="w-5 h-5" />
-              Cập nhật giỏ hàng
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-    </div>
-  );
+  const picker=useRef<HTMLDialogElement>(null);
+  const selected=plan[day]??{};
+  const total=Object.values(selected).reduce((s,r)=>s+(r?recipeCost(r,servings):0),0);
+  const count=Object.values(selected).filter(Boolean).length;
+  const usedIds=Object.values(plan).flatMap(meals=>Object.values(meals).filter(r=>!!r).map(r=>r!.id));
+  const candidates=(meals:DayMeals,meal:MealSlot)=>manualCandidates(recipes,meals,meal,budget,servings,state.user?.diet,state.user?.allergies,usedIds);
+  const costWithoutSlot=Object.entries(selected).reduce((sum,[key,r])=>sum+(key!==slot&&r?recipeCost(r,servings):0),0);
+  const options=candidates(selected,slot).filter(r=>r.title.toLocaleLowerCase('vi').includes(query.toLocaleLowerCase('vi')));
+  const open=(meal:MealSlot)=>{if(!editable)return;setSlot(meal);setQuery('');picker.current?.showModal();};
+  function suggest(){
+    if(!editable)return;
+    const next:DayMeals={...selected};let added=0;
+    for(const meal of MEALS){if(next[meal.id])continue;const recipe=candidates(next,meal.id)[0];if(recipe){next[meal.id]=recipe;added++;}}
+    if(added)void savePlan({...plan,[day]:next});
+    const nextTotal=Object.values(next).reduce((sum,r)=>sum+(r?recipeCost(r,servings):0),0);
+    const emptyCount=MEALS.filter(m=>!next[m.id]).length;
+    setMessage(added?`Đã điền ${added} bữa, không trùng món trong tuần.${nextTotal>budget?' Vượt ngân sách dự kiến '+formatVND(nextTotal-budget)+'/ngày.':''}${emptyCount?' Còn '+emptyCount+' bữa trống vì hết món mới phù hợp khẩu vị.':''}`:count===3?'Ngày này đã đủ 3 bữa. Bấm Đổi món nếu bạn muốn thay món khác.':'Không còn món mới phù hợp khẩu vị và nguyên liệu cần tránh. Các món đã chọn trong tuần không được gợi ý lại.');
+  }
+  function addDay(){
+    if(!editable)return;
+    const meals=Object.values(selected).filter(r=>!!r);
+    if(new Set(meals.map(r=>r.id)).size!==meals.length){setMessage('Ngày này có món trùng từ lịch cũ. Vui lòng đổi món trước khi thêm vào giỏ.');return;}
+    const items:CartItem[]=meals.flatMap(r=>r.ingredients.map(ingredient=>({ingredient,recipeId:r.id,recipeTitle:r.title,quantity:Math.ceil(ingredient.quantity*servings/r.servings)})));
+    if(items.length){addMultipleToCart(items);router.push('/grocery-store');}
+  }
+  return <div ref={pageRef} className={styles.page}>
+    <UserPageHeader eyebrow="Kế hoạch trong tuần" title="Lên lịch bữa ăn thủ công" description="Tự chọn món cho sáng, trưa, tối. Mỗi ngày một thực đơn, không lặp lại món." action={<Link href="/meal-plan/ai" className="btn-outlined">Nhờ AI lên thực đơn <ArrowRight size={16}/></Link>}/>
+    <div className="flex items-center gap-4" role="status"><span className="text-sm text-on-surface-variant">{!ready?'Đang tải lịch tuần này…':saving?'Đang tự động lưu…':dirty?'Chưa lưu được thay đổi.':'Tự động lưu vào tài khoản · Món đã chọn vẫn còn khi bạn quay lại.'}</span>{dirty&&!saving&&<button className="btn-filled" onClick={()=>void savePlan()}>Thử lưu lại</button>}</div>
+    <nav className={calendar.navigation} aria-label="Chuyển tuần"><button disabled={saving} onClick={()=>navigateWeek(shiftDate(week,-7))}><ChevronLeft size={18}/> Tuần trước</button><div><strong>{week.split('-').reverse().join('/')} — {shiftDate(week,6).split('-').reverse().join('/')}</strong><button disabled={saving||week===weekStart(today)} onClick={()=>navigateWeek(weekStart(today))}>Về tuần hiện tại</button></div><button disabled={saving} onClick={()=>navigateWeek(shiftDate(week,7))}>Tuần sau <ChevronRight size={18}/></button></nav>
+    {!ready&&<p role="status">{message||'Đang tải lịch…'}</p>}
+    {ready&&<div className={styles.weekLayout}><section className={styles.panel}>
+      <div className={styles.days} aria-label="Chọn ngày">{DAYS.map(d=><button key={d} aria-pressed={d===day} onClick={()=>{setDay(d);setMessage('');}}><span>{d==='CN'?'Chủ nhật':'Thứ '+d.slice(1)}</span><strong>{dayDate(week,d).slice(8)}/{dayDate(week,d).slice(5,7)}</strong><small>{dayDate(week,d)===today?"Hôm nay":dayDate(week,d)<today?"Chỉ xem":""}</small><small>{Object.values(plan[d]??{}).filter(Boolean).length}/3 bữa</small></button>)}</div>
+      <div className={styles.sectionHeading}><div><h2>{day==='CN'?'Chủ nhật':`Thứ ${day.slice(1)}`}</h2><p>{servings} người · {state.user?.diet??'Không hạn chế'}</p></div><button disabled={!editable} onClick={suggest} className={styles.textButton}>Gợi ý bữa còn trống</button></div>
+      {past&&<p className={styles.notice}>Ngày đã qua — chỉ xem lại thực đơn đã lưu, không thể thêm, đổi hoặc gợi ý món.</p>}<div className={styles.mealList}>{MEALS.map(({id,label,icon:Icon})=>{const recipe=selected[id];return <article className={styles.mealRow} key={id}><div className={styles.mealLabel}><Icon size={20}/><h3>Bữa {label.toLowerCase()}</h3></div>{recipe?<div className={styles.chosenMeal}><div className={styles.thumb}><RecipeImage recipeId={recipe.id} src={recipe.image} alt={recipe.title} variant="card" className="h-full"/></div><div><Link href={'/meal-plan/'+recipe.id}>{recipe.title}</Link><p>{formatVND(recipeCost(recipe,servings))} · {recipe.prepTime+recipe.cookTime} phút</p><div className={styles.inlineActions}><button disabled={!editable} onClick={()=>open(id)}>Đổi món</button><button disabled={!editable} onClick={()=>setWeeklyPlanMeal(day,id,undefined)}>Bỏ món</button></div></div></div>:<button disabled={!editable} className={styles.addMeal} onClick={()=>open(id)}><Plus size={20}/><span>{past?"Chưa lưu bữa ":"Chọn món "}{label.toLowerCase()}<small>Ưu tiên món vừa ngân sách, không trùng trong tuần</small></span></button>}</article>})}</div>
+    </section><aside className={styles.sideColumn}><section className={styles.summary}><CalendarDays size={24}/><h2>Bữa ăn ngày {day}</h2><p>Đã chọn {count}/3 bữa · {servings} người</p><strong>{formatVND(total)}</strong><p>trên {formatVND(budget)} dự kiến / ngày</p><div className={styles.progress}><span style={{width:`${Math.min(100,budget>0?total/budget*100:0)}%`}}/></div>{total>budget&&<p role="status">Chi phí đang vượt ngân sách dự kiến.</p>}<button disabled={!count||!editable} onClick={addDay}><ShoppingBasket size={17}/>Mua nguyên liệu ngày này</button><small>Giá ước tính cho khẩu phần đã chọn, chưa gồm phí giao hàng.</small></section></aside></div>}
+    {message&&<p role="status" className={styles.notice}>{message}</p>}
+    <dialog ref={picker} className={styles.picker} onClick={e=>{if(e.target===e.currentTarget)picker.current?.close();}}><div className={styles.sectionHeading}><div><h2>Chọn món bữa {MEALS.find(m=>m.id===slot)?.label.toLowerCase()}</h2><p>{day} · {servings} người · Không trùng món trong tuần</p></div><button aria-label="Đóng danh sách món" onClick={()=>picker.current?.close()}><X size={22}/></button></div><input className={styles.search} aria-label="Tìm món cho bữa ăn" placeholder="Tìm tên món…" value={query} onChange={e=>setQuery(e.target.value)}/><div className={styles.recipeOptions}>{options.map(recipe=><button disabled={!editable} key={recipe.id} onClick={()=>{setWeeklyPlanMeal(day,slot,recipe);picker.current?.close();}}><div className={styles.thumb}><RecipeImage recipeId={recipe.id} src={recipe.image} alt="" variant="card" className="h-full"/></div><span><strong>{recipe.title}</strong><small>{formatVND(recipeCost(recipe,servings))} · {recipe.prepTime+recipe.cookTime} phút</small>{costWithoutSlot+recipeCost(recipe,servings)>budget&&<small style={{color:"#a16207"}}>Vượt dự kiến {formatVND(costWithoutSlot+recipeCost(recipe,servings)-budget)}/ngày</small>}</span><Plus size={18}/></button>)}</div>{!options.length&&<div className={styles.empty}><h3>Chưa có món phù hợp</h3><p>Thử tìm tên món khác. Danh sách chỉ gồm món chưa chọn trong tuần và phù hợp khẩu vị, nguyên liệu cần tránh trong hồ sơ. Ngân sách không giới hạn danh sách này.</p></div>}</dialog>
+  </div>;
 }

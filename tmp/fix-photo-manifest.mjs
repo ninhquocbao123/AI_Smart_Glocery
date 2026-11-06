@@ -1,0 +1,1 @@
+import fs from 'node:fs';const p='scripts/data/catalog-photo-sources.json';const rows=JSON.parse(fs.readFileSync(p,'utf8'));const fixes=JSON.parse(fs.readFileSync('tmp/photo-replacements.json','utf8'));for(const f of fixes)Object.assign(rows.find(r=>r.id===f.id),f);fs.writeFileSync(p,JSON.stringify(rows,null,2)+'\n');

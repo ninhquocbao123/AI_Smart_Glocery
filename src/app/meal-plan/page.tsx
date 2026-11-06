@@ -1,7 +1,9 @@
 "use client";
+import UserPageHeader from "@/components/ui/UserPageHeader";
+
 import { useState } from "react";
 import Link from "next/link";
-import { Search, ChefHat } from "lucide-react";
+import { Search } from "lucide-react";
 import { useCatalogRecipes } from "@/lib/use-catalog-recipes";
 import RecipeCard from "@/components/dashboard/RecipeCard";
 export default function RecipesPage() {
@@ -24,26 +26,8 @@ export default function RecipesPage() {
   );
   return (
     <div className="space-y-6">
-      <div className="rounded-3xl bg-primary-container/50 p-8">
-        <ChefHat className="text-primary mb-3" />
-        <p className="text-sm font-bold text-primary">
-          SMART CART · BẾP VIỆT MỖI NGÀY
-        </p>
-        <h1 className="text-3xl font-extrabold mt-2">
-          Hôm nay mình nấu món gì?
-        </h1>
-        <p className="mt-3 text-on-surface-variant">
-          Khám phá món Việt quen thuộc, xem công thức và chọn nguyên liệu cho
-          bữa cơm nhà.
-        </p>
-        <Link
-          href="/dashboard"
-          className="inline-block mt-4 text-primary font-bold underline"
-        >
-          Gợi ý riêng theo ngân sách →
-        </Link>
-      </div>
-      <div className="flex gap-3 flex-wrap">
+      <UserPageHeader eyebrow="KHÁM PHÁ MÓN VIỆT" title="Hôm nay mình nấu món gì?" description="Tìm một món quen, thử một vị mới. Công thức và nguyên liệu được chuẩn bị sẵn cho bữa cơm nhà." action={<Link href="/meal-plan/ai" className="btn-filled">Tạo thực đơn AI →</Link>}/>
+      <div data-user-toolbar className="flex gap-3 flex-wrap">
         <label className="flex items-center gap-2 bg-surface border border-outline-variant rounded-xl px-4 py-3 flex-1">
           <Search size={18} />
           <input
@@ -80,6 +64,7 @@ export default function RecipesPage() {
           Chưa tìm thấy món. Thử tên món hoặc nguyên liệu khác.
         </p>
       )}
+      <p className="text-xs text-on-surface-variant">Ảnh tham khảo cách trình bày món ăn. <Link href="/photo-credits" className="underline underline-offset-4">Nguồn ảnh</Link></p>
     </div>
   );
 }

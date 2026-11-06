@@ -65,6 +65,7 @@ export interface AppState {
 
 type Action =
   | { type: "RESTORE"; payload: Partial<AppState> }
+  | { type: "SET_WEEKLY_PLAN"; payload: WeeklyPlan }
   | { type: "SET_BUDGET"; payload: number }
   | { type: "SET_SERVINGS"; payload: number }
   | { type: "ADD_TO_CART"; payload: CartItem }
@@ -95,7 +96,7 @@ type Action =
 
 export const initialState: AppState = {
   userBudget: 50000, // 50,000 VND default budget (Sinh viên 50k)
-  monthlyBudgetTarget: 1500000, // 1.5tr VND default for student
+  monthlyBudgetTarget: 0, // 1.5tr VND default for student
   extraExpenses: 0,
   servings: 2, // Default 2 people
   cart: [],
@@ -204,8 +205,10 @@ export function appReducer(state: AppState, action: Action): AppState {
     case "CLEAR_CART":
       return { ...state, cart: [], selectedStore: null };
 
+    case "SET_WEEKLY_PLAN": return {...state,weeklyPlan:action.payload};
     case "SET_WEEKLY_PLAN_MEAL": {
       const { day, mealType, recipe } = action.payload;
+      if (recipe && Object.entries(state.weeklyPlan).some(([selectedDay, meals]) => Object.entries(meals).some(([slot, selected]) => (selectedDay !== day || slot !== mealType) && selected?.id === recipe.id))) return state;
       return {
         ...state,
         weeklyPlan: {
@@ -304,6 +307,7 @@ interface AppContextValue {
   suggestedDailyBudget: number;
 
   // Weekly Plan
+  replaceWeeklyPlan: (plan: WeeklyPlan) => void;
   setWeeklyPlanMeal: (
     day: string,
     mealType: "breakfast" | "lunch" | "dinner",
@@ -465,6 +469,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [state.pantryIngredients],
   );
 
+  const replaceWeeklyPlan = useCallback((plan: WeeklyPlan) => dispatch({type:"SET_WEEKLY_PLAN",payload:plan}), []);
   const setWeeklyPlanMeal = useCallback(
     (
       day: string,
@@ -531,6 +536,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     remainingMonthlyBudget,
     suggestedDailyBudget,
     setWeeklyPlanMeal,
+    replaceWeeklyPlan,
     addMultipleToCart,
     setUser,
   };

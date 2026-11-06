@@ -78,38 +78,97 @@ function loader(stubs = {}, env = {}) {
 }
 const load = loader();
 test("live meal discovery with no store offers still returns affordable recipes at reference prices", async () => {
-  const {recipes} = load("src/data/mockData.ts");
+  const { recipes } = load("src/data/mockData.ts");
   const route = loader({
-    "@/lib/server/catalog-data": {readCatalog: async () => ({recipes})},
-    "@/models/Commerce": {Offer: {find: () => ({lean: async () => []})}},
-    "@/lib/server/config": {isLive: () => true},
-    "@/lib/server/http": {...http, sameOrigin: () => {}, userRequired: async () => ({_id:"u", diet:"Không hạn chế", allergies:[]}), rateLimit: async () => {}, body: r => r.json(), fail: e => Response.json({message:e.message}, {status:500})},
+    "@/lib/server/catalog-data": { readCatalog: async () => ({ recipes }) },
+    "@/models/Commerce": { Offer: { find: () => ({ lean: async () => [] }) } },
+    "@/lib/server/config": { isLive: () => true },
+    "@/lib/server/http": {
+      ...http,
+      sameOrigin: () => {},
+      userRequired: async () => ({
+        _id: "u",
+        diet: "Không hạn chế",
+        allergies: [],
+      }),
+      rateLimit: async () => {},
+      body: (r) => r.json(),
+      fail: (e) => Response.json({ message: e.message }, { status: 500 }),
+    },
   })("src/app/api/recommendations/route.ts");
-  const response = await route.POST(new Request("http://localhost/api/recommendations", {method:"POST", body:JSON.stringify({budget:50000,servings:1,store:"Winmart"})}));
+  const response = await route.POST(
+    new Request("http://localhost/api/recommendations", {
+      method: "POST",
+      body: JSON.stringify({ budget: 50000, servings: 1, store: "Winmart" }),
+    }),
+  );
   const result = await response.json();
-  assert.equal(response.status,200);
-  assert.equal(result.priceSource,"reference");
+  assert.equal(response.status, 200);
+  assert.equal(result.priceSource, "reference");
   assert.ok(result.recipes.length > 0);
-  assert.ok(Object.values(result.costs).every(cost => cost <= 50000));
+  assert.ok(Object.values(result.costs).every((cost) => cost <= 50000));
 });
-test("demo payment and delivery run end-to-end, while live simulation is rejected", async()=>{
-  const record={orderId:"demo-order",userId:"demo-user",mode:"demo",status:"unpaid",paymentStatus:"pending"};
-  const common={...http,sameOrigin:()=>{},userRequired:async()=>({_id:"demo-user"}),body:req=>req.json(),fail:e=>Response.json({message:e.message},{status:e.status??503})};
-  let writes=0;
-  const model={findOneAndUpdate:async(filter,update)=>{
-    assert.equal(filter.mode,"demo");assert.equal(filter.userId,"demo-user");
-    if(!filter.status.$in.includes(record.status))return null;
-    writes++;Object.assign(record,update.$set);return record;
-  }};
-  const stubs={"@/lib/server/http":common,"./http":common,"@/models/Order":{__esModule:true,default:model},"@/lib/server/order-service":{}};
-  const route=loader(stubs,{COMMERCE_MODE:"demo"})("src/app/api/orders/route.ts");
-  for(const [action,status] of [["demoPay","confirmed"],["demoShip","delivering"],["demoReceive","completed"]]){
-    const response=await route.PATCH(new Request("http://localhost/api/orders",{method:"PATCH",body:JSON.stringify({id:"demo-order",action})}));
-    assert.equal(response.status,200);assert.equal((await response.json()).order.status,status);
+test("demo payment and delivery run end-to-end, while live simulation is rejected", async () => {
+  const record = {
+    orderId: "demo-order",
+    userId: "demo-user",
+    mode: "demo",
+    status: "unpaid",
+    paymentStatus: "pending",
+  };
+  const common = {
+    ...http,
+    sameOrigin: () => {},
+    userRequired: async () => ({ _id: "demo-user" }),
+    body: (req) => req.json(),
+    fail: (e) =>
+      Response.json({ message: e.message }, { status: e.status ?? 503 }),
+  };
+  let writes = 0;
+  const model = {
+    findOneAndUpdate: async (filter, update) => {
+      assert.equal(filter.mode, "demo");
+      assert.equal(filter.userId, "demo-user");
+      if (!filter.status.$in.includes(record.status)) return null;
+      writes++;
+      Object.assign(record, update.$set);
+      return record;
+    },
+  };
+  const stubs = {
+    "@/lib/server/http": common,
+    "./http": common,
+    "@/models/Order": { __esModule: true, default: model },
+    "@/lib/server/order-service": {},
+  };
+  const route = loader(stubs, { COMMERCE_MODE: "demo" })(
+    "src/app/api/orders/route.ts",
+  );
+  for (const [action, status] of [
+    ["demoPay", "confirmed"],
+    ["demoShip", "delivering"],
+    ["demoReceive", "completed"],
+  ]) {
+    const response = await route.PATCH(
+      new Request("http://localhost/api/orders", {
+        method: "PATCH",
+        body: JSON.stringify({ id: "demo-order", action }),
+      }),
+    );
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).order.status, status);
   }
-  const live=loader(stubs,{COMMERCE_MODE:"live"})("src/app/api/orders/route.ts");
-  const denied=await live.PATCH(new Request("http://localhost/api/orders",{method:"PATCH",body:JSON.stringify({id:"demo-order",action:"demoPay"})}));
-  assert.equal(denied.status,403);assert.equal(writes,3);
+  const live = loader(stubs, { COMMERCE_MODE: "live" })(
+    "src/app/api/orders/route.ts",
+  );
+  const denied = await live.PATCH(
+    new Request("http://localhost/api/orders", {
+      method: "PATCH",
+      body: JSON.stringify({ id: "demo-order", action: "demoPay" }),
+    }),
+  );
+  assert.equal(denied.status, 403);
+  assert.equal(writes, 3);
 });
 const { signFields, verifyMomo, equalSignature, trustedCheckoutUrl } = load(
   "src/lib/server/payment-signatures.ts",
@@ -164,13 +223,23 @@ test("AI output must contain only unique eligible recipe IDs", () => {
     assert.throws(() => validateRanking({ recipeIds }, ["a"]));
 });
 const catalogStubs = {
-  "./catalog-data": { readCatalog: async () => { const data = loader()("src/data/mockData.ts"); return { recipes: data.recipes, deals: data.DEALS_DATA }; } },
+  "./catalog-data": {
+    readCatalog: async () => {
+      const data = loader()("src/data/mockData.ts");
+      return { recipes: data.recipes, deals: data.DEALS_DATA };
+    },
+  },
   "./http": http,
   "@/lib/mongodb": { __esModule: true, default: async () => {} },
   "@/models/Commerce": { Offer: {}, RetailStore: {} },
 };
 test("server quotes ignore client prices and merge duplicate ingredient quantities", async () => {
-  const local = loader(catalogStubs),
+  const local = loader({
+      ...catalogStubs,
+      "./golden-hours": {
+        goldenConfig: async () => ({ windows: [], disabledIds: [] }),
+      },
+    }),
     { parseCart, quoteCart } = local("src/lib/server/quote.ts");
   const { recipes } = local("src/data/mockData.ts"),
     r = recipes[0],
@@ -273,186 +342,852 @@ test("order replay returns the existing order and rejects reuse with changed pay
   assert.throws(() => validateCheckout({ ...data, expectedTotal: -1 }));
 });
 
-
 test("MoMo creates a signed sandbox checkout with server total and order-specific return URL", async () => {
   let sent;
-  const env = { MOMO_ENV: "sandbox", MOMO_PARTNER_CODE: "TEST_PARTNER", MOMO_ACCESS_KEY: "TEST_ACCESS", MOMO_SECRET_KEY: "TEST_SECRET", APP_URL: "https://grocery.example.test" };
-  const provider = loader({ "./http": http, fetch: async (url, options) => {
-    assert.equal(url, "https://test-payment.momo.vn/v2/gateway/api/create");
-    sent = JSON.parse(options.body);
-    return Response.json({ resultCode: 0, partnerCode: sent.partnerCode, orderId: sent.orderId, requestId: sent.requestId, amount: sent.amount, payUrl: "https://test-payment.momo.vn/v2/gateway/pay?t=test" });
-  } }, env)("src/lib/server/providers.ts");
-  const order = {orderId:"SG-test",total:50000,paymentMethod:"momo",payment:{reference:"SG-reference",requestId:"request-id",orderCode:123,environment:"sandbox"}};
-  assert.equal(new URL(await provider.createPayment(order)).hostname, "test-payment.momo.vn");
+  const env = {
+    MOMO_ENV: "sandbox",
+    MOMO_PARTNER_CODE: "TEST_PARTNER",
+    MOMO_ACCESS_KEY: "TEST_ACCESS",
+    MOMO_SECRET_KEY: "TEST_SECRET",
+    APP_URL: "https://grocery.example.test",
+  };
+  const provider = loader(
+    {
+      "./http": http,
+      fetch: async (url, options) => {
+        assert.equal(url, "https://test-payment.momo.vn/v2/gateway/api/create");
+        sent = JSON.parse(options.body);
+        return Response.json({
+          resultCode: 0,
+          partnerCode: sent.partnerCode,
+          orderId: sent.orderId,
+          requestId: sent.requestId,
+          amount: sent.amount,
+          payUrl: "https://test-payment.momo.vn/v2/gateway/pay?t=test",
+        });
+      },
+    },
+    env,
+  )("src/lib/server/providers.ts");
+  const order = {
+    orderId: "SG-test",
+    total: 50000,
+    paymentMethod: "momo",
+    payment: {
+      reference: "SG-reference",
+      requestId: "request-id",
+      orderCode: 123,
+      environment: "sandbox",
+    },
+  };
+  assert.equal(
+    new URL(await provider.createPayment(order)).hostname,
+    "test-payment.momo.vn",
+  );
   assert.equal(sent.amount, 50000);
-  assert.equal(sent.redirectUrl, "https://grocery.example.test/orders?paymentOrder=SG-test");
-  assert.equal(sent.ipnUrl, "https://grocery.example.test/api/payments/momo/webhook");
+  assert.equal(
+    sent.redirectUrl,
+    "https://grocery.example.test/orders?paymentOrder=SG-test",
+  );
+  assert.equal(
+    sent.ipnUrl,
+    "https://grocery.example.test/api/payments/momo/webhook",
+  );
   assert.equal(sent.requestType, "captureWallet");
   assert.equal(sent.autoCapture, true);
-  const {signature, autoCapture, lang, ...fields} = sent;
+  const { signature, autoCapture, lang, ...fields } = sent;
   assert.equal(signature, signFields(fields, env.MOMO_SECRET_KEY));
-  assert.equal(autoCapture, true); assert.equal(lang, "vi");
-  await assert.rejects(() => provider.createPayment({...order,payment:{...order.payment,environment:"production"}}), /môi trường/);
+  assert.equal(autoCapture, true);
+  assert.equal(lang, "vi");
+  await assert.rejects(
+    () =>
+      provider.createPayment({
+        ...order,
+        payment: { ...order.payment, environment: "production" },
+      }),
+    /môi trường/,
+  );
 });
 
 test("MoMo rejects mismatched merchant response without accepting its checkout URL", async () => {
-  const provider = loader({"./http":http, fetch:async()=>Response.json({resultCode:0,partnerCode:"WRONG",orderId:"ref",requestId:"req",amount:50000,payUrl:"https://test-payment.momo.vn/pay"})}, {MOMO_ENV:"sandbox",MOMO_PARTNER_CODE:"PARTNER",MOMO_ACCESS_KEY:"ACCESS",MOMO_SECRET_KEY:"SECRET",APP_URL:"https://grocery.example.test"})("src/lib/server/providers.ts");
-  await assert.rejects(() => provider.createPayment({orderId:"order",total:50000,paymentMethod:"momo",payment:{reference:"ref",requestId:"req",orderCode:123,environment:"sandbox"}}), /MoMo chưa tạo/);
+  const provider = loader(
+    {
+      "./http": http,
+      fetch: async () =>
+        Response.json({
+          resultCode: 0,
+          partnerCode: "WRONG",
+          orderId: "ref",
+          requestId: "req",
+          amount: 50000,
+          payUrl: "https://test-payment.momo.vn/pay",
+        }),
+    },
+    {
+      MOMO_ENV: "sandbox",
+      MOMO_PARTNER_CODE: "PARTNER",
+      MOMO_ACCESS_KEY: "ACCESS",
+      MOMO_SECRET_KEY: "SECRET",
+      APP_URL: "https://grocery.example.test",
+    },
+  )("src/lib/server/providers.ts");
+  await assert.rejects(
+    () =>
+      provider.createPayment({
+        orderId: "order",
+        total: 50000,
+        paymentMethod: "momo",
+        payment: {
+          reference: "ref",
+          requestId: "req",
+          orderCode: 123,
+          environment: "sandbox",
+        },
+      }),
+    /MoMo chưa tạo/,
+  );
 });
 
-test('admin recipe validation derives totals and binds measures to generated ingredient IDs', () => {
-  const parse = loader({'./http': http})('src/lib/server/recipe-input.ts').recipeInput;
-  const recipe = structuredClone(load('src/data/mockData.ts').recipes[0]);
+test("admin recipe validation derives totals and binds measures to generated ingredient IDs", () => {
+  const parse = loader({ "./http": http })(
+    "src/lib/server/recipe-input.ts",
+  ).recipeInput;
+  const recipe = structuredClone(load("src/data/mockData.ts").recipes[0]);
   recipe.totalPrice = 1;
-  const result = parse(recipe, 'recipe-new');
-  assert.equal(result.totalPrice, result.ingredients.reduce((s,i)=>s+i.price*i.quantity,0));
+  const result = parse(recipe, "recipe-new");
+  assert.equal(
+    result.totalPrice,
+    result.ingredients.reduce((s, i) => s + i.price * i.quantity, 0),
+  );
   assert.equal(result.cookingGuide.baseServings, recipe.servings);
-  assert.equal(result.cookingGuide.measures[0].ingredientId, result.ingredients[0].id);
+  assert.equal(
+    result.cookingGuide.measures[0].ingredientId,
+    result.ingredients[0].id,
+  );
   assert.notEqual(result.ingredients[0].id, recipe.ingredients[0].id);
   const existing = parse(recipe, recipe.id, recipe);
   assert.equal(existing.ingredients[0].id, recipe.ingredients[0].id);
-  assert.throws(()=>parse({...recipe,image:'https://attacker.example/x.svg'},'new'), {status:400});
-  assert.throws(()=>parse({...recipe,ingredients:[{...recipe.ingredients[0],price:-1}]},'new'), {status:400});
-  assert.throws(()=>parse({...recipe,cookingGuide:{...recipe.cookingGuide,measures:[]}},'new'), {status:400});
-  assert.throws(()=>parse({...recipe,cookingGuide:{...recipe.cookingGuide,steps:[]}},'new'), {status:400});
+  assert.throws(
+    () => parse({ ...recipe, image: "https://attacker.example/x.svg" }, "new"),
+    { status: 400 },
+  );
+  assert.throws(
+    () =>
+      parse(
+        { ...recipe, ingredients: [{ ...recipe.ingredients[0], price: -1 }] },
+        "new",
+      ),
+    { status: 400 },
+  );
+  assert.throws(
+    () =>
+      parse(
+        { ...recipe, cookingGuide: { ...recipe.cookingGuide, measures: [] } },
+        "new",
+      ),
+    { status: 400 },
+  );
+  assert.throws(
+    () =>
+      parse(
+        { ...recipe, cookingGuide: { ...recipe.cookingGuide, steps: [] } },
+        "new",
+      ),
+    { status: 400 },
+  );
 });
 
-test('admin role requires server role or explicit server allowlist', () => {
-  const {isAdminUser} = loader({}, {ADMIN_USER_IDS:'legacy-id'})('src/lib/server/roles.ts');
+test("admin role requires server role or explicit server allowlist", () => {
+  const { isAdminUser } = loader(
+    {},
+    { ADMIN_USER_IDS: "legacy-id" },
+  )("src/lib/server/roles.ts");
   assert.equal(isAdminUser(null), false);
-  assert.equal(isAdminUser({_id:'normal',role:'user',isAdmin:true}), false);
-  assert.equal(isAdminUser({_id:'admin',role:'admin'}), true);
-  assert.equal(isAdminUser({_id:'legacy-id'}), true);
+  assert.equal(
+    isAdminUser({ _id: "normal", role: "user", isAdmin: true }),
+    false,
+  );
+  assert.equal(isAdminUser({ _id: "admin", role: "admin" }), true);
+  assert.equal(isAdminUser({ _id: "legacy-id" }), true);
 });
 
-test('recipe management rejects unauthenticated and ordinary users before database access', async () => {
-  for (const status of [401,403]) {
-    const common = {...http, sameOrigin:()=>{}, adminRequired:async()=>{throw new ApiError(status,'denied');}, fail:e=>Response.json({}, {status:e.status})};
-    const routes = loader({'@/lib/server/http':common,'./http':common})('src/app/api/admin/recipes/route.ts');
-    assert.equal((await routes.GET()).status,status);
-    for(const method of ['POST','PUT','PATCH']) assert.equal((await routes[method](new Request('http://localhost/api/admin/recipes',{method}))).status,status);
-    const image = loader({'@/lib/server/http':common})('src/app/api/admin/images/route.ts');
-    assert.equal((await image.POST(new Request('http://localhost/api/admin/images',{method:'POST'}))).status,status);
+test("recipe management rejects unauthenticated and ordinary users before database access", async () => {
+  for (const status of [401, 403]) {
+    const common = {
+      ...http,
+      sameOrigin: () => {},
+      adminRequired: async () => {
+        throw new ApiError(status, "denied");
+      },
+      fail: (e) => Response.json({}, { status: e.status }),
+    };
+    const routes = loader({ "@/lib/server/http": common, "./http": common })(
+      "src/app/api/admin/recipes/route.ts",
+    );
+    assert.equal((await routes.GET()).status, status);
+    for (const method of ["POST", "PUT", "PATCH"])
+      assert.equal(
+        (
+          await routes[method](
+            new Request("http://localhost/api/admin/recipes", { method }),
+          )
+        ).status,
+        status,
+      );
+    const image = loader({ "@/lib/server/http": common })(
+      "src/app/api/admin/images/route.ts",
+    );
+    assert.equal(
+      (
+        await image.POST(
+          new Request("http://localhost/api/admin/images", { method: "POST" }),
+        )
+      ).status,
+      status,
+    );
   }
 });
 
-test('public catalog excludes hidden recipes at the database query', async () => {
+test("public catalog excludes hidden recipes at the database query", async () => {
   let filter;
-  const db = {collection:name=>({find:query=>{ if(name==='recipes')filter=query; return {toArray:async()=>[]}; }})};
-  const mod = loader({'@/lib/mongodb':{__esModule:true,default:async()=>{}},mongoose:{__esModule:true,default:{connection:{db}}}})('src/lib/server/catalog-data.ts');
-  await mod.readCatalog();
-  assert.equal(filter.active.$ne,false);
-});
-
-test('admin upload normalizes an image and the public endpoint serves identical bytes', async()=>{
-  let stored;
-  const db={collection:()=>({insertOne:async row=>{stored=row;},findOne:async()=>({...stored,data:{buffer:stored.data}})})};
-  const common={...http,sameOrigin:()=>{},adminRequired:async()=>({_id:'admin'}),rateLimit:async()=>{},fail:e=>Response.json({}, {status:e.status??503})};
-  const stubs={'@/lib/server/http':common,'@/lib/mongodb':{__esModule:true,default:async()=>{}},mongoose:{__esModule:true,default:{connection:{db}}}};
-  const upload=loader(stubs)('src/app/api/admin/images/route.ts');
-  const png=await require('sharp')({create:{width:8,height:8,channels:3,background:'#008800'}}).png().toBuffer();
-  const response=await upload.POST(new Request('http://localhost/api/admin/images',{method:'POST',headers:{'content-type':'image/png'},body:png}));
-  assert.equal(response.status,201);
-  assert.equal((await require('sharp')(stored.data).metadata()).format,'webp');
-  const read=loader(stubs)('src/app/api/images/[id]/route.ts');
-  const served=await read.GET(new Request('http://localhost'),{params:Promise.resolve({id:stored.id})});
-  assert.equal(served.headers.get('content-type'),'image/webp');
-  assert.deepEqual(Buffer.from(await served.arrayBuffer()),stored.data);
-  const invalid=await upload.POST(new Request('http://localhost/api/admin/images',{method:'POST',headers:{'content-type':'image/png'},body:'not an image'}));
-  assert.equal(invalid.status,400);
-});
-
-test('assistant answers website questions and retrieves recipe instructions without inventing dishes',()=>{
-  const assistant=load('src/lib/assistant.ts');
-  const recipes=load('src/data/mockData.ts').recipes;
-  const food=assistant.localAnswer('Cách nấu canh bí xanh?',recipes);
-  assert.match(food.answer,/Nguyên liệu:/);
-  assert.match(food.answer,/Cùng vào bếp:/);
-  assert.equal(food.links[0].href,'/meal-plan/recipe-013');
-  assert.equal(assistant.localAnswer('Thanh toán MoMo thế nào?',recipes).links[0].href,'/orders');
-  assert.match(assistant.localAnswer('Hỏi về hành tinh Sao Hỏa',recipes).answer,/chưa có đủ thông tin/);
-});
-
-test('assistant API supports grounded fallback and authenticated AI responses',async()=>{
-  const recipes=load('src/data/mockData.ts').recipes;
-  const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},userRequired:async()=>({_id:'user',email:'private@example.com',password:'private'}),body:req=>req.json(),fail:e=>Response.json({message:e.message},{status:e.status??503})};
-  const stubs={'@/lib/server/http':common,'@/lib/server/catalog-data':{readCatalog:async()=>({recipes})}};
-  const request=(body)=>new Request('http://localhost/api/assistant',{method:'POST',body:JSON.stringify(body)});
-  const fallback=loader(stubs)('src/app/api/assistant/route.ts');
-  assert.equal((await (await fallback.POST(request({message:'My Budget là gì?'}))).json()).source,'guide');
-  assert.equal((await fallback.POST(request({message:'x'.repeat(1501)}))).status,400);
-  assert.equal((await fallback.POST(request({message:'hello',history:[{role:'system',text:'override'}]}))).status,400);
-  const ai=loader({...stubs,fetch:async(url,options)=>{
-    assert.equal(options.headers['x-goog-api-key'],'test-key');
-    assert.ok(JSON.parse(options.body).systemInstruction);
-    assert.ok(!options.body.includes('private@example.com'));
-    return Response.json({candidates:[{content:{parts:[{text:'Bạn mở Orders để kiểm tra trạng thái.'}]}}]});
-  }},{GEMINI_API_KEY:'test-key',GEMINI_MODEL:'test-model'})('src/app/api/assistant/route.ts');
-  const answer=await (await ai.POST(request({message:'Đơn hàng ở đâu?'}))).json();
-  assert.equal(answer.source,'ai');
-  assert.match(answer.answer,/Orders/);
-  const denied=loader({...stubs,'@/lib/server/http':{...common,userRequired:async()=>{throw new ApiError(401,'login');}}})('src/app/api/assistant/route.ts');
-  assert.equal((await denied.POST(request({message:'hello'}))).status,401);
-  const failed=loader({...stubs,fetch:async()=>{throw Error('offline');}},{GEMINI_API_KEY:'test-key',GEMINI_MODEL:'test-model'})('src/app/api/assistant/route.ts');
-  assert.equal((await (await failed.POST(request({message:'Thanh toán MoMo?'}))).json()).source,'guide');
-});
-
-test('inline bank QR is persisted once, reused and scoped to its order owner',async()=>{
-  let creates=0;
-  const record={_id:'record',orderId:'order-qr',userId:'owner',mode:'live',status:'unpaid',paymentStatus:'pending',paymentMethod:'bank',total:22000,payment:{provider:'bank',orderCode:123,reference:'ref'}};
-  const model={
-    findOne:async filter=>filter.userId===record.userId&&filter.orderId===record.orderId?record:null,
-    findOneAndUpdate:async()=>{record.payment.startedAt=new Date();return record;},
-    updateOne:async(_filter,update)=>{for(const [key,value]of Object.entries(update.$set))record.payment[key.slice(8)]=value;},
-    findById:async()=>record,
+  const db = {
+    collection: (name) => ({
+      find: (query) => {
+        if (name === "recipes") filter = query;
+        return { toArray: async () => [] };
+      },
+    }),
   };
-  const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},userRequired:async()=>({_id:'owner'}),body:req=>req.json(),fail:e=>Response.json({}, {status:e.status??503})};
-  const stubs={'@/models/Order':{__esModule:true,default:model},'@/lib/server/http':common,'@/lib/server/config':{paymentReady:()=>true},'@/lib/server/order-service':{settlePayment:async()=>({...record,paymentStatus:'review'})},'@/lib/server/providers':{createBankPayment:async()=>{creates++;return{checkoutUrl:'https://pay.payos.vn/web/test',qrCode:'verified-provider-payload',accountName:'TEST MERCHANT',accountNumber:'123456',bankBin:'970407',description:'SG123',expiresAt:2000000000};},queryPayment:async()=>({paid:true,amount:999,transactionId:'transaction'})}};
-  const route=loader(stubs)('src/app/api/payments/route.ts');
-  const req=action=>new Request('http://localhost/api/payments',{method:'POST',body:JSON.stringify({orderId:'order-qr',action})});
-  for(let n=0;n<2;n++){
-    const response=await route.POST(req('create'));assert.equal(response.status,200);
-    const data=await response.json();assert.equal(data.total,22000);assert.match(data.bank.qrImage,/^data:image\/png;base64,/);assert.equal(data.bank.description,'SG123');
-  }
-  assert.equal(creates,1);
-  const review=await(await route.POST(req('check'))).json();assert.equal(review.paid,false);assert.equal(review.order.paymentStatus,'review');
-  const denied=loader({...stubs,'@/lib/server/http':{...common,userRequired:async()=>({_id:'another-user'})}})('src/app/api/payments/route.ts');
-  assert.equal((await denied.POST(req('create'))).status,409);
-  assert.equal((await route.POST(req('invalid'))).status,400);
-  record.status='cancelled';assert.equal((await(await route.POST(req('create'))).json()).terminal,true);
-  assert.equal(creates,1);
+  const mod = loader({
+    "@/lib/mongodb": { __esModule: true, default: async () => {} },
+    mongoose: { __esModule: true, default: { connection: { db } } },
+  })("src/lib/server/catalog-data.ts");
+  await mod.readCatalog();
+  assert.equal(filter.active.$ne, false);
 });
 
-test('payment report periods follow Vietnam midnight including month and leap-day boundaries',()=>{
- const {paymentPeriod}=loader({'./http':http})('src/lib/server/payment-period.ts');
- const range=paymentPeriod('2026-10-01');
- assert.equal(range.dayStart.toISOString(),'2026-09-30T17:00:00.000Z');
- assert.equal(range.dayEnd.toISOString(),'2026-10-01T17:00:00.000Z');
- assert.equal(range.monthEnd.toISOString(),'2026-10-31T17:00:00.000Z');
- assert.throws(()=>paymentPeriod('2026-02-29'),{status:400});
- assert.equal(paymentPeriod('2028-02-29').monthEnd.toISOString(),'2028-02-29T17:00:00.000Z');
+test("admin upload normalizes an image and the public endpoint serves identical bytes", async () => {
+  let stored;
+  const db = {
+    collection: () => ({
+      insertOne: async (row) => {
+        stored = row;
+      },
+      findOne: async () => ({ ...stored, data: { buffer: stored.data } }),
+    }),
+  };
+  const common = {
+    ...http,
+    sameOrigin: () => {},
+    adminRequired: async () => ({ _id: "admin" }),
+    rateLimit: async () => {},
+    fail: (e) => Response.json({}, { status: e.status ?? 503 }),
+  };
+  const stubs = {
+    "@/lib/server/http": common,
+    "@/lib/mongodb": { __esModule: true, default: async () => {} },
+    mongoose: { __esModule: true, default: { connection: { db } } },
+  };
+  const upload = loader(stubs)("src/app/api/admin/images/route.ts");
+  const png = await require("sharp")({
+    create: { width: 8, height: 8, channels: 3, background: "#008800" },
+  })
+    .png()
+    .toBuffer();
+  const response = await upload.POST(
+    new Request("http://localhost/api/admin/images", {
+      method: "POST",
+      headers: { "content-type": "image/png" },
+      body: png,
+    }),
+  );
+  assert.equal(response.status, 201);
+  assert.equal((await require("sharp")(stored.data).metadata()).format, "webp");
+  const read = loader(stubs)("src/app/api/images/[id]/route.ts");
+  const served = await read.GET(new Request("http://localhost"), {
+    params: Promise.resolve({ id: stored.id }),
+  });
+  assert.equal(served.headers.get("content-type"), "image/webp");
+  assert.deepEqual(Buffer.from(await served.arrayBuffer()), stored.data);
+  const invalid = await upload.POST(
+    new Request("http://localhost/api/admin/images", {
+      method: "POST",
+      headers: { "content-type": "image/png" },
+      body: "not an image",
+    }),
+  );
+  assert.equal(invalid.status, 400);
 });
-test('admin payment history excludes unpaid and sandbox rows, aggregates before pagination and rejects ordinary users',async()=>{
- let pipeline;
- const common={...http,adminRequired:async()=>({_id:'admin'}),fail:e=>Response.json({}, {status:e.status??503})};
- const stubs={'@/lib/server/http':common,'./http':http,'@/models/Order':{__esModule:true,default:{aggregate:async p=>{pipeline=p;return[{day:[],month:[],count:[],orders:[]}];}}}};
- const route=loader(stubs)('src/app/api/admin/payments/route.ts');
- const r=await route.GET(new Request('http://localhost/api/admin/payments?date=2026-10-01&period=month&page=2'));
- assert.equal(r.status,200);assert.equal(pipeline[0].$match.paymentStatus,'paid');assert.equal(pipeline[0].$match.mode,'live');assert.equal(pipeline[0].$match['payment.environment'].$ne,'sandbox');
- assert.equal(pipeline[1].$facet.orders[1].$skip,25);assert.equal(pipeline[1].$facet.month[0].$group.total.$sum,'$total');
- const denied=loader({...stubs,'@/lib/server/http':{...common,adminRequired:async()=>{throw new ApiError(403,'denied');}}})('src/app/api/admin/payments/route.ts');
- assert.equal((await denied.GET(new Request('http://localhost/api/admin/payments'))).status,403);
+
+test("assistant answers website questions and retrieves recipe instructions without inventing dishes", () => {
+  const assistant = load("src/lib/assistant.ts");
+  const recipes = load("src/data/mockData.ts").recipes;
+  const food = assistant.localAnswer("Cách nấu canh bí xanh?", recipes);
+  assert.match(food.answer, /Nguyên liệu:/);
+  assert.match(food.answer, /Cùng vào bếp:/);
+  assert.equal(food.links[0].href, "/meal-plan/recipe-013");
+  assert.equal(
+    assistant.localAnswer("Thanh toán MoMo thế nào?", recipes).links[0].href,
+    "/orders",
+  );
+  assert.match(
+    assistant.localAnswer("Hỏi về hành tinh Sao Hỏa", recipes).answer,
+    /chưa có đủ thông tin/,
+  );
 });
-test('registration requires confirmed password and contact details, persists no confirmation or elevated role',async()=>{
- let saved;
- class User {constructor(data){Object.assign(this,data);saved=data;} async save(){} static async findOne(){return null;}}
- const common={...http,sameOrigin:()=>{},rateLimit:async()=>{},body:req=>req.json(),fail:e=>Response.json({}, {status:e.status??503})};
- const route=loader({'next/server':{NextResponse:Response},'@/lib/mongodb':{__esModule:true,default:async()=>{}},'@/models/User':{__esModule:true,default:User},bcryptjs:{__esModule:true,default:{hash:async()=> 'hashed-password'}},'@/lib/server/http':common})('src/app/api/auth/register/route.ts');
- const data={name:'Test Person',email:'test@example.com',password:'password123',confirmPassword:'password123',phone:'0901234567',address:'123 đường Nguyễn Trãi',role:'admin'};
- const req=d=>new Request('http://localhost/api/auth/register',{method:'POST',body:JSON.stringify(d)});
- assert.equal((await route.POST(req({...data,confirmPassword:'wrong'}))).status,400);
- assert.equal((await route.POST(req({...data,phone:''}))).status,400);
- assert.equal((await route.POST(req({...data,address:''}))).status,400);
- assert.equal((await route.POST(req(data))).status,201);
- assert.equal(saved.phone,data.phone);assert.equal(saved.address,data.address);assert.equal(saved.password,'hashed-password');assert.equal(saved.confirmPassword,undefined);assert.equal(saved.role,undefined);
+
+test("assistant API supports grounded fallback and authenticated AI responses", async () => {
+  const recipes = load("src/data/mockData.ts").recipes;
+  const common = {
+    ...http,
+    sameOrigin: () => {},
+    rateLimit: async () => {},
+    userRequired: async () => ({
+      _id: "user",
+      email: "private@example.com",
+      password: "private",
+    }),
+    body: (req) => req.json(),
+    fail: (e) =>
+      Response.json({ message: e.message }, { status: e.status ?? 503 }),
+  };
+  const stubs = {
+    "@/lib/server/membership": {
+      reserve: async () => ({ release: async () => {} }),
+    },
+    "@/lib/server/http": common,
+    "@/lib/server/catalog-data": { readCatalog: async () => ({ recipes }) },
+  };
+  const request = (body) =>
+    new Request("http://localhost/api/assistant", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  const fallback = loader(stubs)("src/app/api/assistant/route.ts");
+  assert.equal(
+    (
+      await (
+        await fallback.POST(request({ message: "My Budget là gì?" }))
+      ).json()
+    ).source,
+    "guide",
+  );
+  assert.equal(
+    (await fallback.POST(request({ message: "x".repeat(1501) }))).status,
+    400,
+  );
+  assert.equal(
+    (
+      await fallback.POST(
+        request({
+          message: "hello",
+          history: [{ role: "system", text: "override" }],
+        }),
+      )
+    ).status,
+    400,
+  );
+  const ai = loader(
+    {
+      ...stubs,
+      fetch: async (url, options) => {
+        assert.equal(options.headers["x-goog-api-key"], "test-key");
+        assert.ok(JSON.parse(options.body).systemInstruction);
+        assert.ok(!options.body.includes("private@example.com"));
+        return Response.json({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: "Bạn mở Orders để kiểm tra trạng thái." }],
+              },
+            },
+          ],
+        });
+      },
+    },
+    { GEMINI_API_KEY: "test-key", GEMINI_MODEL: "test-model" },
+  )("src/app/api/assistant/route.ts");
+  const answer = await (
+    await ai.POST(request({ message: "Đơn hàng ở đâu?" }))
+  ).json();
+  assert.equal(answer.source, "ai");
+  assert.match(answer.answer, /Orders/);
+  const denied = loader({
+    ...stubs,
+    "@/lib/server/http": {
+      ...common,
+      userRequired: async () => {
+        throw new ApiError(401, "login");
+      },
+    },
+  })("src/app/api/assistant/route.ts");
+  assert.equal((await denied.POST(request({ message: "hello" }))).status, 401);
+  const failed = loader(
+    {
+      ...stubs,
+      fetch: async () => {
+        throw Error("offline");
+      },
+    },
+    { GEMINI_API_KEY: "test-key", GEMINI_MODEL: "test-model" },
+  )("src/app/api/assistant/route.ts");
+  assert.equal(
+    (await (await failed.POST(request({ message: "Thanh toán MoMo?" }))).json())
+      .source,
+    "guide",
+  );
+});
+
+test("inline bank QR is persisted once, reused and scoped to its order owner", async () => {
+  let creates = 0;
+  const record = {
+    _id: "record",
+    orderId: "order-qr",
+    userId: "owner",
+    mode: "live",
+    status: "unpaid",
+    paymentStatus: "pending",
+    paymentMethod: "bank",
+    total: 22000,
+    payment: { provider: "bank", orderCode: 123, reference: "ref" },
+  };
+  const model = {
+    findOne: async (filter) =>
+      filter.userId === record.userId && filter.orderId === record.orderId
+        ? record
+        : null,
+    findOneAndUpdate: async () => {
+      record.payment.startedAt = new Date();
+      return record;
+    },
+    updateOne: async (_filter, update) => {
+      for (const [key, value] of Object.entries(update.$set))
+        record.payment[key.slice(8)] = value;
+    },
+    findById: async () => record,
+  };
+  const common = {
+    ...http,
+    sameOrigin: () => {},
+    rateLimit: async () => {},
+    userRequired: async () => ({ _id: "owner" }),
+    body: (req) => req.json(),
+    fail: (e) => Response.json({}, { status: e.status ?? 503 }),
+  };
+  const stubs = {
+    "@/models/Order": { __esModule: true, default: model },
+    "@/lib/server/http": common,
+    "@/lib/server/config": { paymentReady: () => true },
+    "@/lib/server/order-service": {
+      settlePayment: async () => ({ ...record, paymentStatus: "review" }),
+    },
+    "@/lib/server/providers": {
+      createBankPayment: async () => {
+        creates++;
+        return {
+          checkoutUrl: "https://pay.payos.vn/web/test",
+          qrCode: "verified-provider-payload",
+          accountName: "TEST MERCHANT",
+          accountNumber: "123456",
+          bankBin: "970407",
+          description: "SG123",
+          expiresAt: 2000000000,
+        };
+      },
+      queryPayment: async () => ({
+        paid: true,
+        amount: 999,
+        transactionId: "transaction",
+      }),
+    },
+  };
+  const route = loader(stubs)("src/app/api/payments/route.ts");
+  const req = (action) =>
+    new Request("http://localhost/api/payments", {
+      method: "POST",
+      body: JSON.stringify({ orderId: "order-qr", action }),
+    });
+  for (let n = 0; n < 2; n++) {
+    const response = await route.POST(req("create"));
+    assert.equal(response.status, 200);
+    const data = await response.json();
+    assert.equal(data.total, 22000);
+    assert.match(data.bank.qrImage, /^data:image\/png;base64,/);
+    assert.equal(data.bank.description, "SG123");
+  }
+  assert.equal(creates, 1);
+  const review = await (await route.POST(req("check"))).json();
+  assert.equal(review.paid, false);
+  assert.equal(review.order.paymentStatus, "review");
+  const denied = loader({
+    ...stubs,
+    "@/lib/server/http": {
+      ...common,
+      userRequired: async () => ({ _id: "another-user" }),
+    },
+  })("src/app/api/payments/route.ts");
+  assert.equal((await denied.POST(req("create"))).status, 409);
+  assert.equal((await route.POST(req("invalid"))).status, 400);
+  record.status = "cancelled";
+  assert.equal((await (await route.POST(req("create"))).json()).terminal, true);
+  assert.equal(creates, 1);
+});
+
+test("payment report periods follow Vietnam midnight including month and leap-day boundaries", () => {
+  const { paymentPeriod } = loader({ "./http": http })(
+    "src/lib/server/payment-period.ts",
+  );
+  const range = paymentPeriod("2026-10-01");
+  assert.equal(range.dayStart.toISOString(), "2026-09-30T17:00:00.000Z");
+  assert.equal(range.dayEnd.toISOString(), "2026-10-01T17:00:00.000Z");
+  assert.equal(range.monthEnd.toISOString(), "2026-10-31T17:00:00.000Z");
+  assert.throws(() => paymentPeriod("2026-02-29"), { status: 400 });
+  assert.equal(
+    paymentPeriod("2028-02-29").monthEnd.toISOString(),
+    "2028-02-29T17:00:00.000Z",
+  );
+});
+test("admin payment history excludes unpaid and sandbox rows, aggregates before pagination and rejects ordinary users", async () => {
+  let pipeline;
+  const common = {
+    ...http,
+    adminRequired: async () => ({ _id: "admin" }),
+    fail: (e) => Response.json({}, { status: e.status ?? 503 }),
+  };
+  const stubs = {
+    "@/lib/server/http": common,
+    "./http": http,
+    "@/models/Order": {
+      __esModule: true,
+      default: {
+        aggregate: async (p) => {
+          pipeline = p;
+          return [{ day: [], month: [], count: [], orders: [] }];
+        },
+      },
+    },
+  };
+  const route = loader(stubs)("src/app/api/admin/payments/route.ts");
+  const r = await route.GET(
+    new Request(
+      "http://localhost/api/admin/payments?date=2026-10-01&period=month&page=2",
+    ),
+  );
+  assert.equal(r.status, 200);
+  assert.equal(pipeline[0].$match.paymentStatus, "paid");
+  assert.equal(pipeline[0].$match.mode, "live");
+  assert.equal(pipeline[0].$match["payment.environment"].$ne, "sandbox");
+  assert.equal(pipeline[1].$facet.orders[1].$skip, 25);
+  assert.equal(pipeline[1].$facet.month[0].$group.total.$sum, "$total");
+  const denied = loader({
+    ...stubs,
+    "@/lib/server/http": {
+      ...common,
+      adminRequired: async () => {
+        throw new ApiError(403, "denied");
+      },
+    },
+  })("src/app/api/admin/payments/route.ts");
+  assert.equal(
+    (await denied.GET(new Request("http://localhost/api/admin/payments")))
+      .status,
+    403,
+  );
+});
+test("registration requires confirmed password and contact details, persists no confirmation or elevated role", async () => {
+  let saved;
+  class User {
+    constructor(data) {
+      Object.assign(this, data);
+      saved = data;
+    }
+    async save() {}
+    static async findOne() {
+      return null;
+    }
+  }
+  const common = {
+    ...http,
+    sameOrigin: () => {},
+    rateLimit: async () => {},
+    body: (req) => req.json(),
+    fail: (e) => Response.json({}, { status: e.status ?? 503 }),
+  };
+  const route = loader({
+    "next/server": { NextResponse: Response },
+    "@/lib/mongodb": { __esModule: true, default: async () => {} },
+    "@/models/User": { __esModule: true, default: User },
+    bcryptjs: {
+      __esModule: true,
+      default: { hash: async () => "hashed-password" },
+    },
+    "@/lib/server/http": common,
+  })("src/app/api/auth/register/route.ts");
+  const data = {
+    name: "Test Person",
+    email: "test@example.com",
+    password: "password123",
+    confirmPassword: "password123",
+    phone: "0901234567",
+    address: "123 đường Nguyễn Trãi",
+    role: "admin",
+  };
+  const req = (d) =>
+    new Request("http://localhost/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify(d),
+    });
+  assert.equal(
+    (await route.POST(req({ ...data, confirmPassword: "wrong" }))).status,
+    400,
+  );
+  assert.equal((await route.POST(req({ ...data, phone: "" }))).status, 400);
+  assert.equal((await route.POST(req({ ...data, address: "" }))).status, 400);
+  assert.equal((await route.POST(req(data))).status, 201);
+  assert.equal(saved.phone, data.phone);
+  assert.equal(saved.address, data.address);
+  assert.equal(saved.password, "hashed-password");
+  assert.equal(saved.confirmPassword, undefined);
+  assert.equal(saved.role, undefined);
+});
+
+test("membership periods reset at Vietnam midnight and Monday, including year boundaries", () => {
+  const { vietnamPeriods, PLANS } = loader()("src/lib/membership.ts");
+  const sunday = vietnamPeriods(new Date("2026-10-25T16:59:59Z"));
+  assert.equal(
+    new Date(sunday.nextWeek).toISOString(),
+    "2026-10-25T17:00:00.000Z",
+  );
+  const monday = vietnamPeriods(new Date("2026-10-25T17:00:00Z"));
+  assert.equal(monday.week, monday.day);
+  assert.equal(
+    new Date(monday.nextDay).toISOString(),
+    "2026-10-26T17:00:00.000Z",
+  );
+  assert.equal(PLANS.free.chat, 3);
+  assert.equal(PLANS.free.generations, 1);
+  assert.equal(PLANS.free.days, 1);
+  const year = vietnamPeriods(new Date("2026-12-31T17:00:00Z"));
+  assert.equal(new Date(year.day).toISOString(), "2026-12-31T17:00:00.000Z");
+});
+test("golden prices follow inclusive start and exclusive end, with exclusions", () => {
+  const { goldenPrice, DEFAULT_GOLDEN } = loader()("src/lib/golden-hours.ts");
+  for (const [time, expected] of [
+    ["03:59:59", 100],
+    ["04:00:00", 70],
+    ["05:59:59", 70],
+    ["06:00:00", 100],
+    ["10:00:00", 70],
+    ["12:00:00", 100],
+  ])
+    assert.equal(
+      goldenPrice(
+        70,
+        100,
+        "item",
+        DEFAULT_GOLDEN,
+        new Date("2026-10-24T" + time + "Z"),
+      ),
+      expected,
+    );
+  assert.equal(
+    goldenPrice(
+      70,
+      100,
+      "item",
+      { ...DEFAULT_GOLDEN, disabledIds: ["item"] },
+      new Date("2026-10-24T00:00:00Z"),
+    ),
+    100,
+  );
+});
+test("free quota is atomic across concurrent requests and failed work refunds once", async () => {
+  const counters = new Map();
+  const Usage = {
+    findById: async (key) => ({ count: counters.get(key) ?? 0 }),
+    updateOne: async (f, u) => {
+      if (u.$setOnInsert && !counters.has(f._id)) counters.set(f._id, 0);
+      if (u.$inc && (counters.get(f._id) ?? 0) > 0)
+        counters.set(f._id, counters.get(f._id) + u.$inc.count);
+    },
+    findOneAndUpdate: async (f) => {
+      const n = counters.get(f._id) ?? 0;
+      if (n >= f.count.$lt) return null;
+      counters.set(f._id, n + 1);
+      return { count: n + 1 };
+    },
+  };
+  const stubs = {
+    "./http": http,
+    "@/models/Membership": {
+      Usage,
+      Membership: { findOne: () => ({ sort: async () => null }) },
+    },
+  };
+  const { reserve, requirePlan } = loader(stubs)(
+    "src/lib/server/membership.ts",
+  );
+  const results = await Promise.allSettled(
+    Array.from({ length: 10 }, () => reserve("u", "chat")),
+  );
+  assert.equal(results.filter((r) => r.status === "fulfilled").length, 3);
+  assert.equal(
+    results.filter((r) => r.status === "rejected" && r.reason.status === 429)
+      .length,
+    7,
+  );
+  const first = results.find((r) => r.status === "fulfilled").value;
+  await first.release();
+  await first.release();
+  await reserve("u", "chat");
+  await assert.rejects(() => reserve("u", "chat"), { status: 429 });
+  await reserve("u", "meal");
+  await assert.rejects(() => reserve("u", "meal"), { status: 429 });
+  await assert.rejects(() => requirePlan("u", "vip"), { status: 403 });
+  await assert.rejects(() => requirePlan("u", "plus"), { status: 403 });
+});
+test("paid membership notifications retry idempotent grant service; sandbox never grants", async () => {
+  let grants = 0;
+  const record = {
+    _id: "o",
+    userId: "u",
+    orderId: "VIP-id",
+    kind: "membership",
+    membershipPlan: "vip",
+    total: 19000,
+    paymentStatus: "paid",
+    payment: { environment: "production" },
+  };
+  const local = loader({
+    "./http": http,
+    "./membership-grants": {
+      grantMembership: async (...args) => {
+        assert.equal(args[2], "VIP-id");
+        grants++;
+      },
+    },
+    "@/models/Order": {
+      __esModule: true,
+      default: { findOne: async () => record },
+    },
+  });
+  const { settlePayment } = local("src/lib/server/order-service.ts");
+  await settlePayment("ref", "bank", 19000, "tx");
+  assert.equal(grants, 1);
+  record.payment.environment = "sandbox";
+  await settlePayment("ref", "momo", 19000, "tx");
+  assert.equal(grants, 1);
+  await assert.rejects(() => settlePayment("ref", "bank", 39000, "tx"), {
+    status: 400,
+  });
+});
+
+test('membership grant queues thirty days and replay does not extend it again',async()=>{
+ const grants=[];let audits=0;
+ const session={withTransaction:async fn=>fn(),endSession:async()=>{}};
+ const Membership={findOne:filter=>({sort:()=>({session:async()=>grants.at(-1)??null}),session:async()=>grants.find(g=>g.reference===filter.reference)??null}),create:async rows=>{grants.push(...rows);}};
+ const local=loader({'mongoose':{__esModule:true,default:{startSession:async()=>session}},'@/models/User':{__esModule:true,default:{updateOne:async()=>({matchedCount:1})}},'@/models/Membership':{Membership,MemberAudit:{create:async()=>{audits++;}}},'./http':http});
+ const {grantMembership}=local('src/lib/server/membership-grants.ts');
+ await grantMembership('u','vip','r1','payment');await grantMembership('u','vip','r1','payment');
+ assert.equal(grants.length,1);assert.equal(audits,1);
+ await grantMembership('u','plus','r2','payment');assert.equal(grants.length,2);
+ assert.equal(+grants[1].startsAt,+grants[0].endsAt);
+ assert.equal(+grants[1].endsAt-+grants[1].startsAt,30*86400000);
+});
+test('member management and paid feature routes reject visitors before accessing records',async()=>{
+ const denied=async()=>{throw new ApiError(401,'login');};
+ const common={...http,sameOrigin:()=>{},userRequired:denied,adminRequired:denied,fail:e=>Response.json({message:e.message},{status:e.status??503})};
+ for(const file of ['src/app/api/admin/users/route.ts','src/app/api/pantry/route.ts','src/app/api/insights/route.ts','src/app/api/meal-plans/route.ts','src/app/api/membership/route.ts']){
+  const route=loader({'@/lib/server/http':common})(file);
+  assert.equal((await route.GET(new Request('http://localhost'))).status,401,file);
+ }
+});
+
+test('membership checkout only exposes enabled production methods, never credentials', () => {
+  const keys={PAYOS_CLIENT_ID:'test-client',PAYOS_API_KEY:'test-api',PAYOS_CHECKSUM_KEY:'test-checksum',APP_URL:'https://example.test'};
+  for(const env of [{...keys},{...keys,COMMERCE_MODE:'demo',LIVE_PAYMENTS_ENABLED:'true'},{...keys,COMMERCE_MODE:'live',LIVE_PAYMENTS_ENABLED:'false'}]){
+    const {membershipCheckout}=loader({'./http':http},env)('src/lib/server/config.ts');
+    assert.equal(membershipCheckout().available,false);
+  }
+  const {membershipCheckout}=loader({'./http':http},{...keys,COMMERCE_MODE:'live',LIVE_PAYMENTS_ENABLED:'true'})('src/lib/server/config.ts');
+  const result=membershipCheckout();
+  assert.equal(result.available,true);
+  assert.equal(result.methods.bank,true);
+  assert.equal(result.methods.momo,false);
+  assert.ok(!JSON.stringify(result).includes('test-api'));
+});
+
+test('daily rotation selects twenty unique items and consumes the pool before repeating', () => {
+  const {rotatingDeals,vietnamDate}=loader()('src/lib/deal-rotation.ts');
+  const ids=Array.from({length:65},(_,i)=>'deal-'+String(i).padStart(3,'0'));
+  const days=Array.from({length:4},(_,i)=>rotatingDeals(ids,`2026-10-${24+i}`));
+  for(const day of days){assert.equal(day.length,20);assert.equal(new Set(day).size,20);}
+  assert.equal(days[0].filter(id=>days[1].includes(id)).length,0);
+  assert.equal(new Set(days.flat().slice(0,65)).size,65);
+  assert.equal(vietnamDate(new Date('2026-10-24T17:00:00Z')),'2026-10-25');
+  assert.equal(rotatingDeals([], '2026-10-24').length,0);
+  assert.equal(rotatingDeals(['a','a','b'],'2026-10-24').length,2);
+});
+test('only the current daily selection receives golden pricing', () => {
+ const {goldenPrice,DEFAULT_GOLDEN}=loader()('src/lib/golden-hours.ts');
+ const config={...DEFAULT_GOLDEN,selectedIds:['chosen']};
+ const noon=new Date('2026-10-24T05:00:00Z');
+ assert.equal(goldenPrice(70,100,'chosen',config,noon),70);
+ assert.equal(goldenPrice(70,100,'other',config,noon),100);
+ assert.equal(goldenPrice(70,100,'chosen',{...config,disabledIds:['chosen']},noon),100);
+});
+test('catalog expansion has unique recipes, valid prices and complete instructions', () => {
+ const {recipes,deals}=JSON.parse(fs.readFileSync('scripts/data/catalog-expansion.json','utf8'));
+ assert.equal(recipes.length,55);assert.equal(deals.length,45);
+ assert.equal(new Set(recipes.map(r=>r.title)).size,55);
+ for(const r of recipes){assert.ok(r.instructions.length>=3);assert.ok(r.ingredients.length>=2);assert.equal(r.totalPrice,r.ingredients.reduce((n,i)=>n+i.price*i.quantity,0));assert.ok(r.image.startsWith('/api/images/'));}
+ assert.ok(deals.every(d=>d.price>0&&d.price<d.originalPrice));
+});
+
+test('catalog meal plans stay within budget and never repeat a dish in one day',()=>{
+ const {catalogMealPlan}=loader()('src/lib/catalog-meal-plan.ts');
+ const {recipeCost}=loader()('src/lib/recommendations.ts');
+ const {recipes}=JSON.parse(fs.readFileSync('scripts/data/catalog-expansion.json','utf8'));
+ const selected=catalogMealPlan(recipes,7,['Sáng','Trưa','Tối'],2,700000);
+ assert.equal(selected.length,21);
+ assert.ok(selected.reduce((s,r)=>s+recipeCost(r,2),0)<=700000);
+ for(let day=0;day<7;day++)assert.equal(new Set(selected.slice(day*3,day*3+3).map(r=>r.id)).size,3);
+ assert.throws(()=>catalogMealPlan(recipes,1,['Sáng','Trưa','Tối'],2,1));
+});
+
+test('rotation uses history when the pool grows and prioritizes never-featured deals',()=>{
+ const {nextDealSelection}=loader()('src/lib/deal-rotation.ts');
+ const old=Array.from({length:20},(_,i)=>'old-'+i),added=Array.from({length:45},(_,i)=>'new-'+i),pool=[...old,...added];
+ const history=[{date:'2026-10-24',ids:old}];
+ const tomorrow=nextDealSelection(pool,history);assert.equal(tomorrow.length,20);assert.ok(tomorrow.every(x=>added.includes(x)));
+ history.push({date:'2026-10-25',ids:tomorrow});const third=nextDealSelection(pool,history);assert.ok(third.every(x=>!old.includes(x)&&!tomorrow.includes(x)));
+ history.push({date:'2026-10-26',ids:third});const fourth=nextDealSelection(pool,history);assert.equal(new Set([...old,...tomorrow,...third,...fourth]).size,65);assert.ok(fourth.every(x=>!third.includes(x)));
+});
+
+test('weekly calendar uses Vietnam dates and Monday weeks across year boundaries',()=>{
+ const cal=loader()('src/lib/weekly-calendar.ts');
+ assert.equal(cal.vietnamToday(new Date('2026-10-23T17:01:00Z')),'2026-10-24');
+ assert.equal(cal.weekStart('2027-01-01'),'2026-12-28');
+ assert.equal(cal.dayDate('2026-12-28','CN'),'2027-01-03');
+ assert.equal(cal.validWeek('2026-10-24'),false);
+ assert.equal(cal.validWeek('2026-02-30'),false);
+});
+test('weekly plans isolate weeks, preserve snapshots, and reject past day edits on the server',async()=>{
+ const rows=new Map();const cal=loader()('src/lib/weekly-calendar.ts');
+ const recipe={id:'r1',title:'Món đã lưu',ingredients:[]};
+ const collection={findOne:async q=>rows.get(q._id)??null,findOneAndUpdate:async(q,u)=>{const old=rows.get(q._id);if(old&&old.version!==q.version)return null;const row={_id:q._id,...u.$set,version:(old?.version??0)+1};rows.set(q._id,row);return row;}};
+ const route=loader({'mongoose':{connection:{db:{collection:()=>collection}}},'@/lib/weekly-calendar':{...cal,vietnamToday:()=> '2026-10-24'},'@/lib/server/http':{...http,userRequired:async()=>({_id:'user'}),sameOrigin:()=>{},body:async r=>r.json(),fail:e=>Response.json({message:e.message},{status:e.status??500})},'@/lib/server/catalog-data':{readCatalog:async()=>({recipes:[recipe]})}})('src/app/api/weekly-plan/route.ts');
+ const put=(week,plan,version=0)=>route.PUT(new Request('http://localhost/api/weekly-plan',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({weekStart:week,plan,version,budget:50000,servings:2})}));
+ assert.equal((await put('2026-10-19',{T2:{breakfast:'r1'}})).status,400);
+ assert.equal((await put('2026-10-12',{})).status,400);
+ assert.equal((await put('2026-10-19',{T7:{breakfast:'r1'}})).status,200);
+ assert.equal((await put('2026-10-26',{T2:{breakfast:'r1'}})).status,200);
+ assert.equal(rows.size,2);
+ recipe.title='Tên mới';
+ // A saved snapshot is served rather than the current catalog when present.
+ rows.get('user:2026-10-19').snapshots.T7.breakfast={...recipe,title:'Món lịch sử'};
+ const data=await (await route.GET(new Request('http://localhost/api/weekly-plan?week=2026-10-19'))).json();
+ assert.equal(data.plan.T7.breakfast.title,'Món lịch sử');
+ assert.equal((await put('2026-10-19',{T7:{breakfast:'r1'}},0)).status,409);
+ assert.equal((await put('2026-10-19',{T7:{breakfast:'r1'},CN:{dinner:'r1'}},1)).status,400);
 });

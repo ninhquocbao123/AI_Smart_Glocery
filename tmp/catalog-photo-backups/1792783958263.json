@@ -1,0 +1,5531 @@
+{
+  "recipes": [
+    {
+      "id": "recipe-010",
+      "image": "/images/food/recipe-010.webp",
+      "ingredients": [
+        {
+          "id": "i-010-1",
+          "name": "Rau muống",
+          "price": 10000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-010-1.svg"
+        },
+        {
+          "id": "i-010-2",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-010-2.svg"
+        },
+        {
+          "id": "i-010-3",
+          "name": "Dầu ăn",
+          "price": 30000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Dầu ăn",
+          "image": "/images/catalog/i-010-3.svg"
+        },
+        {
+          "id": "i-010-4",
+          "name": "Nước mắm",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-010-4.svg"
+        },
+        {
+          "id": "i-010-5",
+          "name": "Đường",
+          "price": 12000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-010-5.svg"
+        },
+        {
+          "id": "i-010-6",
+          "name": "Muối",
+          "price": 5000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-010-6.svg"
+        },
+        {
+          "id": "i-010-7",
+          "name": "Ớt tươi",
+          "price": 2000,
+          "unit": "quả",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-010-7.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-019",
+      "image": "/images/food/recipe-019.webp",
+      "ingredients": [
+        {
+          "id": "i-019-1",
+          "name": "Cá diêu hồng",
+          "price": 45000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Đạm",
+          "image": "/images/catalog/i-019-1.svg"
+        },
+        {
+          "id": "i-019-2",
+          "name": "Cà chua",
+          "price": 4000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-019-2.svg"
+        },
+        {
+          "id": "i-019-3",
+          "name": "Dứa",
+          "price": 8000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-019-3.svg"
+        },
+        {
+          "id": "i-019-4",
+          "name": "Me",
+          "price": 3000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-019-4.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-025",
+      "image": "/images/food/recipe-025.webp",
+      "ingredients": [
+        {
+          "id": "i-025-1",
+          "name": "Bắp cải",
+          "price": 12000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-025-1.svg"
+        },
+        {
+          "id": "i-025-2",
+          "name": "Cà rốt",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-025-2.svg"
+        },
+        {
+          "id": "i-025-3",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-025-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-028",
+      "image": "/images/food/recipe-028.webp",
+      "ingredients": [
+        {
+          "id": "i-028-1",
+          "name": "Nấm",
+          "price": 15000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-028-1.svg"
+        },
+        {
+          "id": "i-028-2",
+          "name": "Đậu hũ",
+          "price": 5000,
+          "unit": "miếng",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-028-2.svg"
+        },
+        {
+          "id": "i-028-3",
+          "name": "Hành lá",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-028-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-029",
+      "image": "/images/food/recipe-029.webp",
+      "ingredients": [
+        {
+          "id": "i-029-1",
+          "name": "Sườn heo",
+          "price": 45000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-029-1.svg"
+        },
+        {
+          "id": "i-029-2",
+          "name": "Cà chua",
+          "price": 4000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-029-2.svg"
+        },
+        {
+          "id": "i-029-3",
+          "name": "Hành tây",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-029-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-012",
+      "image": "/images/food/recipe-012.webp",
+      "ingredients": [
+        {
+          "id": "i-012-1",
+          "name": "Trứng",
+          "price": 3500,
+          "unit": "quả",
+          "quantity": 4,
+          "category": "Đạm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-012-1.svg"
+        },
+        {
+          "id": "i-012-2",
+          "name": "Hành lá",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Rau thơm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-012-2.svg"
+        },
+        {
+          "id": "i-012-3",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-012-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-023",
+      "image": "/images/food/recipe-023.webp",
+      "ingredients": [
+        {
+          "id": "i-023-1",
+          "name": "Rau ngót",
+          "price": 8000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-023-1.svg"
+        },
+        {
+          "id": "i-023-2",
+          "name": "Thịt heo băm",
+          "price": 140,
+          "unit": "gram",
+          "quantity": 150,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-023-2.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-011",
+      "image": "/images/food/recipe-011.webp",
+      "ingredients": [
+        {
+          "id": "i-011-1",
+          "name": "Đậu hũ",
+          "price": 5000,
+          "unit": "miếng",
+          "quantity": 3,
+          "category": "Đạm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-011-1.svg"
+        },
+        {
+          "id": "i-011-2",
+          "name": "Cà chua",
+          "price": 4000,
+          "unit": "quả",
+          "quantity": 2,
+          "category": "Rau củ",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-011-2.svg"
+        },
+        {
+          "id": "i-011-3",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-011-3.svg"
+        },
+        {
+          "id": "i-011-4",
+          "name": "Muối",
+          "price": 500,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-011-4.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-024",
+      "image": "/images/food/recipe-024.webp",
+      "ingredients": [
+        {
+          "id": "i-024-1",
+          "name": "Đậu hũ",
+          "price": 5000,
+          "quantity": 3,
+          "unit": "miếng",
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-024-1.svg"
+        },
+        {
+          "id": "i-024-2",
+          "name": "Sả",
+          "price": 3000,
+          "quantity": 2,
+          "unit": "nhánh",
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-024-2.svg"
+        },
+        {
+          "id": "i-024-3",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "quantity": 1,
+          "unit": "phần",
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-024-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-026",
+      "image": "/images/food/recipe-026.webp",
+      "ingredients": [
+        {
+          "id": "i-026-1",
+          "name": "Tôm",
+          "price": 50000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-026-1.svg"
+        },
+        {
+          "id": "i-026-2",
+          "name": "Hành tím",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-026-2.svg"
+        },
+        {
+          "id": "i-026-3",
+          "name": "Nước mắm",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-026-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-030",
+      "image": "/images/food/recipe-030.webp",
+      "ingredients": [
+        {
+          "id": "i-030-1",
+          "name": "Mì",
+          "price": 5000,
+          "unit": "gói",
+          "quantity": 2,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-030-1.svg"
+        },
+        {
+          "id": "i-030-2",
+          "name": "Rau cải",
+          "price": 10000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-030-2.svg"
+        },
+        {
+          "id": "i-030-3",
+          "name": "Cà rốt",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-030-3.svg"
+        },
+        {
+          "id": "i-030-4",
+          "name": "Nước tương",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-030-4.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-014",
+      "image": "/images/food/recipe-014.webp",
+      "ingredients": [
+        {
+          "id": "i-014-1",
+          "name": "Rau cải",
+          "price": 12000,
+          "unit": "bó",
+          "quantity": 1,
+          "category": "Rau củ",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-014-1.svg"
+        },
+        {
+          "id": "i-014-2",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-014-2.svg"
+        },
+        {
+          "id": "i-014-3",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-014-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-022",
+      "image": "/images/food/recipe-022.webp",
+      "ingredients": [
+        {
+          "id": "i-022-1",
+          "name": "Mướp",
+          "price": 7000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-022-1.svg"
+        },
+        {
+          "id": "i-022-2",
+          "name": "Trứng",
+          "price": 3500,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-022-2.svg"
+        },
+        {
+          "id": "i-022-3",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-022-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-017",
+      "image": "/images/food/recipe-017.webp",
+      "ingredients": [
+        {
+          "id": "i-017-1",
+          "name": "Cá basa",
+          "price": 65000,
+          "unit": "kg",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-017-1.svg"
+        },
+        {
+          "id": "i-017-2",
+          "name": "Tiêu",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-017-2.svg"
+        },
+        {
+          "id": "i-017-3",
+          "name": "Nước mắm",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-017-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-020",
+      "image": "/images/food/recipe-020.webp",
+      "ingredients": [
+        {
+          "id": "i-020-1",
+          "name": "Thịt heo",
+          "price": 40000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-020-1.svg"
+        },
+        {
+          "id": "i-020-2",
+          "name": "Trứng",
+          "price": 3500,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-020-2.svg"
+        },
+        {
+          "id": "i-020-3",
+          "name": "Nước mắm",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-020-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-021",
+      "image": "/images/food/recipe-021.webp",
+      "ingredients": [
+        {
+          "id": "i-021-1",
+          "name": "Cơm nguội",
+          "price": 10000,
+          "unit": "phần",
+          "quantity": 2,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-021-1.svg"
+        },
+        {
+          "id": "i-021-2",
+          "name": "Cà rốt",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-021-2.svg"
+        },
+        {
+          "id": "i-021-3",
+          "name": "Đậu Hà Lan",
+          "price": 8000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-021-3.svg"
+        },
+        {
+          "id": "i-021-4",
+          "name": "Dầu ăn",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-021-4.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-013",
+      "image": "/images/food/recipe-013.webp",
+      "ingredients": [
+        {
+          "id": "i-013-1",
+          "name": "Bí xanh",
+          "price": 12000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Rau củ",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-013-1.svg"
+        },
+        {
+          "id": "i-013-2",
+          "name": "Hành lá",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Rau thơm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-013-2.svg"
+        },
+        {
+          "id": "i-013-3",
+          "name": "Muối",
+          "price": 500,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-013-3.svg"
+        },
+        {
+          "id": "recipe-013-extra-1",
+          "name": "Thịt heo băm",
+          "quantity": 120,
+          "price": 140,
+          "unit": "g",
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-015-1.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-027",
+      "image": "/images/food/recipe-027.webp",
+      "ingredients": [
+        {
+          "id": "i-027-1",
+          "name": "Trứng",
+          "price": 3500,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-027-1.svg"
+        },
+        {
+          "id": "i-027-2",
+          "name": "Thịt heo băm",
+          "price": 140,
+          "unit": "gram",
+          "quantity": 150,
+          "store": "Coop Food",
+          "category": "Đạm",
+          "image": "/images/catalog/i-027-2.svg"
+        },
+        {
+          "id": "i-027-3",
+          "name": "Hành lá",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-027-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-009",
+      "image": "/images/food/recipe-009.webp",
+      "ingredients": [
+        {
+          "id": "i-009-1",
+          "name": "Gạo nếp",
+          "price": 20000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-009-1.svg"
+        },
+        {
+          "id": "i-009-2",
+          "name": "Chicken thigh",
+          "price": 120,
+          "unit": "gram",
+          "quantity": 400,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-009-2.svg"
+        },
+        {
+          "id": "i-009-3",
+          "name": "Hành tím",
+          "price": 5000,
+          "unit": "túi",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-009-3.svg"
+        },
+        {
+          "id": "i-009-4",
+          "name": "Hành lá",
+          "price": 3000,
+          "unit": "bó",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-009-4.svg"
+        },
+        {
+          "id": "i-009-5",
+          "name": "Dầu ăn",
+          "price": 30000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Dầu ăn",
+          "image": "/images/catalog/i-009-5.svg"
+        },
+        {
+          "id": "i-009-6",
+          "name": "Gừng",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-009-6.svg"
+        },
+        {
+          "id": "i-009-7",
+          "name": "Muối",
+          "price": 5000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-009-7.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-006",
+      "image": "/images/food/recipe-006.webp",
+      "ingredients": [
+        {
+          "id": "i-006-1",
+          "name": "Thịt ba chỉ",
+          "price": 180,
+          "unit": "gram",
+          "quantity": 400,
+          "store": "Coop Food",
+          "category": "Đạm",
+          "image": "/images/catalog/i-006-1.svg"
+        },
+        {
+          "id": "i-006-2",
+          "name": "Nước dừa tươi",
+          "price": 10000,
+          "unit": "trái",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Đồ uống",
+          "image": "/images/catalog/i-006-2.svg"
+        },
+        {
+          "id": "i-006-3",
+          "name": "Đường",
+          "price": 12000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-006-3.svg"
+        },
+        {
+          "id": "i-006-4",
+          "name": "Nước mắm",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-006-4.svg"
+        },
+        {
+          "id": "i-006-5",
+          "name": "Hành tím",
+          "price": 5000,
+          "unit": "túi",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-006-5.svg"
+        },
+        {
+          "id": "i-006-6",
+          "name": "Tiêu đen",
+          "price": 8000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-006-6.svg"
+        },
+        {
+          "id": "i-006-7",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-006-7.svg"
+        },
+        {
+          "id": "i-006-8",
+          "name": "Ớt tươi",
+          "price": 2000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-006-8.svg"
+        },
+        {
+          "id": "recipe-006-extra-1",
+          "name": "Trứng gà",
+          "quantity": 3,
+          "price": 3500,
+          "unit": "quả",
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/food/deal-003.webp"
+        }
+      ]
+    },
+    {
+      "id": "recipe-015",
+      "image": "/images/food/recipe-015.webp",
+      "ingredients": [
+        {
+          "id": "i-015-1",
+          "name": "Thịt heo băm",
+          "price": 140,
+          "unit": "gram",
+          "quantity": 200,
+          "category": "Đạm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-015-1.svg"
+        },
+        {
+          "id": "i-015-2",
+          "name": "Hành tím",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-015-2.svg"
+        },
+        {
+          "id": "i-015-3",
+          "name": "Nước mắm",
+          "price": 1000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Gia vị",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-015-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-016",
+      "image": "/images/food/recipe-016.webp",
+      "ingredients": [
+        {
+          "id": "i-016-1",
+          "name": "Cà chua",
+          "price": 4000,
+          "unit": "quả",
+          "quantity": 2,
+          "category": "Rau củ",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-016-1.svg"
+        },
+        {
+          "id": "i-016-2",
+          "name": "Trứng",
+          "price": 3500,
+          "unit": "quả",
+          "quantity": 2,
+          "category": "Đạm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-016-2.svg"
+        },
+        {
+          "id": "i-016-3",
+          "name": "Hành lá",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "category": "Rau thơm",
+          "store": "Bach Hoa Xanh",
+          "image": "/images/catalog/i-016-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-018",
+      "image": "/images/food/recipe-018.webp",
+      "ingredients": [
+        {
+          "id": "i-018-1",
+          "name": "Thịt gà",
+          "price": 45000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-018-1.svg"
+        },
+        {
+          "id": "i-018-2",
+          "name": "Gừng",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-018-2.svg"
+        },
+        {
+          "id": "i-018-3",
+          "name": "Nước mắm",
+          "price": 2000,
+          "unit": "phần",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-018-3.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-005",
+      "image": "/images/food/recipe-005.webp",
+      "ingredients": [
+        {
+          "id": "i-005-1",
+          "name": "Bánh mì ổ",
+          "price": 5000,
+          "unit": "cái",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-005-1.svg"
+        },
+        {
+          "id": "i-005-2",
+          "name": "Nạc vai heo",
+          "price": 150,
+          "unit": "gram",
+          "quantity": 250,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-005-2.svg"
+        },
+        {
+          "id": "i-005-3",
+          "name": "Sả",
+          "price": 2000,
+          "unit": "nhánh",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-005-3.svg"
+        },
+        {
+          "id": "i-005-4",
+          "name": "Củ cải trắng",
+          "price": 6000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-005-4.svg"
+        },
+        {
+          "id": "i-005-5",
+          "name": "Củ cà rốt",
+          "price": 4000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-005-5.svg"
+        },
+        {
+          "id": "i-005-6",
+          "name": "Dưa leo",
+          "price": 3000,
+          "unit": "quả",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-005-6.svg"
+        },
+        {
+          "id": "i-005-7",
+          "name": "Ớt tươi",
+          "price": 2000,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-005-7.svg"
+        },
+        {
+          "id": "i-005-8",
+          "name": "Rau ngò rí",
+          "price": 3000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-005-8.svg"
+        },
+        {
+          "id": "i-005-9",
+          "name": "Sốt mayonnaise",
+          "price": 15000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-005-9.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-007",
+      "image": "/images/food/recipe-007.webp",
+      "ingredients": [
+        {
+          "id": "i-007-1",
+          "name": "Thịt thăn bò",
+          "price": 350,
+          "unit": "gram",
+          "quantity": 300,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-007-1.svg"
+        },
+        {
+          "id": "i-007-2",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-007-2.svg"
+        },
+        {
+          "id": "i-007-3",
+          "name": "Bơ lạt",
+          "price": 25000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Bơ sữa",
+          "image": "/images/catalog/i-007-3.svg"
+        },
+        {
+          "id": "i-007-4",
+          "name": "Nước tương",
+          "price": 15000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-007-4.svg"
+        },
+        {
+          "id": "i-007-5",
+          "name": "Dầu hào",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-007-5.svg"
+        },
+        {
+          "id": "i-007-6",
+          "name": "Xà lách xoong",
+          "price": 8000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-007-6.svg"
+        },
+        {
+          "id": "i-007-7",
+          "name": "Cà chua",
+          "price": 5000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-007-7.svg"
+        },
+        {
+          "id": "i-007-8",
+          "name": "Hành tây",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-007-8.svg"
+        },
+        {
+          "id": "i-007-9",
+          "name": "Chanh",
+          "price": 2000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Trái cây",
+          "image": "/images/catalog/i-007-9.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-008",
+      "image": "/images/food/recipe-008.webp",
+      "ingredients": [
+        {
+          "id": "i-008-1",
+          "name": "Cá lóc",
+          "price": 200,
+          "unit": "gram",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-008-1.svg"
+        },
+        {
+          "id": "i-008-2",
+          "name": "Me chua",
+          "price": 10000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-008-2.svg"
+        },
+        {
+          "id": "i-008-3",
+          "name": "Thơm (Dứa)",
+          "price": 15000,
+          "unit": "quả",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Trái cây",
+          "image": "/images/catalog/i-008-3.svg"
+        },
+        {
+          "id": "i-008-4",
+          "name": "Cà chua",
+          "price": 5000,
+          "unit": "quả",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-008-4.svg"
+        },
+        {
+          "id": "i-008-5",
+          "name": "Đậu bắp",
+          "price": 6000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-008-5.svg"
+        },
+        {
+          "id": "i-008-6",
+          "name": "Giá đỗ",
+          "price": 8000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-008-6.svg"
+        },
+        {
+          "id": "i-008-7",
+          "name": "Rau om (Ngò ôm)",
+          "price": 3000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-008-7.svg"
+        },
+        {
+          "id": "i-008-8",
+          "name": "Nước mắm",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-008-8.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-001",
+      "image": "/images/food/recipe-001.webp",
+      "ingredients": [
+        {
+          "id": "i-001-1",
+          "name": "Nạm bò",
+          "price": 220,
+          "unit": "gram",
+          "quantity": 500,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-001-1.svg"
+        },
+        {
+          "id": "i-001-2",
+          "name": "Xương bò",
+          "price": 80,
+          "unit": "gram",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-001-2.svg"
+        },
+        {
+          "id": "i-001-3",
+          "name": "Bánh phở",
+          "price": 25000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-001-3.svg"
+        },
+        {
+          "id": "i-001-4",
+          "name": "Hoa hồi",
+          "price": 5000,
+          "unit": "bông",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-001-4.svg"
+        },
+        {
+          "id": "i-001-5",
+          "name": "Thanh quế",
+          "price": 4000,
+          "unit": "thanh",
+          "quantity": 2,
+          "store": "Winmart",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-001-5.svg"
+        },
+        {
+          "id": "i-001-6",
+          "name": "Hành tây",
+          "price": 5000,
+          "unit": "củ",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-001-6.svg"
+        },
+        {
+          "id": "i-001-7",
+          "name": "Gừng",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-001-7.svg"
+        },
+        {
+          "id": "i-001-8",
+          "name": "Giá đỗ",
+          "price": 8000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-001-8.svg"
+        },
+        {
+          "id": "i-001-9",
+          "name": "Rau húng quế",
+          "price": 3000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-001-9.svg"
+        },
+        {
+          "id": "i-001-10",
+          "name": "Nước mắm",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-001-10.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-002",
+      "image": "/images/food/recipe-002.webp",
+      "ingredients": [
+        {
+          "id": "i-002-1",
+          "name": "Gạo tấm",
+          "price": 22000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-002-1.svg"
+        },
+        {
+          "id": "i-002-2",
+          "name": "Sườn heo",
+          "price": 160,
+          "unit": "gram",
+          "quantity": 300,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-002-2.svg"
+        },
+        {
+          "id": "i-002-3",
+          "name": "Bì heo",
+          "price": 120,
+          "unit": "gram",
+          "quantity": 150,
+          "store": "Coop Food",
+          "category": "Đạm",
+          "image": "/images/catalog/i-002-3.svg"
+        },
+        {
+          "id": "i-002-4",
+          "name": "Trứng gà",
+          "price": 4000,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-002-4.svg"
+        },
+        {
+          "id": "i-002-5",
+          "name": "Sả",
+          "price": 2000,
+          "unit": "nhánh",
+          "quantity": 3,
+          "store": "Coop Food",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-002-5.svg"
+        },
+        {
+          "id": "i-002-6",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-002-6.svg"
+        },
+        {
+          "id": "i-002-7",
+          "name": "Mỡ hành",
+          "price": 12000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-002-7.svg"
+        },
+        {
+          "id": "i-002-8",
+          "name": "Đồ chua",
+          "price": 10000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-002-8.svg"
+        },
+        {
+          "id": "recipe-002-extra-1",
+          "name": "Thịt heo băm",
+          "quantity": 100,
+          "price": 140,
+          "unit": "g",
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-015-1.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-003",
+      "image": "/images/food/recipe-003.webp",
+      "ingredients": [
+        {
+          "id": "i-003-1",
+          "name": "Thịt lợn xay",
+          "price": 140,
+          "unit": "gram",
+          "quantity": 400,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-003-1.svg"
+        },
+        {
+          "id": "i-003-2",
+          "name": "Thịt ba chỉ",
+          "price": 180,
+          "unit": "gram",
+          "quantity": 200,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-003-2.svg"
+        },
+        {
+          "id": "i-003-3",
+          "name": "Bún tươi",
+          "price": 15000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-003-3.svg"
+        },
+        {
+          "id": "i-003-4",
+          "name": "Nước mắm",
+          "price": 18000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-003-4.svg"
+        },
+        {
+          "id": "i-003-5",
+          "name": "Đường",
+          "price": 12000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-003-5.svg"
+        },
+        {
+          "id": "i-003-6",
+          "name": "Chanh",
+          "price": 2000,
+          "unit": "quả",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "category": "Trái cây",
+          "image": "/images/catalog/i-003-6.svg"
+        },
+        {
+          "id": "i-003-7",
+          "name": "Rau xà lách",
+          "price": 8000,
+          "unit": "cây",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-003-7.svg"
+        },
+        {
+          "id": "i-003-8",
+          "name": "Rau thơm các loại",
+          "price": 5000,
+          "unit": "bó",
+          "quantity": 2,
+          "store": "Coop Food",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-003-8.svg"
+        },
+        {
+          "id": "i-003-9",
+          "name": "Tỏi",
+          "price": 3000,
+          "unit": "củ",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Gia vị",
+          "image": "/images/catalog/i-003-9.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-004",
+      "image": "/images/food/recipe-004.webp",
+      "ingredients": [
+        {
+          "id": "i-004-1",
+          "name": "Bánh tráng",
+          "price": 18000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-004-1.svg"
+        },
+        {
+          "id": "i-004-2",
+          "name": "Tôm tươi",
+          "price": 250,
+          "unit": "gram",
+          "quantity": 200,
+          "store": "Winmart",
+          "category": "Đạm",
+          "image": "/images/catalog/i-004-2.svg"
+        },
+        {
+          "id": "i-004-3",
+          "name": "Thịt thăn heo",
+          "price": 150,
+          "unit": "gram",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "category": "Đạm",
+          "image": "/images/catalog/i-004-3.svg"
+        },
+        {
+          "id": "i-004-4",
+          "name": "Bún tươi",
+          "price": 15000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Tinh bột",
+          "image": "/images/catalog/i-004-4.svg"
+        },
+        {
+          "id": "i-004-5",
+          "name": "Rau xà lách",
+          "price": 8000,
+          "unit": "cây",
+          "quantity": 1,
+          "store": "Winmart",
+          "category": "Rau củ",
+          "image": "/images/catalog/i-004-5.svg"
+        },
+        {
+          "id": "i-004-6",
+          "name": "Rau húng lủi",
+          "price": 3000,
+          "unit": "bó",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Rau thơm",
+          "image": "/images/catalog/i-004-6.svg"
+        },
+        {
+          "id": "i-004-7",
+          "name": "Tương đen",
+          "price": 15000,
+          "unit": "chai",
+          "quantity": 1,
+          "store": "Coop Food",
+          "category": "Nước sốt",
+          "image": "/images/catalog/i-004-7.svg"
+        },
+        {
+          "id": "i-004-8",
+          "name": "Đậu phộng",
+          "price": 12000,
+          "unit": "gói",
+          "quantity": 1,
+          "store": "Bach Hoa Xanh",
+          "category": "Ăn vặt",
+          "image": "/images/catalog/i-004-8.svg"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-031",
+      "image": "/api/images/fdacd675-35bc-ecd7-3c17-9760334ccbf1",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-031-i1",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Winmart",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-031-i2",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 120,
+          "store": "Winmart",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-031-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-031-i4",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-031-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-032",
+      "image": "/api/images/db5f9bbe-20cb-0809-19f5-2995cb38288a",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-032-i1",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-032-i2",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-032-i3",
+          "name": "Bí đỏ",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/ca170f71-006a-9165-5a32-ed26eca81221"
+        },
+        {
+          "id": "recipe-exp-032-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-033",
+      "image": "/api/images/2287fff5-2afa-96ce-671e-d1837a1f6db6",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-033-i1",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 180,
+          "store": "Coop Food",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-033-i2",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-033-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-033-i4",
+          "name": "Bắp ngọt",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/7c3878f8-6e8c-700c-f422-ddc79f51406e"
+        },
+        {
+          "id": "recipe-exp-033-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-034",
+      "image": "/api/images/c005aaab-7d78-c634-eda1-a579f00ff0d4",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-034-i1",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-034-i2",
+          "name": "Hạt sen",
+          "unit": "gram",
+          "price": 150,
+          "category": "Đạm",
+          "quantity": 80,
+          "store": "Winmart",
+          "image": "/api/images/4d3fa946-e840-7e87-02e5-cf6db0beafb4"
+        },
+        {
+          "id": "recipe-exp-034-i3",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-034-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-035",
+      "image": "/api/images/4b63cefd-2548-50bb-8c38-350516ebe39d",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-035-i1",
+          "name": "Cá diêu hồng",
+          "unit": "gram",
+          "price": 75,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/30b39a06-989a-f56d-9208-994355658fbd"
+        },
+        {
+          "id": "recipe-exp-035-i2",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-035-i3",
+          "name": "Thì là",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/5ddccf76-e2ab-5c4b-0fd5-3da1b8f77ec5"
+        },
+        {
+          "id": "recipe-exp-035-i4",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-035-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-036",
+      "image": "/api/images/6702c9f5-c19c-113e-5beb-46f27095de60",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-036-i1",
+          "name": "Nui",
+          "unit": "gram",
+          "price": 45,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Coop Food",
+          "image": "/api/images/917566de-0927-b0f6-242a-ba8f9bb30d2b"
+        },
+        {
+          "id": "recipe-exp-036-i2",
+          "name": "Thịt bò",
+          "unit": "gram",
+          "price": 240,
+          "category": "Đạm",
+          "quantity": 180,
+          "store": "Coop Food",
+          "image": "/api/images/c03dcc81-ed89-65ba-d018-9cbd7cfee38e"
+        },
+        {
+          "id": "recipe-exp-036-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-036-i4",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-036-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-036-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-036-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-036-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-037",
+      "image": "/api/images/d0d00d61-d53a-1479-ec0a-df2d942c8104",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-037-i1",
+          "name": "Nui",
+          "unit": "gram",
+          "price": 45,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Winmart",
+          "image": "/api/images/917566de-0927-b0f6-242a-ba8f9bb30d2b"
+        },
+        {
+          "id": "recipe-exp-037-i2",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Winmart",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-037-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-037-i4",
+          "name": "Cải thìa",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/01f512f1-3dfa-f0c0-51a6-5533211b142a"
+        },
+        {
+          "id": "recipe-exp-037-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-037-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-037-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-037-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-038",
+      "image": "/api/images/d021af20-ac88-aaee-1c18-52cd33c475de",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-038-i1",
+          "name": "Miến",
+          "unit": "gram",
+          "price": 70,
+          "category": "Tinh bột",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/ee93d88d-6fa6-8362-c164-2ea6cb64f45b"
+        },
+        {
+          "id": "recipe-exp-038-i2",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-038-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-038-i4",
+          "name": "Bắp cải",
+          "unit": "gram",
+          "price": 20,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/1e51aa45-6bd7-fa97-c30d-fe241dd13b18"
+        },
+        {
+          "id": "recipe-exp-038-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-038-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-038-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-038-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-039",
+      "image": "/api/images/09ae39f6-90e6-1696-25a0-a7186a1d4923",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-039-i1",
+          "name": "Miến",
+          "unit": "gram",
+          "price": 70,
+          "category": "Tinh bột",
+          "quantity": 150,
+          "store": "Coop Food",
+          "image": "/api/images/ee93d88d-6fa6-8362-c164-2ea6cb64f45b"
+        },
+        {
+          "id": "recipe-exp-039-i2",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Coop Food",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-039-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-039-i4",
+          "name": "Cải thìa",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 200,
+          "store": "Coop Food",
+          "image": "/api/images/01f512f1-3dfa-f0c0-51a6-5533211b142a"
+        },
+        {
+          "id": "recipe-exp-039-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-039-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-039-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-039-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-040",
+      "image": "/api/images/ba8ede8e-249f-4325-095a-7398bfa286cc",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-040-i1",
+          "name": "Bún tươi",
+          "unit": "gram",
+          "price": 30,
+          "category": "Tinh bột",
+          "quantity": 300,
+          "store": "Winmart",
+          "image": "/api/images/0f5ee4e0-5cdc-cead-66a5-c63909292383"
+        },
+        {
+          "id": "recipe-exp-040-i2",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-040-i3",
+          "name": "Bắp cải",
+          "unit": "gram",
+          "price": 20,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/1e51aa45-6bd7-fa97-c30d-fe241dd13b18"
+        },
+        {
+          "id": "recipe-exp-040-i4",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-040-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-040-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-040-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-040-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-041",
+      "image": "/api/images/755a9eaf-eca1-b82c-4801-e1a0aadd99df",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-041-i1",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-041-i2",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-041-i3",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-041-i4",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-041-i5",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-041-i6",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-041-i7",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-041-i8",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-041-i9",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-042",
+      "image": "/api/images/5f0da553-4d08-fc8c-a14f-4d7b052d11a5",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-042-i1",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Coop Food",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-042-i2",
+          "name": "Dứa",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Coop Food",
+          "image": "/api/images/ff911e3f-1c5b-52ac-ad52-ecc29a9aaaf4"
+        },
+        {
+          "id": "recipe-exp-042-i3",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-042-i4",
+          "name": "Bắp ngọt",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/7c3878f8-6e8c-700c-f422-ddc79f51406e"
+        },
+        {
+          "id": "recipe-exp-042-i5",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-042-i6",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-042-i7",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-042-i8",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-042-i9",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-043",
+      "image": "/api/images/00d6a49c-06d5-d478-6679-e2e3cfe9ef51",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-043-i1",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Winmart",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-043-i2",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Winmart",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-043-i3",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-043-i4",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-043-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-043-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-043-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-043-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-044",
+      "image": "/api/images/6ed7f8a1-efb7-4e2f-29af-30202c47f647",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-044-i1",
+          "name": "Gạo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Tinh bột",
+          "quantity": 180,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cce53b3d-3f33-ebb9-0f8d-58db9a1d4db3"
+        },
+        {
+          "id": "recipe-exp-044-i2",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-044-i3",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-044-i4",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-044-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-044-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-044-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-044-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-045",
+      "image": "/api/images/387c599b-1bda-5e78-a180-db429a1cdd47",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-045-i1",
+          "name": "Bánh mì",
+          "unit": "ổ",
+          "price": 4000,
+          "category": "Tinh bột",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/d15ba26f-956c-4c21-4a12-00b6f3d554ec"
+        },
+        {
+          "id": "recipe-exp-045-i2",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-045-i3",
+          "name": "Dưa leo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/b580d458-c563-00a3-4662-089b485a899a"
+        },
+        {
+          "id": "recipe-exp-045-i4",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-045-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-045-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-045-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-046",
+      "image": "/api/images/a4ad29ab-e49f-e266-42a1-bbe3cfd4a292",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-046-i1",
+          "name": "Bánh mì",
+          "unit": "ổ",
+          "price": 4000,
+          "category": "Tinh bột",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/d15ba26f-956c-4c21-4a12-00b6f3d554ec"
+        },
+        {
+          "id": "recipe-exp-046-i2",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Winmart",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-046-i3",
+          "name": "Dưa leo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/b580d458-c563-00a3-4662-089b485a899a"
+        },
+        {
+          "id": "recipe-exp-046-i4",
+          "name": "Xà lách",
+          "unit": "gram",
+          "price": 40,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Winmart",
+          "image": "/api/images/984d8f13-7341-35e7-6ce6-60773af003dd"
+        },
+        {
+          "id": "recipe-exp-046-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-046-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-046-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-047",
+      "image": "/api/images/848339d8-71ab-c114-bd64-61baf4661a38",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-047-i1",
+          "name": "Bánh mì",
+          "unit": "ổ",
+          "price": 4000,
+          "category": "Tinh bột",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/d15ba26f-956c-4c21-4a12-00b6f3d554ec"
+        },
+        {
+          "id": "recipe-exp-047-i2",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-047-i3",
+          "name": "Dưa leo",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b580d458-c563-00a3-4662-089b485a899a"
+        },
+        {
+          "id": "recipe-exp-047-i4",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-047-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-047-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-047-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-048",
+      "image": "/api/images/e4458b50-6683-e526-21c7-24e89aa8367e",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-048-i1",
+          "name": "Yến mạch",
+          "unit": "gram",
+          "price": 70,
+          "category": "Tinh bột",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/437e2ce2-946c-5705-abcb-d26ba3bec65b"
+        },
+        {
+          "id": "recipe-exp-048-i2",
+          "name": "Sữa tươi không đường",
+          "unit": "ml",
+          "price": 35,
+          "category": "Sữa",
+          "quantity": 300,
+          "store": "Coop Food",
+          "image": "/api/images/2b418764-8ec1-7bed-7d45-c860b8492f9d"
+        },
+        {
+          "id": "recipe-exp-048-i3",
+          "name": "Chuối",
+          "unit": "quả",
+          "price": 4000,
+          "category": "Trái cây",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/dea2db7d-a2db-134d-24ba-f800d2acd3d6"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-049",
+      "image": "/api/images/0a209639-987e-9ae3-2b7f-66ef69418df5",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-049-i1",
+          "name": "Yến mạch",
+          "unit": "gram",
+          "price": 70,
+          "category": "Tinh bột",
+          "quantity": 80,
+          "store": "Winmart",
+          "image": "/api/images/437e2ce2-946c-5705-abcb-d26ba3bec65b"
+        },
+        {
+          "id": "recipe-exp-049-i2",
+          "name": "Sữa chua",
+          "unit": "hộp",
+          "price": 6000,
+          "category": "Sữa",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/b9e65485-a970-8f0c-26ef-3e687279bae0"
+        },
+        {
+          "id": "recipe-exp-049-i3",
+          "name": "Chuối",
+          "unit": "quả",
+          "price": 4000,
+          "category": "Trái cây",
+          "quantity": 1,
+          "store": "Winmart",
+          "image": "/api/images/dea2db7d-a2db-134d-24ba-f800d2acd3d6"
+        },
+        {
+          "id": "recipe-exp-049-i4",
+          "name": "Táo",
+          "unit": "gram",
+          "price": 60,
+          "category": "Trái cây",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/62b9121f-a337-5788-47a8-6a2071aa46f8"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-050",
+      "image": "/api/images/1b358b8e-34b3-a47b-f319-474f0ee45015",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-050-i1",
+          "name": "Khoai lang",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 400,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/1e6c28af-e281-914e-403e-58faed2c2921"
+        },
+        {
+          "id": "recipe-exp-050-i2",
+          "name": "Mè trắng",
+          "unit": "gram",
+          "price": 100,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf908dba-7736-b5ee-d6c4-6b1b7958f06d"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-051",
+      "image": "/api/images/f1131820-73de-7588-2d40-c8fc93c5c0d2",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-051-i1",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Coop Food",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-051-i2",
+          "name": "Sả",
+          "unit": "gram",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 30,
+          "store": "Coop Food",
+          "image": "/api/images/a40f6a06-ad83-3e63-59b3-77fae419362f"
+        },
+        {
+          "id": "recipe-exp-051-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-051-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-051-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-051-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-051-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-052",
+      "image": "/api/images/91d6731a-5a98-3708-72e1-3d95a6c4be37",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-052-i1",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 350,
+          "store": "Winmart",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-052-i2",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-052-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-052-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-052-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-052-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-052-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-053",
+      "image": "/api/images/c1a85385-d6ef-b38b-452a-38f9e74e616d",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-053-i1",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-053-i2",
+          "name": "Nấm hương tươi",
+          "unit": "gram",
+          "price": 100,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/a5a983f3-c008-d7cc-8623-ceb972397e57"
+        },
+        {
+          "id": "recipe-exp-053-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-053-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-054",
+      "image": "/api/images/da3a61c0-ba93-1a77-473c-cfb1db6ed13f",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-054-i1",
+          "name": "Thịt gà",
+          "unit": "gram",
+          "price": 95,
+          "category": "Đạm",
+          "quantity": 350,
+          "store": "Coop Food",
+          "image": "/api/images/a91e47ad-e9a4-1aaa-5db2-35736c769f9b"
+        },
+        {
+          "id": "recipe-exp-054-i2",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 25,
+          "store": "Coop Food",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-054-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 20,
+          "store": "Coop Food",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-055",
+      "image": "/api/images/b7429260-4f48-515e-f265-4fcec99c0cd1",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-055-i1",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Winmart",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-055-i2",
+          "name": "Đậu que",
+          "unit": "gram",
+          "price": 35,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Winmart",
+          "image": "/api/images/a0383506-a242-6888-b26b-8763da501a5f"
+        },
+        {
+          "id": "recipe-exp-055-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Winmart",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-055-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-055-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-055-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-055-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-056",
+      "image": "/api/images/fdf2c49a-bf51-31c6-de57-bc28758eeb37",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-056-i1",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-056-i2",
+          "name": "Mè trắng",
+          "unit": "gram",
+          "price": 100,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf908dba-7736-b5ee-d6c4-6b1b7958f06d"
+        },
+        {
+          "id": "recipe-exp-056-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-056-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-056-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-056-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-056-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-057",
+      "image": "/api/images/b82f97a3-039f-7aff-21a8-2d740e73919f",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-057-i1",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-057-i2",
+          "name": "Củ cải trắng",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/e4538840-2b36-a185-3700-1a42e19fe826"
+        },
+        {
+          "id": "recipe-exp-057-i3",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-057-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-057-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-057-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-057-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-058",
+      "image": "/api/images/34777541-28ed-bb10-a46a-f573962b286e",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-058-i1",
+          "name": "Sườn heo",
+          "unit": "gram",
+          "price": 140,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Winmart",
+          "image": "/api/images/18d02927-7641-274b-9f80-bfc86e67e547"
+        },
+        {
+          "id": "recipe-exp-058-i2",
+          "name": "Bí đỏ",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 300,
+          "store": "Winmart",
+          "image": "/api/images/ca170f71-006a-9165-5a32-ed26eca81221"
+        },
+        {
+          "id": "recipe-exp-058-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-058-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-059",
+      "image": "/api/images/4553fb7c-94d4-6727-cdf3-501732a4daf0",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-059-i1",
+          "name": "Sườn heo",
+          "unit": "gram",
+          "price": 140,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/18d02927-7641-274b-9f80-bfc86e67e547"
+        },
+        {
+          "id": "recipe-exp-059-i2",
+          "name": "Dứa",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/ff911e3f-1c5b-52ac-ad52-ecc29a9aaaf4"
+        },
+        {
+          "id": "recipe-exp-059-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-059-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-059-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-059-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-059-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-060",
+      "image": "/api/images/23761900-1011-f1f2-6884-5a17a779841c",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-060-i1",
+          "name": "Thịt bò",
+          "unit": "gram",
+          "price": 240,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Coop Food",
+          "image": "/api/images/c03dcc81-ed89-65ba-d018-9cbd7cfee38e"
+        },
+        {
+          "id": "recipe-exp-060-i2",
+          "name": "Bông cải xanh",
+          "unit": "gram",
+          "price": 55,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/8e5f0b75-8161-e126-9288-f028aee23c01"
+        },
+        {
+          "id": "recipe-exp-060-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-060-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-060-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-060-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-060-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-061",
+      "image": "/api/images/fc3e9e01-607f-430b-e98a-ff66798d0605",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-061-i1",
+          "name": "Thịt bò",
+          "unit": "gram",
+          "price": 240,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Winmart",
+          "image": "/api/images/c03dcc81-ed89-65ba-d018-9cbd7cfee38e"
+        },
+        {
+          "id": "recipe-exp-061-i2",
+          "name": "Cần tây",
+          "unit": "gram",
+          "price": 50,
+          "category": "Rau củ",
+          "quantity": 180,
+          "store": "Winmart",
+          "image": "/api/images/50bc8405-cb07-7601-5a43-4fd5fdbf8e1d"
+        },
+        {
+          "id": "recipe-exp-061-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Winmart",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-061-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-061-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-061-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-061-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-062",
+      "image": "/api/images/cbcdc3f0-3b95-efa3-9755-aa215f32cc93",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-062-i1",
+          "name": "Thịt bò",
+          "unit": "gram",
+          "price": 240,
+          "category": "Đạm",
+          "quantity": 200,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/c03dcc81-ed89-65ba-d018-9cbd7cfee38e"
+        },
+        {
+          "id": "recipe-exp-062-i2",
+          "name": "Nấm hương tươi",
+          "unit": "gram",
+          "price": 100,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/a5a983f3-c008-d7cc-8623-ceb972397e57"
+        },
+        {
+          "id": "recipe-exp-062-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-062-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-062-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-062-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-062-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-063",
+      "image": "/api/images/9d0105d5-4dcc-ebb2-7a34-b2809286925f",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-063-i1",
+          "name": "Cá diêu hồng",
+          "unit": "gram",
+          "price": 75,
+          "category": "Đạm",
+          "quantity": 400,
+          "store": "Coop Food",
+          "image": "/api/images/30b39a06-989a-f56d-9208-994355658fbd"
+        },
+        {
+          "id": "recipe-exp-063-i2",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 25,
+          "store": "Coop Food",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-063-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 25,
+          "store": "Coop Food",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-064",
+      "image": "/api/images/de9569e6-369d-ac27-7281-f9c3601f7403",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-064-i1",
+          "name": "Cá diêu hồng",
+          "unit": "gram",
+          "price": 75,
+          "category": "Đạm",
+          "quantity": 350,
+          "store": "Winmart",
+          "image": "/api/images/30b39a06-989a-f56d-9208-994355658fbd"
+        },
+        {
+          "id": "recipe-exp-064-i2",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Winmart",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-064-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-064-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-064-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-064-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-064-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-065",
+      "image": "/api/images/1b65d570-e260-7726-65c3-06c09c10b9a1",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-065-i1",
+          "name": "Cá diêu hồng",
+          "unit": "gram",
+          "price": 75,
+          "category": "Đạm",
+          "quantity": 350,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/30b39a06-989a-f56d-9208-994355658fbd"
+        },
+        {
+          "id": "recipe-exp-065-i2",
+          "name": "Nghệ",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 20,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/1f7a82c6-2a1e-71cb-45bc-f84c1d3bf197"
+        },
+        {
+          "id": "recipe-exp-065-i3",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-065-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-065-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-065-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-065-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-066",
+      "image": "/api/images/7e463f2b-95de-d9a8-8f7c-3c8b443b81a6",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-066-i1",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-066-i2",
+          "name": "Bông cải xanh",
+          "unit": "gram",
+          "price": 55,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/8e5f0b75-8161-e126-9288-f028aee23c01"
+        },
+        {
+          "id": "recipe-exp-066-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-066-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-066-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-066-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-066-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-067",
+      "image": "/api/images/019d33b1-78fe-61d2-3554-9c8109c2dadd",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-067-i1",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 350,
+          "store": "Winmart",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-067-i2",
+          "name": "Sả",
+          "unit": "gram",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 40,
+          "store": "Winmart",
+          "image": "/api/images/a40f6a06-ad83-3e63-59b3-77fae419362f"
+        },
+        {
+          "id": "recipe-exp-067-i3",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-068",
+      "image": "/api/images/8bd73224-caa8-1bde-ade7-cc629027d2ba",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-068-i1",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-068-i2",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-068-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-068-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-068-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-068-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-068-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-069",
+      "image": "/api/images/637a8a45-57cd-aeae-afe3-6d0f6cee774d",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-069-i1",
+          "name": "Mực",
+          "unit": "gram",
+          "price": 190,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/ba753151-33d0-5a66-d030-8ec559d6295d"
+        },
+        {
+          "id": "recipe-exp-069-i2",
+          "name": "Dứa",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 180,
+          "store": "Coop Food",
+          "image": "/api/images/ff911e3f-1c5b-52ac-ad52-ecc29a9aaaf4"
+        },
+        {
+          "id": "recipe-exp-069-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-069-i4",
+          "name": "Cần tây",
+          "unit": "gram",
+          "price": 50,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/50bc8405-cb07-7601-5a43-4fd5fdbf8e1d"
+        },
+        {
+          "id": "recipe-exp-069-i5",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-069-i6",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-069-i7",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-069-i8",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-070",
+      "image": "/api/images/d2936059-eb71-a25e-12d3-6cb5b32df943",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-070-i1",
+          "name": "Mực",
+          "unit": "gram",
+          "price": 190,
+          "category": "Đạm",
+          "quantity": 300,
+          "store": "Winmart",
+          "image": "/api/images/ba753151-33d0-5a66-d030-8ec559d6295d"
+        },
+        {
+          "id": "recipe-exp-070-i2",
+          "name": "Gừng",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 30,
+          "store": "Winmart",
+          "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+        },
+        {
+          "id": "recipe-exp-070-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 20,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-071",
+      "image": "/api/images/8c8cbb31-965a-a725-dc9d-60eb0f428224",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-071-i1",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-071-i2",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 180,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-071-i3",
+          "name": "Hành tây",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 80,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/00db8746-5d50-b41b-8c35-bd81131001a5"
+        },
+        {
+          "id": "recipe-exp-071-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-071-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-071-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-071-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-072",
+      "image": "/api/images/044d0be1-af5a-4c01-8178-98321dc4d29f",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-072-i1",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-072-i2",
+          "name": "Đậu que",
+          "unit": "gram",
+          "price": 35,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/a0383506-a242-6888-b26b-8763da501a5f"
+        },
+        {
+          "id": "recipe-exp-072-i3",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-072-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-072-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-072-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-072-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-073",
+      "image": "/api/images/8a98f8ec-e27e-1c18-85db-c62d2155baac",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-073-i1",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Winmart",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-073-i2",
+          "name": "Nấm hương tươi",
+          "unit": "gram",
+          "price": 100,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/a5a983f3-c008-d7cc-8623-ceb972397e57"
+        },
+        {
+          "id": "recipe-exp-073-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 20,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-074",
+      "image": "/api/images/75da163b-a04c-8b3a-b557-08dbd609f6fe",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-074-i1",
+          "name": "Cà tím",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/8c4f422b-9043-e4c2-0bb6-a76de8db28a5"
+        },
+        {
+          "id": "recipe-exp-074-i2",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-074-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-074-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-074-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-074-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-074-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-075",
+      "image": "/api/images/17d884e9-dd02-c074-b92a-bb7c4a49533b",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-075-i1",
+          "name": "Cà tím",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/8c4f422b-9043-e4c2-0bb6-a76de8db28a5"
+        },
+        {
+          "id": "recipe-exp-075-i2",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-075-i3",
+          "name": "Cà chua",
+          "unit": "gram",
+          "price": 30,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Coop Food",
+          "image": "/api/images/dfc0489f-7d38-3854-569d-4ea6d6935940"
+        },
+        {
+          "id": "recipe-exp-075-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-075-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-075-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-075-i7",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Coop Food",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-076",
+      "image": "/api/images/e7a8adb1-160c-e482-9aa3-3c73a61934dc",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-076-i1",
+          "name": "Rau mồng tơi",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Winmart",
+          "image": "/api/images/a3073898-be06-7008-db80-253618a52c2d"
+        },
+        {
+          "id": "recipe-exp-076-i2",
+          "name": "Tôm",
+          "unit": "gram",
+          "price": 180,
+          "category": "Đạm",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/2d162f50-4a35-bd83-51a3-413599b48a7f"
+        },
+        {
+          "id": "recipe-exp-076-i3",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-077",
+      "image": "/api/images/86c8ac86-9d09-fad3-055a-90a1140df9d5",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-077-i1",
+          "name": "Khổ qua",
+          "unit": "gram",
+          "price": 35,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/25b8e1fb-4249-30b7-71ac-269a413a89bd"
+        },
+        {
+          "id": "recipe-exp-077-i2",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-077-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-077-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-078",
+      "image": "/api/images/16059829-e53b-3462-38e5-b865269e7fb1",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-078-i1",
+          "name": "Su su",
+          "unit": "gram",
+          "price": 20,
+          "category": "Rau củ",
+          "quantity": 300,
+          "store": "Coop Food",
+          "image": "/api/images/52da5cb1-3847-d745-bf77-38926a623a07"
+        },
+        {
+          "id": "recipe-exp-078-i2",
+          "name": "Sườn heo",
+          "unit": "gram",
+          "price": 140,
+          "category": "Đạm",
+          "quantity": 250,
+          "store": "Coop Food",
+          "image": "/api/images/18d02927-7641-274b-9f80-bfc86e67e547"
+        },
+        {
+          "id": "recipe-exp-078-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-078-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-079",
+      "image": "/api/images/dcf181a2-00be-29c2-7fdd-5aa4a558b73e",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-079-i1",
+          "name": "Mướp",
+          "unit": "gram",
+          "price": 25,
+          "category": "Rau củ",
+          "quantity": 300,
+          "store": "Winmart",
+          "image": "/api/images/cf689000-a962-9f71-b574-1160220b935c"
+        },
+        {
+          "id": "recipe-exp-079-i2",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-079-i3",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 1,
+          "store": "Winmart",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-079-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-080",
+      "image": "/api/images/050796e2-45fd-5af2-7afd-ab56c99adc65",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-080-i1",
+          "name": "Củ cải trắng",
+          "unit": "gram",
+          "price": 22,
+          "category": "Rau củ",
+          "quantity": 300,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/e4538840-2b36-a185-3700-1a42e19fe826"
+        },
+        {
+          "id": "recipe-exp-080-i2",
+          "name": "Thịt heo",
+          "unit": "gram",
+          "price": 110,
+          "category": "Đạm",
+          "quantity": 150,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/b240c937-1719-e427-865e-153ee507ffd4"
+        },
+        {
+          "id": "recipe-exp-080-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-080-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-081",
+      "image": "/api/images/0a630960-7744-bee1-c3c9-43d8645c1b7d",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-081-i1",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Coop Food",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-081-i2",
+          "name": "Nấm rơm",
+          "unit": "gram",
+          "price": 70,
+          "category": "Rau củ",
+          "quantity": 100,
+          "store": "Coop Food",
+          "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+        },
+        {
+          "id": "recipe-exp-081-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-081-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-081-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-081-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Coop Food",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-082",
+      "image": "/api/images/93d2e99c-cb87-9b54-da35-7f84b25bd6f8",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-082-i1",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Winmart",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-082-i2",
+          "name": "Khổ qua",
+          "unit": "gram",
+          "price": 35,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/25b8e1fb-4249-30b7-71ac-269a413a89bd"
+        },
+        {
+          "id": "recipe-exp-082-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-082-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-082-i5",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-082-i6",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-083",
+      "image": "/api/images/d3ead90b-c608-6942-03ee-3b2a8d1111cb",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-083-i1",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 3,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-083-i2",
+          "name": "Đậu hũ",
+          "unit": "miếng",
+          "price": 5000,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/68e39519-d281-783c-694b-d4d37263c141"
+        },
+        {
+          "id": "recipe-exp-083-i3",
+          "name": "Hành lá",
+          "unit": "gram",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+        },
+        {
+          "id": "recipe-exp-083-i4",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Bach Hoa Xanh",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-084",
+      "image": "/api/images/cf00bc58-3fad-05de-9c5b-4c1853261976",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-084-i1",
+          "name": "Bắp cải",
+          "unit": "gram",
+          "price": 20,
+          "category": "Rau củ",
+          "quantity": 350,
+          "store": "Coop Food",
+          "image": "/api/images/1e51aa45-6bd7-fa97-c30d-fe241dd13b18"
+        },
+        {
+          "id": "recipe-exp-084-i2",
+          "name": "Trứng gà",
+          "unit": "quả",
+          "price": 3500,
+          "category": "Đạm",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/126ee29f-56ad-feae-ae6a-a385b7c0794d"
+        },
+        {
+          "id": "recipe-exp-084-i3",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Coop Food",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        }
+      ]
+    },
+    {
+      "id": "recipe-exp-085",
+      "image": "/api/images/bd40f796-c31b-d640-1b7b-b90d55a80fb6",
+      "imageType": "illustration",
+      "ingredients": [
+        {
+          "id": "recipe-exp-085-i1",
+          "name": "Su su",
+          "unit": "gram",
+          "price": 20,
+          "category": "Rau củ",
+          "quantity": 250,
+          "store": "Winmart",
+          "image": "/api/images/52da5cb1-3847-d745-bf77-38926a623a07"
+        },
+        {
+          "id": "recipe-exp-085-i2",
+          "name": "Cà rốt",
+          "unit": "gram",
+          "price": 28,
+          "category": "Rau củ",
+          "quantity": 150,
+          "store": "Winmart",
+          "image": "/api/images/b2177fac-0704-6ecd-2567-69e1306e5e05"
+        },
+        {
+          "id": "recipe-exp-085-i3",
+          "name": "Muối",
+          "unit": "gram",
+          "price": 10,
+          "category": "Gia vị",
+          "quantity": 2,
+          "store": "Winmart",
+          "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+        },
+        {
+          "id": "recipe-exp-085-i4",
+          "name": "Dầu ăn",
+          "unit": "ml",
+          "price": 50,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/021020dd-3378-d99c-cb2f-f8dd57050081"
+        },
+        {
+          "id": "recipe-exp-085-i5",
+          "name": "Nước tương",
+          "unit": "ml",
+          "price": 40,
+          "category": "Gia vị",
+          "quantity": 15,
+          "store": "Winmart",
+          "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+        },
+        {
+          "id": "recipe-exp-085-i6",
+          "name": "Tỏi",
+          "unit": "gram",
+          "price": 60,
+          "category": "Gia vị",
+          "quantity": 10,
+          "store": "Winmart",
+          "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+        }
+      ]
+    }
+  ],
+  "deals": [
+    {
+      "ingredientId": "deal-011",
+      "image": "/images/food/deal-011.webp"
+    },
+    {
+      "ingredientId": "deal-017",
+      "image": "/images/food/deal-017.webp"
+    },
+    {
+      "ingredientId": "deal-012",
+      "image": "/images/food/deal-012.webp"
+    },
+    {
+      "ingredientId": "deal-009",
+      "image": "/images/food/deal-009.webp"
+    },
+    {
+      "ingredientId": "deal-005",
+      "image": "/images/food/deal-005.webp"
+    },
+    {
+      "ingredientId": "deal-006",
+      "image": "/images/food/deal-006.webp"
+    },
+    {
+      "ingredientId": "deal-007",
+      "image": "/images/food/deal-007.webp"
+    },
+    {
+      "ingredientId": "deal-002",
+      "image": "/images/food/deal-002.webp"
+    },
+    {
+      "ingredientId": "deal-020",
+      "image": "/images/food/deal-020.webp"
+    },
+    {
+      "ingredientId": "deal-001",
+      "image": "/images/food/deal-001.webp"
+    },
+    {
+      "ingredientId": "deal-010",
+      "image": "/images/food/deal-010.webp"
+    },
+    {
+      "ingredientId": "deal-016",
+      "image": "/images/food/deal-016.webp"
+    },
+    {
+      "ingredientId": "deal-004",
+      "image": "/images/food/deal-004.webp"
+    },
+    {
+      "ingredientId": "deal-008",
+      "image": "/images/food/deal-008.webp"
+    },
+    {
+      "ingredientId": "deal-014",
+      "image": "/images/food/deal-014.webp"
+    },
+    {
+      "ingredientId": "deal-003",
+      "image": "/images/food/deal-003.webp"
+    },
+    {
+      "ingredientId": "deal-015",
+      "image": "/images/food/deal-015.webp"
+    },
+    {
+      "ingredientId": "deal-013",
+      "image": "/images/food/deal-013.webp"
+    },
+    {
+      "ingredientId": "deal-018",
+      "image": "/images/food/deal-018.webp"
+    },
+    {
+      "ingredientId": "deal-019",
+      "image": "/images/food/deal-019.webp"
+    },
+    {
+      "ingredientId": "deal-exp-21",
+      "image": "/api/images/c27de81d-e451-fcac-4e18-7136acd4f0de"
+    },
+    {
+      "ingredientId": "deal-exp-22",
+      "image": "/api/images/1e6c28af-e281-914e-403e-58faed2c2921"
+    },
+    {
+      "ingredientId": "deal-exp-23",
+      "image": "/api/images/ca170f71-006a-9165-5a32-ed26eca81221"
+    },
+    {
+      "ingredientId": "deal-exp-24",
+      "image": "/api/images/01f512f1-3dfa-f0c0-51a6-5533211b142a"
+    },
+    {
+      "ingredientId": "deal-exp-25",
+      "image": "/api/images/a3073898-be06-7008-db80-253618a52c2d"
+    },
+    {
+      "ingredientId": "deal-exp-26",
+      "image": "/api/images/de199717-5744-8857-0b4d-fabdb219bc97"
+    },
+    {
+      "ingredientId": "deal-exp-27",
+      "image": "/api/images/a0383506-a242-6888-b26b-8763da501a5f"
+    },
+    {
+      "ingredientId": "deal-exp-28",
+      "image": "/api/images/70b356d9-b832-d409-bfa7-e58a0a1b2b5c"
+    },
+    {
+      "ingredientId": "deal-exp-29",
+      "image": "/api/images/a5a983f3-c008-d7cc-8623-ceb972397e57"
+    },
+    {
+      "ingredientId": "deal-exp-30",
+      "image": "/api/images/7c3878f8-6e8c-700c-f422-ddc79f51406e"
+    },
+    {
+      "ingredientId": "deal-exp-31",
+      "image": "/api/images/ff911e3f-1c5b-52ac-ad52-ecc29a9aaaf4"
+    },
+    {
+      "ingredientId": "deal-exp-32",
+      "image": "/api/images/8c4f422b-9043-e4c2-0bb6-a76de8db28a5"
+    },
+    {
+      "ingredientId": "deal-exp-33",
+      "image": "/api/images/8e5f0b75-8161-e126-9288-f028aee23c01"
+    },
+    {
+      "ingredientId": "deal-exp-34",
+      "image": "/api/images/984d8f13-7341-35e7-6ce6-60773af003dd"
+    },
+    {
+      "ingredientId": "deal-exp-35",
+      "image": "/api/images/b0a0eb2b-9967-2c91-72e8-6a86e24b70f6"
+    },
+    {
+      "ingredientId": "deal-exp-36",
+      "image": "/api/images/8323fafd-cec9-5f46-c1dc-33767ff0559e"
+    },
+    {
+      "ingredientId": "deal-exp-37",
+      "image": "/api/images/a40f6a06-ad83-3e63-59b3-77fae419362f"
+    },
+    {
+      "ingredientId": "deal-exp-38",
+      "image": "/api/images/2801ae47-e5db-18ce-f461-2aee46c58a6c"
+    },
+    {
+      "ingredientId": "deal-exp-39",
+      "image": "/api/images/03b84581-64bd-13d2-042d-e55046676eae"
+    },
+    {
+      "ingredientId": "deal-exp-40",
+      "image": "/api/images/9b7298e9-9452-46f8-fe2b-f382d3f0fba9"
+    },
+    {
+      "ingredientId": "deal-exp-41",
+      "image": "/api/images/0e342570-35a9-e11d-e922-8db9b1735bd6"
+    },
+    {
+      "ingredientId": "deal-exp-42",
+      "image": "/api/images/cf670d05-8685-76a8-1fb6-5346357ee77b"
+    },
+    {
+      "ingredientId": "deal-exp-43",
+      "image": "/api/images/ff57da66-3a26-b40a-4283-2f35a793a396"
+    },
+    {
+      "ingredientId": "deal-exp-44",
+      "image": "/api/images/ab7c461c-4fbc-609a-6ea6-6fceb89324b5"
+    },
+    {
+      "ingredientId": "deal-exp-45",
+      "image": "/api/images/437e2ce2-946c-5705-abcb-d26ba3bec65b"
+    },
+    {
+      "ingredientId": "deal-exp-46",
+      "image": "/api/images/dea2db7d-a2db-134d-24ba-f800d2acd3d6"
+    },
+    {
+      "ingredientId": "deal-exp-47",
+      "image": "/api/images/b9e65485-a970-8f0c-26ef-3e687279bae0"
+    },
+    {
+      "ingredientId": "deal-exp-48",
+      "image": "/api/images/cf908dba-7736-b5ee-d6c4-6b1b7958f06d"
+    },
+    {
+      "ingredientId": "deal-exp-49",
+      "image": "/api/images/eab5eb9e-ce41-9ff1-d967-80f22113dbb2"
+    },
+    {
+      "ingredientId": "deal-exp-50",
+      "image": "/api/images/1f7a82c6-2a1e-71cb-45bc-f84c1d3bf197"
+    },
+    {
+      "ingredientId": "deal-exp-51",
+      "image": "/api/images/5ddccf76-e2ab-5c4b-0fd5-3da1b8f77ec5"
+    },
+    {
+      "ingredientId": "deal-exp-52",
+      "image": "/api/images/50bc8405-cb07-7601-5a43-4fd5fdbf8e1d"
+    },
+    {
+      "ingredientId": "deal-exp-53",
+      "image": "/api/images/e4538840-2b36-a185-3700-1a42e19fe826"
+    },
+    {
+      "ingredientId": "deal-exp-54",
+      "image": "/api/images/52da5cb1-3847-d745-bf77-38926a623a07"
+    },
+    {
+      "ingredientId": "deal-exp-55",
+      "image": "/api/images/25b8e1fb-4249-30b7-71ac-269a413a89bd"
+    },
+    {
+      "ingredientId": "deal-exp-56",
+      "image": "/api/images/cf689000-a962-9f71-b574-1160220b935c"
+    },
+    {
+      "ingredientId": "deal-exp-57",
+      "image": "/api/images/4d3fa946-e840-7e87-02e5-cf6db0beafb4"
+    },
+    {
+      "ingredientId": "deal-exp-58",
+      "image": "/api/images/0da57034-d172-cdca-6537-c3c8f483636f"
+    },
+    {
+      "ingredientId": "deal-exp-59",
+      "image": "/api/images/ecd38aa2-40f3-8aeb-571c-284902df3a5d"
+    },
+    {
+      "ingredientId": "deal-exp-60",
+      "image": "/api/images/62b9121f-a337-5788-47a8-6a2071aa46f8"
+    },
+    {
+      "ingredientId": "deal-exp-61",
+      "image": "/api/images/68e346b7-5368-7a82-11d4-c74766ff4e45"
+    },
+    {
+      "ingredientId": "deal-exp-62",
+      "image": "/api/images/42f5254a-eabd-50b2-e18a-7b20f59003dc"
+    },
+    {
+      "ingredientId": "deal-exp-63",
+      "image": "/api/images/20eaa71f-f36c-0292-9ce9-aa146513bb1e"
+    },
+    {
+      "ingredientId": "deal-exp-64",
+      "image": "/api/images/b095c7fc-2df6-bdee-8a18-f4fd941cde16"
+    },
+    {
+      "ingredientId": "deal-exp-65",
+      "image": "/api/images/06cbd850-5e1c-f4eb-3e61-2d9ca0df681a"
+    }
+  ]
+}

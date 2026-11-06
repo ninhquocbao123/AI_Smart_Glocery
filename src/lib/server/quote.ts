@@ -1,3 +1,5 @@
+import { goldenConfig } from "./golden-hours";
+import { goldenPrice } from "@/lib/golden-hours";
 import type { ClientSession } from "mongoose";
 import { Offer, RetailStore } from "@/models/Commerce";
 import { deliveryFees } from "@/lib/catalog";
@@ -52,10 +54,25 @@ export async function quoteCart(
       "Điểm bán này chưa mở nhận đơn. Vui lòng chọn điểm bán khác hoặc liên hệ quản trị để mở nhận đơn và cập nhật giá, tồn kho.",
     );
   const { recipes, deals } = await readCatalog();
+  const golden = await goldenConfig();
   const items = [];
   for (const row of rows) {
-    const deal = deals.find(d => d.ingredientId === row.id);
-    const base = deal ? { ...deal, id: deal.ingredientId, quantity: 1 } : recipes.find(r => r.id === row.recipeId)?.ingredients.find(i => i.id === row.id);
+    const deal = deals.find((d) => d.ingredientId === row.id);
+    const base = deal
+      ? {
+          ...deal,
+          price: goldenPrice(
+            deal.price,
+            deal.originalPrice,
+            deal.ingredientId,
+            golden,
+          ),
+          id: deal.ingredientId,
+          quantity: 1,
+        }
+      : recipes
+          .find((r) => r.id === row.recipeId)
+          ?.ingredients.find((i) => i.id === row.id);
     const offer = isLive()
       ? await Offer.findOne({
           store,
@@ -78,7 +95,12 @@ export async function quoteCart(
         "Đơn vị sản phẩm chưa khớp công thức. Cần cập nhật danh mục.",
       );
     const price = offer
-      ? offer.price
+      ? goldenPrice(
+          offer.price,
+          offer.originalPrice,
+          offer.ingredientId,
+          golden,
+        )
       : getPriceAtStore(base!, store as Store) / base!.quantity;
     items.push({
       ingredient: {
@@ -97,6 +119,7 @@ export async function quoteCart(
         recipes.find((r) => r.id === row.recipeId)?.title ??
         "Nguyên liệu cửa hàng",
       sku: offer?.sku,
+      catalogPrice: offer?.price,
     });
   }
   const deliveryFee = config

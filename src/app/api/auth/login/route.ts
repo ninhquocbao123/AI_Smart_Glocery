@@ -56,6 +56,7 @@ export async function POST(req: Request) {
           diet: user.diet,
           allergies: user.allergies,
           monthlyBudgetTarget: user.monthlyBudgetTarget,
+          avatar: user.avatar,
           memberTier: user.memberTier,
           joinYear: user.joinYear,
           points: user.points,
