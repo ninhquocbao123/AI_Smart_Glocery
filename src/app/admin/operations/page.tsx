@@ -1,2 +1,2 @@
-import { redirect } from 'next/navigation';
-export default function LegacyOperationsPage() { redirect('/admin'); }
+import OperationsPanel from '@/components/admin/OperationsPanel';
+export default function OperationsPage() { return <OperationsPanel />; }

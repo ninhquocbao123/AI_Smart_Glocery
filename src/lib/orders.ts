@@ -35,6 +35,9 @@ export interface GroceryOrder {
   paymentStatus?: string;
   paymentStarted?: boolean;
   paymentEnvironment?: string;
+  phone?: string;
+  branch?: string;
+  fulfillment?: { shippedAt?: string; deliveredAt?: string; receivedAt?: string };
 }
 
 type RawRecord = Record<string, unknown>;
@@ -97,6 +100,14 @@ export function normalizeOrders(value: unknown): GroceryOrder[] {
       paymentStatus: text(raw.paymentStatus),
       paymentStarted: raw.paymentStarted === true || !!record(raw.payment).startedAt,
       paymentEnvironment: text(raw.paymentEnvironment, text(record(raw.payment).environment)),
+      phone: text(raw.phone),
+      branch: text(raw.branch),
+      fulfillment: Object.fromEntries(
+        ["shippedAt", "deliveredAt", "receivedAt"].map(key => {
+          const value = record(raw.fulfillment)[key];
+          return [key, value instanceof Date && Number.isFinite(value.getTime()) ? value.toISOString() : text(value)];
+        }),
+      ),
     }];
   });
 }

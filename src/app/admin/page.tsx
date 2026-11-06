@@ -2,7 +2,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import RecipeCatalog from '@/components/admin/RecipeCatalog';
-import OperationsPanel from '@/components/admin/OperationsPanel';
 import Image from 'next/image';
 import type { Recipe, Store } from '@/data/mockData';
 import { formatVND } from '@/lib/priceUtils';
@@ -22,7 +21,6 @@ async function request(url: string, options?: RequestInit) {
   return data;
 }
 export default function AdminPage() {
-  const [operations,setOperations]=useState(false);
   const [recipes, setRecipes] = useState<Recipe[]>([]), [allowed, setAllowed] = useState(false), [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState<Draft | null>(null), [message, setMessage] = useState(''), [busy, setBusy] = useState(false);
   async function refresh() { const data = await request('/api/admin/recipes'); setRecipes(data.recipes); setAllowed(true); }
@@ -53,9 +51,8 @@ export default function AdminPage() {
     catch (e) { setMessage((e as Error).message); } finally { setBusy(false); }
   }
   const total = draft?.ingredients.reduce((sum, i) => sum + i.price * i.quantity, 0) ?? 0;
-  if (allowed && operations) return <div className="space-y-5"><button className={button} onClick={()=>setOperations(false)}>← Quản lý món ăn</button><OperationsPanel /></div>;
   return <main className="mx-auto pb-12 text-slate-900">
-    <div className="flex flex-wrap items-end justify-between gap-4 mb-6"><div><p className="text-green-700 text-sm font-bold tracking-widest">THỰC ĐƠN MỖI NGÀY</p><h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2">Gian bếp của bạn.</h1><p className="text-slate-500 mt-2">Chăm chút từng món ăn, mang bữa ngon đến mọi nhà.</p></div>{allowed && <button type="button" className={button} onClick={()=>setOperations(true)}>Đơn hàng & cửa hàng →</button>}</div>
+    <div className="flex flex-wrap items-end justify-between gap-4 mb-6"><div><p className="text-green-700 text-sm font-bold tracking-widest">THỰC ĐƠN MỖI NGÀY</p><h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2">Gian bếp của bạn.</h1><p className="text-slate-500 mt-2">Chăm chút từng món ăn, mang bữa ngon đến mọi nhà.</p></div>{allowed && <Link className={button} href="/admin/orders">Quản lý đơn hàng →</Link>}</div>
     {message && <p role="status" className="rounded-xl border border-green-200 bg-green-50 p-4 mb-5">{message}</p>}
     {loading ? <p>Đang kiểm tra quyền quản trị…</p> : !allowed ? <Link className={button} href="/auth/login">Đăng nhập bằng tài khoản quản trị</Link> : draft ? <form onSubmit={e => { e.preventDefault(); void save(); }}>
       <fieldset disabled={busy} className="space-y-6 disabled:opacity-70">

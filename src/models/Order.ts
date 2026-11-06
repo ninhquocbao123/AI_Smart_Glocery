@@ -36,6 +36,11 @@ const schema = new Schema(
       enum: ["pending", "paid", "cod", "failed", "review"],
     },
     paidAt: Date,
+    fulfillment: {
+      shippedAt: Date,
+      deliveredAt: Date,
+      receivedAt: Date,
+    },
     payment: {
       provider: String,
       reference: String,

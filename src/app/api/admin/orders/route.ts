@@ -7,14 +7,31 @@ import {
   sameOrigin,
   stringValue,
 } from "@/lib/server/http";
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await adminRequired();
-    return Response.json({
-      orders: await Order.find({ kind: { $ne: "membership" } })
-        .sort({ createdAt: -1 })
-        .limit(200),
-    });
+    const params = new URL(req.url).searchParams;
+    const status = params.get("status") || "all";
+    if (!["all", "unpaid", "confirmed", "delivering", "delivered", "completed", "cancelled"].includes(status))
+      throw new ApiError(400, "Trạng thái đơn không hợp lệ.");
+    const page = Number(params.get("page") || 1);
+    if (!Number.isSafeInteger(page) || page < 1 || page > 100000)
+      throw new ApiError(400, "Trang không hợp lệ.");
+    const search = (params.get("q") || "").trim();
+    if (search.length > 100) throw new ApiError(400, "Từ khóa tối đa 100 ký tự.");
+    const literal = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const filter = {
+      kind: { $ne: "membership" },
+      ...(status === "all" ? {} : { status }),
+      ...(search ? { $or: ["orderId", "phone", "address"].map(field => ({ [field]: { $regex: literal, $options: "i" } })) } : {}),
+    };
+    const limit = 25;
+    const [orders, total] = await Promise.all([
+      Order.find(filter).sort({ createdAt: -1, _id: -1 }).skip((page - 1) * limit).limit(limit),
+      Order.countDocuments(filter),
+    ]);
+    return Response.json({ orders, total, page, pages: Math.max(1, Math.ceil(total / limit)) },
+      { headers: { "Cache-Control": "no-store" } });
   } catch (e) {
     return fail(e);
   }
@@ -59,11 +76,13 @@ export async function PATCH(req: Request) {
         status: { $in: from },
         $or: [
           { paymentStatus: "paid" },
-          { paymentMethod: "cod" },
-          { mode: "demo" },
+          { paymentMethod: "cod", paymentStatus: "cod" },
         ],
       },
-      { $set: { status: data.status } },
+      { $set: {
+        status: data.status,
+        [data.status === "delivering" ? "fulfillment.shippedAt" : "fulfillment.deliveredAt"]: new Date(),
+      } },
       { new: true },
     );
     if (!order) throw new ApiError(409, "Trạng thái đơn không hợp lệ.");

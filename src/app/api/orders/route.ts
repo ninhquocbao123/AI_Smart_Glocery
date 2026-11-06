@@ -100,8 +100,13 @@ export async function PATCH(req: Request) {
         orderId: id,
         userId: String(user._id),
         status: { $in: ["delivering", "delivered"] },
+        kind: { $ne: "membership" },
+        $or: [
+          { paymentStatus: "paid" },
+          { paymentMethod: "cod", paymentStatus: "cod" },
+        ],
       },
-      { $set: { status: "completed" } },
+      { $set: { status: "completed", "fulfillment.receivedAt": new Date() } },
       { new: true },
     );
     if (!order)

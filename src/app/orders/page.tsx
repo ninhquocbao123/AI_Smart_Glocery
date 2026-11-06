@@ -16,6 +16,28 @@ export default function OrdersPage() {
   const { addMultipleToCart } = useAppContext();
   const router = useRouter();
   const [paymentNotice, setPaymentNotice] = useState("");
+  const [receiveId, setReceiveId] = useState("");
+  const [syncError, setSyncError] = useState("");
+  useEffect(() => {
+    if (busy || loading) return;
+    const controller = new AbortController();
+    let fetching = false;
+    async function refresh() {
+      if (document.visibilityState !== "visible" || fetching) return;
+      fetching = true;
+      try {
+        const response = await fetch("/api/orders", { cache: "no-store", signal: controller.signal });
+        const data = await response.json();
+        if (!response.ok) throw Error(data.message || "Chưa cập nhật được trạng thái đơn hàng.");
+        if (!controller.signal.aborted) { setOrders(normalizeOrders(data.orders)); setSyncError(""); }
+      } catch (e) {
+        if (!controller.signal.aborted) setSyncError(e instanceof Error ? e.message : "Chưa cập nhật được trạng thái đơn hàng.");
+      } finally { fetching = false; }
+    }
+    const timer = setInterval(() => void refresh(), 15000);
+    document.addEventListener("visibilitychange", refresh);
+    return () => { controller.abort(); clearInterval(timer); document.removeEventListener("visibilitychange", refresh); };
+  }, [busy, loading]);
   useEffect(() => {
     let active = true;
     async function reconcileReturn() {
@@ -68,6 +90,7 @@ export default function OrdersPage() {
       setOrders((prev) =>
         prev.map((o) => (o.orderId === order.orderId ? (normalizeOrders([d.order])[0] ?? o) : o)),
       );
+      setReceiveId("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Có lỗi xảy ra.");
     } finally {
@@ -119,6 +142,8 @@ export default function OrdersPage() {
           {error}
         </p>
       )}
+      {syncError && <p role="status" className="text-amber-800">{syncError} Hệ thống sẽ tự kiểm tra lại.</p>}
+      <p className="text-xs text-on-surface-variant">Trạng thái tự cập nhật mỗi 15 giây khi bạn mở trang. Chỉ xác nhận nhận hàng sau khi đã nhận đủ hàng.</p>
       {loading ? (
         <p role="status">Đang tải đơn hàng…</p>
       ) : !list.length ? (
@@ -210,16 +235,24 @@ export default function OrdersPage() {
                   <button disabled={!!busy} className="btn-outlined" onClick={() => pay(o, "check")}>Kiểm tra thanh toán</button>
                 </>
               )}
-              {["delivering", "delivered"].includes(o.status) && (
+              {["delivering", "delivered"].includes(o.status) && (o.paymentStatus === "paid" || (o.paymentMethod === "cod" && o.paymentStatus === "cod")) && (
                 <button
                   disabled={!!busy}
                   className="btn-outlined"
-                  onClick={() => update(o, "receive")}
+                  onClick={() => setReceiveId(o.orderId)}
                 >
                   Xác nhận đã nhận hàng
                 </button>
               )}
             </div>
+            {o.status === "confirmed" && <p className="text-sm text-on-surface-variant">Cửa hàng đang chuẩn bị đơn. Trạng thái sẽ đổi khi người giao nhận hàng.</p>}
+            {o.status === "delivered" && <p className="text-sm text-on-surface-variant">Cửa hàng đã đánh dấu giao hàng. Bạn hãy kiểm tra hàng và xác nhận đã nhận.</p>}
+            {o.fulfillment?.receivedAt && <p className="text-sm text-primary">Đã xác nhận nhận hàng lúc {orderDate(o.fulfillment.receivedAt)}.</p>}
+            {receiveId === o.orderId && ["delivering", "delivered"].includes(o.status) && <div className="rounded-xl border border-primary/30 bg-primary-container/20 p-4 space-y-3">
+              <p className="font-semibold">Bạn đã nhận đủ hàng của đơn này?</p>
+              <p className="text-sm">Xác nhận sẽ hoàn tất đơn hàng. Nếu chưa nhận được hàng, hãy chọn “Chưa nhận”.</p>
+              <div className="flex flex-wrap gap-3"><button disabled={!!busy} className="btn-filled" onClick={() => void update(o, "receive")}>{busy ? "Đang lưu…" : "Đã nhận đủ hàng"}</button><button disabled={!!busy} className="btn-outlined" onClick={() => setReceiveId("")}>Chưa nhận</button></div>
+            </div>}
           </article>
         ))
       )}

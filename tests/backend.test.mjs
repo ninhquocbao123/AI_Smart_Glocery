@@ -1197,3 +1197,107 @@ test('weekly plans isolate weeks, preserve snapshots, and reject past day edits 
  assert.equal((await put('2026-10-19',{T7:{breakfast:'r1'}},0)).status,409);
  assert.equal((await put('2026-10-19',{T7:{breakfast:'r1'},CN:{dinner:'r1'}},1)).status,400);
 });
+
+function matchesOrder(row, filter) {
+  return Object.entries(filter).every(([key, expected]) => {
+    if (key === '$or') return expected.some(part => matchesOrder(row, part));
+    const actual = key.split('.').reduce((value, part) => value?.[part], row);
+    if (expected && typeof expected === 'object') {
+      if ('$in' in expected) return expected.$in.includes(actual);
+      if ('$ne' in expected) return actual !== expected.$ne;
+      if ('$regex' in expected) return new RegExp(expected.$regex, expected.$options).test(actual ?? '');
+    }
+    return actual === expected;
+  });
+}
+
+test('fulfillment moves paid and COD orders through delivery and owner receipt without changing payment prematurely', async () => {
+  const row = { orderId: 'SG-delivery', userId: 'buyer', kind: 'grocery', mode: 'live', status: 'confirmed', paymentMethod: 'bank', paymentStatus: 'paid' };
+  const model = { findOneAndUpdate: async (filter, update) => {
+    if (!matchesOrder(row, filter)) return null;
+    for (const [key, value] of Object.entries(update.$set)) {
+      const parts = key.split('.');
+      if (parts.length === 2) (row[parts[0]] ??= {})[parts[1]] = value;
+      else row[key] = value;
+    }
+    return structuredClone(row);
+  }};
+  let actor = 'buyer';
+  const common = { ...http, sameOrigin: () => {}, adminRequired: async () => ({ _id: 'admin' }), userRequired: async () => ({ _id: actor }), body: req => req.json(), fail: e => Response.json({ message: e.message }, { status: e.status ?? 503 }) };
+  const stubs = { '@/models/Order': { __esModule: true, default: model }, '@/lib/server/http': common, '@/lib/server/order-service': {} };
+  const admin = loader(stubs)('src/app/api/admin/orders/route.ts');
+  const customer = loader(stubs)('src/app/api/orders/route.ts');
+  const patch = (route, data) => route.PATCH(new Request('http://localhost/api/orders', { method: 'PATCH', body: JSON.stringify(data) }));
+  const advance = status => patch(admin, { orderId: row.orderId, status });
+  const receive = () => patch(customer, { id: row.orderId, action: 'receive' });
+  assert.equal((await receive()).status, 409, 'cannot receive before dispatch');
+  assert.equal((await advance('delivered')).status, 409, 'cannot skip dispatch');
+  assert.equal((await advance('completed')).status, 400, 'admin cannot confirm customer receipt');
+  for (const paymentStatus of ['pending', 'review', 'failed']) {
+    row.paymentStatus = paymentStatus;
+    assert.equal((await advance('delivering')).status, 409);
+  }
+  row.paymentStatus = 'paid';
+  assert.equal((await advance('delivering')).status, 200);
+  assert.ok(row.fulfillment.shippedAt instanceof Date);
+  assert.equal((await advance('delivering')).status, 409, 'duplicate update does not regress order');
+  actor = 'other-user';
+  assert.equal((await receive()).status, 409);
+  actor = 'buyer';
+  assert.equal((await advance('delivered')).status, 200);
+  assert.ok(row.fulfillment.deliveredAt instanceof Date);
+  assert.equal((await receive()).status, 200);
+  assert.equal(row.status, 'completed');
+  assert.ok(row.fulfillment.receivedAt instanceof Date);
+  assert.equal((await receive()).status, 409);
+  assert.equal((await advance('delivered')).status, 409);
+  row.status = 'confirmed'; row.paymentMethod = 'cod'; row.paymentStatus = 'cod';
+  assert.equal((await patch(admin, { orderId: row.orderId, action: 'confirmCod' })).status, 409);
+  assert.equal((await advance('delivering')).status, 200);
+  assert.equal((await receive()).status, 200, 'recipient may acknowledge actual delivery before admin marks it');
+  assert.equal(row.paymentStatus, 'cod', 'customer receipt is not proof of COD collection');
+  assert.equal((await patch(admin, { orderId: row.orderId, action: 'confirmCod' })).status, 200);
+  assert.equal(row.paymentStatus, 'paid');
+  assert.equal((await patch(admin, { orderId: row.orderId, action: 'confirmCod' })).status, 409);
+  row.status = 'confirmed'; row.kind = 'membership';
+  assert.equal((await advance('delivering')).status, 409);
+  row.kind = 'grocery'; row.status = 'cancelled';
+  assert.equal((await advance('delivering')).status, 409);
+  row.status = 'delivering'; row.paymentStatus = 'review';
+  assert.equal((await receive()).status, 409);
+});
+
+test('admin order listing paginates, filters literal search, excludes memberships, and enforces admin access', async () => {
+  const rows = Array.from({ length: 30 }, (_, i) => ({ orderId: `SG-[test]-${i}`, status: 'confirmed', phone: '0901234567', kind: 'grocery' }));
+  rows.push({ orderId: 'VIP-[test]', status: 'confirmed', kind: 'membership' });
+  rows.push({ orderId: 'SG-other', status: 'delivering', kind: 'grocery' });
+  let reads = 0;
+  const model = {
+    find: filter => {
+      reads++;
+      let offset = 0;
+      const query = { sort: () => query, skip: value => { offset = value; return query; }, limit: async value => rows.filter(row => matchesOrder(row, filter)).slice(offset, offset + value) };
+      return query;
+    },
+    countDocuments: async filter => rows.filter(row => matchesOrder(row, filter)).length,
+  };
+  const common = { ...http, sameOrigin: () => {}, adminRequired: async () => ({}), body: req => req.json(), fail: e => Response.json({ message: e.message }, { status: e.status ?? 503 }) };
+  const stubs = { '@/models/Order': { __esModule: true, default: model }, '@/lib/server/http': common };
+  const route = loader(stubs)('src/app/api/admin/orders/route.ts');
+  const response = await route.GET(new Request('http://localhost/api/admin/orders?status=confirmed&q=%5Btest%5D&page=2'));
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  const data = await response.json();
+  assert.equal(data.total, 30); assert.equal(data.pages, 2); assert.equal(data.orders.length, 5);
+  assert.equal(data.orders[0].orderId, 'SG-[test]-25');
+  const literal = await (await route.GET(new Request('http://localhost/api/admin/orders?q=.*'))).json();
+  assert.equal(literal.total, 0, 'search is literal, not a user-controlled regex');
+  for (const params of ['page=0', 'page=1.5', 'status=invalid']) assert.equal((await route.GET(new Request('http://localhost/api/admin/orders?' + params))).status, 400);
+  const before = reads;
+  for (const status of [401, 403]) {
+    const denied = loader({ ...stubs, '@/lib/server/http': { ...common, adminRequired: async () => { throw new ApiError(status, 'denied'); } } })('src/app/api/admin/orders/route.ts');
+    assert.equal((await denied.GET(new Request('http://localhost/api/admin/orders'))).status, status);
+    assert.equal((await denied.PATCH(new Request('http://localhost/api/admin/orders', { method: 'PATCH', body: '{}' }))).status, status);
+  }
+  assert.equal(reads, before);
+});
