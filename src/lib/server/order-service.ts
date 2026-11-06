@@ -272,7 +272,7 @@ export async function settlePayment(
         },
       },
     ],
-    { new: true },
+    { new: true, updatePipeline: true },
   );
   const result = settled ?? (await Order.findById(order._id));
   if (

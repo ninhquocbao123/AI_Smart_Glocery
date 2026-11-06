@@ -187,6 +187,12 @@ function Payment({ id }: { id: string }) {
           className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
         >
           {error}
+          {session && (
+            <span className="block mt-2">
+              Chưa xác nhận được trạng thái giao dịch. Nếu đã chuyển tiền, vui
+              lòng không thanh toán lại; hãy kiểm tra giao dịch hoặc liên hệ hỗ trợ.
+            </span>
+          )}
         </p>
       )}
       {status === "loading" && (

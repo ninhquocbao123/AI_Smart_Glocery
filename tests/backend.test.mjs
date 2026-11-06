@@ -279,6 +279,11 @@ test("live checkout fails closed when no store has accepted fulfillment", async 
 });
 test("settlement checks amount before update and repeated paid notifications do not update again", async () => {
   let writes = 0;
+  // Use the installed Mongoose query builder: a plain stub missed the v9
+  // requirement to explicitly enable aggregation pipeline updates.
+  const mongoose = require("mongoose");
+  const pipelineModel = mongoose.models.SettlementPipelineRegression ??
+    mongoose.model("SettlementPipelineRegression", new mongoose.Schema({}));
   const record = {
     _id: "db",
     total: 50000,
@@ -287,7 +292,8 @@ test("settlement checks amount before update and repeated paid notifications do 
   };
   const order = {
     findOne: async () => record,
-    findOneAndUpdate: async (filter, update) => {
+    findOneAndUpdate: async (filter, update, options) => {
+      pipelineModel.findOneAndUpdate(filter, update, options);
       writes++;
       assert.ok(filter.paymentStatus.$nin.includes("paid"));
       assert.ok(Array.isArray(update));
