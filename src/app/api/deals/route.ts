@@ -14,7 +14,9 @@ export async function GET() {
         golden,
         deals: (await readCatalog()).deals.filter(d => config.selectedIds?.includes(d.ingredientId)).slice(0,20).map((d) => ({
           ...d,
+          dealPrice: d.price,
           price: goldenPrice(d.price, d.originalPrice, d.ingredientId, config),
+          originalPrice: d.originalPrice,
         })),
         demo: true,
       });
@@ -35,6 +37,7 @@ export async function GET() {
         id: String(o._id),
         ingredientId: o.ingredientId,
         name: o.name,
+        dealPrice: o.price,
         price: goldenPrice(o.price, o.originalPrice, o.ingredientId, config),
         originalPrice: o.originalPrice,
         unit: o.unit,

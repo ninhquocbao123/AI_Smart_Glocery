@@ -171,13 +171,12 @@ export default function AIPlans() {
           />
         </label>
         <label className={styles.full}>
-          Sở thích, nguyên liệu muốn tránh
+          Sở thích, khẩu vị hoặc nguyên liệu muốn tránh
           <textarea
-            disabled={engine==="catalog"}
             value={preferences}
             onChange={(e) => setPreferences(e.target.value)}
             className="block border rounded-xl p-3 w-full"
-            placeholder={engine === "catalog" ? "Gợi ý từ danh mục sử dụng khẩu vị và dị ứng đã lưu trong hồ sơ." : "Ít cay, món Việt, ưu tiên nấu nhanh…"}
+            placeholder="Ví dụ: Ít cay, thích món gà, hạn chế dầu mỡ, ưu tiên nấu nhanh dưới 25 phút…"
           />
         </label>
         <div className={`${styles.mealChecks} ${styles.full}`}>
